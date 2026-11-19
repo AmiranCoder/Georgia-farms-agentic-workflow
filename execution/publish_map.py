@@ -409,23 +409,21 @@ def render_html(features):
   }}
   #search:focus {{ border-color: #2e7d32; box-shadow: 0 0 0 3px rgba(46,125,50,0.15); }}
   
-  .filter-row {{
-    display: flex; gap: 8px; margin-bottom: 9px;
-  }}
   #region-select {{
-    flex: 1.3; padding: 8px 12px; border: 1.5px solid #d0d7de; border-radius: 8px;
-    font-size: 0.85rem; outline: none; background: white; font-weight: 500;
+    width: 100%; padding: 8px 12px; border: 1.5px solid #d0d7de; border-radius: 8px;
+    font-size: 0.85rem; margin-bottom: 9px; outline: none; background: white; font-weight: 500;
   }}
   .near-me-btn {{
-    flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-    background: #e8f0fe; color: #1a73e8; border: 1.5px solid #a8c7fa; border-radius: 8px;
-    padding: 8px 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; white-space: nowrap;
-    transition: all 0.2s ease;
+    position: absolute; bottom: 28px; right: 20px; z-index: 1000;
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    background: #ffffff; color: #1a73e8; border: 2px solid #1a73e8; border-radius: 28px;
+    padding: 10px 18px; font-size: 0.88rem; font-weight: 700; cursor: pointer; white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22); transition: all 0.2s ease;
   }}
-  .near-me-btn:hover {{ background: #d2e3fc; border-color: #1a73e8; }}
+  .near-me-btn:hover {{ background: #eff6ff; border-color: #1557b0; transform: translateY(-1.5px); box-shadow: 0 6px 18px rgba(0,0,0,0.28); }}
   .near-me-btn.active {{
     background: #1a73e8; color: white; border-color: #1557b0;
-    box-shadow: 0 2px 6px rgba(26,115,232,0.3);
+    box-shadow: 0 4px 14px rgba(26,115,232,0.45);
   }}
   .near-me-btn.locating {{ opacity: 0.85; cursor: wait; background: #fef3c7; color: #92400e; border-color: #fde68a; }}
 
@@ -490,6 +488,53 @@ def render_html(features):
   .user-popup-coords {{ color: #64748b; font-size: 0.78rem; margin-bottom: 4px; }}
   .user-popup-address {{ font-size: 0.82rem; color: #334155; font-weight: 500; }}
 
+  /* ── Welcome Modal ── */
+  .modal-overlay {{
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999; opacity: 1; transition: opacity 0.25s ease;
+  }}
+  .modal-overlay.hidden {{
+    opacity: 0; pointer-events: none;
+  }}
+  .modal-card {{
+    background: #ffffff; border-radius: 20px;
+    padding: 28px 24px 22px; max-width: 440px; width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    text-align: center; position: relative;
+    border: 1.5px solid rgba(46, 125, 50, 0.2);
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }}
+  @keyframes modalPop {{
+    0% {{ transform: scale(0.85); opacity: 0; }}
+    100% {{ transform: scale(1); opacity: 1; }}
+  }}
+  .modal-icon {{
+    font-size: 2.8rem; line-height: 1; margin-bottom: 12px;
+  }}
+  .modal-title {{
+    font-size: 1.25rem; font-weight: 800; color: #1b4d1b;
+    margin-bottom: 8px; line-height: 1.35;
+  }}
+  .modal-desc {{
+    font-size: 0.9rem; color: #475569; line-height: 1.55;
+    margin-bottom: 20px;
+  }}
+  .modal-btn {{
+    background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 100%);
+    color: white; border: none; border-radius: 24px;
+    padding: 10px 28px; font-size: 0.92rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 12px rgba(46,125,50,0.35);
+    transition: all 0.2s ease;
+  }}
+  .modal-btn:hover {{
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 16px rgba(46,125,50,0.45);
+    background: linear-gradient(135deg, #153e15 0%, #256629 100%);
+  }}
+
   /* ── Route Info Floating Pill on Map ── */
   .route-info-pill {{
     position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
@@ -533,11 +578,14 @@ def render_html(features):
   .farm-card .fc-name-sec {{ font-size: 0.78rem; color: #718096; margin-top: 2px; }}
   .farm-card .fc-loc {{ font-size: 0.76rem; color: #4a5568; margin-top: 4px; display: flex; align-items: center; gap: 4px; }}
   .farm-card .fc-tags {{ margin-top: 6px; display: flex; flex-wrap: wrap; gap: 3px; }}
+  .farm-card .fc-phone {{ margin-top: 6px; font-size: 0.76rem; }}
+  .farm-card .fc-phone a {{ color: #2e7d32; font-weight: 700; text-decoration: none; }}
+  .farm-card .fc-phone a:hover {{ text-decoration: underline; color: #1b4d1b; }}
   .farm-card .tag {{ font-size: 0.68rem; background: #edf2f7; color: #2d3748; border-radius: 6px; padding: 2px 6px; font-weight: 500; }}
   #no-results {{ text-align: center; padding: 40px 20px; color: #a0aec0; display: none; font-size: 0.9rem; }}
 
   /* ── Map ── */
-  #map {{ flex: 1; }}
+  #map {{ flex: 1; position: relative; }}
 
   /* ── Popups ── */
   .popup-card {{ max-width: 310px; font-size: 0.84rem; line-height: 1.45; }}
@@ -678,18 +726,15 @@ def render_html(features):
       margin-bottom: 8px;
       border-radius: 22px;
     }}
-    .filter-row {{
-      gap: 6px;
-      margin-bottom: 8px;
-    }}
     #region-select {{
       min-height: 42px;
       font-size: 0.88rem;
     }}
     .near-me-btn {{
-      min-height: 42px;
-      font-size: 0.8rem;
-      padding: 6px 8px;
+      bottom: 74px; right: 14px;
+      min-height: 40px;
+      font-size: 0.82rem;
+      padding: 8px 14px;
     }}
     .draw-route-btn {{
       min-height: 38px;
@@ -808,12 +853,7 @@ def render_html(features):
   <div id="sidebar">
     <div id="controls">
       <input id="search" type="text" placeholder="Search farms, products (e.g. Tenili, matsoni, tea)…"/>
-      <div class="filter-row">
-        <select id="region-select"></select>
-        <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find farms near my location">
-          <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
-        </button>
-      </div>
+      <select id="region-select"></select>
       <div class="cat-filters">
         <button id="cat-btn-all" class="cat-btn active" data-cat="all" style="border-color:#37474f;color:#37474f">🗺 All</button>
         <button id="cat-btn-farm_shop" class="cat-btn" data-cat="farm_shop" style="border-color:#2d7a2d;color:#2d7a2d">🏪 Farm Shop</button>
@@ -842,12 +882,26 @@ def render_html(features):
   </div>
   <div id="map">
     <div id="route-info-pill" class="route-info-pill" style="display: none;"></div>
+    <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find farms near my location">
+      <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
+    </button>
   </div>
 </div>
 
 <button id="mobile-view-toggle" class="mobile-toggle-btn" onclick="toggleMobileView()">
   <span id="mobile-toggle-text">📋 სიის ნახვა (28)</span>
 </button>
+
+<div id="welcome-modal" class="modal-overlay" onclick="closeWelcomeModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-icon">🇬🇪 🌱</div>
+    <div id="modal-title" class="modal-title">ეს არის საქართველოს აგრო რუკა</div>
+    <div id="modal-desc" class="modal-desc">
+      აღმოაჩინეთ ავთენტური ადგილობრივი ფერმები, მეურნეობები, რძის პროდუქტების ჰაბები და აგროტურიზმის ლოკაციები მთელი საქართველოს მასშტაბით.
+    </div>
+    <button id="modal-btn" class="modal-btn" onclick="closeWelcomeModal()">გასაგებია</button>
+  </div>
+</div>
 
 <script>
 const GEOJSON = {geojson_str};
@@ -871,7 +925,7 @@ const I18N = {{
     pick_your_own: "🍓 Pick Your Own",
     delivery_coop: "🚚 Delivery Coop",
     no_results: "No verified producers match your search criteria.",
-    call: "Call",
+    call: "Call / WhatsApp",
     website: "Website / Direct Page",
     verified_badge: "Verified Producer",
     gmaps_btn: "📍 View on Google Maps",
@@ -886,14 +940,17 @@ const I18N = {{
     radius_25: "25 km",
     radius_50: "50 km",
     radius_all: "All Georgia",
-    showing_within_radius: "Showing farms within {radius} km of your location",
-    fallback_closest: "No farms within {radius} km — showing {count} closest locations",
+    showing_within_radius: "Showing farms within {{radius}} km of your location",
+    fallback_closest: "No farms within {{radius}} km — showing {{count}} closest locations",
     showing_all_sorted: "Showing all farms sorted by distance from your location",
     reset_all: "Reset / Show All",
     your_location: "📍 Your Current Location",
     gps_loc: "Current GPS Location",
     draw_route: "🚗 Draw Route",
     clear_route: "Clear Route",
+    modal_title: "🇬🇪 Georgia Agro & Farm Directory",
+    modal_desc: "Discover verified local artisanal farms, regional dairy hubs, fresh produce markets, and agritourism across all regions of Georgia.",
+    modal_btn: "Explore Directory",
     geo_fallback_msg: "Geolocation unavailable or denied. Using Tbilisi center as demo."
   }},
   ka: {{
@@ -911,7 +968,7 @@ const I18N = {{
     pick_your_own: "🍓 კრეფა / აგროტურიზმი",
     delivery_coop: "🚚 მიტანის სერვისი",
     no_results: "მითითებული ფილტრებით მეურნეობა ვერ მოიძებნა.",
-    call: "დარეკვა",
+    call: "დარეკვა / WhatsApp",
     website: "ვებ-გვერდი / ბმული",
     verified_badge: "შემოწმებული მეურნეობა",
     gmaps_btn: "📍 ნახე Google Maps-ზე",
@@ -926,14 +983,17 @@ const I18N = {{
     radius_25: "25 კმ",
     radius_50: "50 კმ",
     radius_all: "მთელი საქართველო",
-    showing_within_radius: "ნაჩვენებია ფერმები თქვენგან {radius} კმ-ის რადიუსში",
-    fallback_closest: "{radius} კმ-ში ფერმა ვერ მოიძებნა — ნაჩვენებია {count} უახლოესი",
+    showing_within_radius: "ნაჩვენებია ფერმები თქვენგან {{radius}} კმ-ის რადიუსში",
+    fallback_closest: "{{radius}} კმ-ში ფერმა ვერ მოიძებნა — ნაჩვენებია {{count}} უახლოესი",
     showing_all_sorted: "ნაჩვენებია ყველა ფერმა თქვენი მდებარეობიდან მანძილის მიხედვით",
     reset_all: "ყველას ჩვენება",
     your_location: "📍 თქვენი მდებარეობა",
     gps_loc: "მიმდინარე GPS ლოკაცია",
     draw_route: "🚗 მარშრუტის ჩვენება",
     clear_route: "მარშრუტის წაშლა",
+    modal_title: "ეს არის საქართველოს აგრო რუკა",
+    modal_desc: "აღმოაჩინეთ ავთენტური ადგილობრივი ფერმები, მეურნეობები, რძის პროდუქტების ჰაბები და აგროტურიზმის ლოკაციები მთელი საქართველოს მასშტაბით.",
+    modal_btn: "გასაგებია",
     geo_fallback_msg: "გეოლოკაცია მიუწვდომელია. დემო მდებარეობად არჩეულია თბილისის ცენტრი."
   }}
 }};
@@ -1111,6 +1171,20 @@ function updateUserRadiusCircle(lat, lon, radius) {{
   }}).addTo(map);
 }}
 
+// ── Helper: Format phone to WhatsApp international digits ──────────────────
+function getWhatsAppUrl(phone) {{
+  if (!phone) return '';
+  let digits = phone.replace(/\\D/g, '');
+  if (!digits) return '';
+  // If local Georgian number (e.g. 5xx xx xx xx or 32 xxx xx xx), prepend 995
+  if (digits.length === 9) {{
+    digits = '995' + digits;
+  }} else if (digits.length === 8 && digits.startsWith('32')) {{
+    digits = '995' + digits;
+  }}
+  return `https://wa.me/${{digits}}`;
+}}
+
 // ── Dynamic Bilingual Popup Builder ────────────────────────────────────────
 function buildPopupHtml(p, lang, lat, lon) {{
   const isKa = (lang === 'ka');
@@ -1125,8 +1199,8 @@ function buildPopupHtml(p, lang, lat, lon) {{
 
   let phoneHtml = '';
   if (p.phone) {{
-    const clean = p.phone.replace(/\\s/g, '');
-    phoneHtml = `<p class="popup-phone">📞 <a href="tel:${{clean}}">${{p.phone}}</a></p>`;
+    const waUrl = getWhatsAppUrl(p.phone);
+    phoneHtml = `<p class="popup-phone">📞 <a href="${{waUrl}}" target="_blank" rel="noopener noreferrer" title="WhatsApp">${{p.phone}}</a></p>`;
   }}
 
   let webHtml = '';
@@ -1146,13 +1220,11 @@ function buildPopupHtml(p, lang, lat, lon) {{
     const driveStr = formatMinutes(times.driveMinutes, lang);
     const walkStr = formatMinutes(times.walkMinutes, lang);
     const dUnit = (lang === 'ka' ? 'კმ' : 'km');
-    const safeName = nameMain.replace(/'/g, "\\'");
     distHtml = `
       <div class="popup-distance-bar">
         <span class="dist-badge dist-km">📏 ${{d.toFixed(1)}} ${{dUnit}}</span>
         <span class="dist-badge dist-drive">🚗 ${{driveStr}}</span>
         <span class="dist-badge dist-walk">🚶 ${{walkStr}}</span>
-        <button class="draw-route-btn" onclick="drawRouteTo(event, ${{lat}}, ${{lon}}, '${{safeName}}')">${{I18N[lang].draw_route}}</button>
       </div>
     `;
   }}
@@ -1234,15 +1306,19 @@ function buildSidebar(features, lang) {{
       const driveStr = formatMinutes(times.driveMinutes, lang);
       const walkStr = formatMinutes(times.walkMinutes, lang);
       const dUnit = (lang === 'ka' ? 'კმ' : 'km');
-      const safeName = nameMain.replace(/'/g, "\\'");
       distCardHtml = `
         <div class="fc-distance-bar" onclick="event.stopPropagation();">
           <span class="dist-badge dist-km">📏 ${{d.toFixed(1)}} ${{dUnit}}</span>
           <span class="dist-badge dist-drive">🚗 ${{driveStr}}</span>
           <span class="dist-badge dist-walk">🚶 ${{walkStr}}</span>
-          <button class="draw-route-btn" onclick="drawRouteTo(event, ${{lat}}, ${{lon}}, '${{safeName}}')">${{I18N[lang].draw_route}}</button>
         </div>
       `;
+    }}
+
+    let waCardHtml = '';
+    if (p.phone) {{
+      const waUrl = getWhatsAppUrl(p.phone);
+      waCardHtml = `<div class="fc-phone">📞 <a href="${{waUrl}}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" title="WhatsApp">${{p.phone}}</a></div>`;
     }}
 
     const card = document.createElement('div');
@@ -1253,6 +1329,7 @@ function buildSidebar(features, lang) {{
       <div class="fc-name-sec">${{nameSec}}</div>
       <div class="fc-loc">📍 <strong>${{regName}}</strong> • ${{addr.split(',')[0]}}</div>
       <div class="fc-tags">${{tags}}</div>
+      ${{waCardHtml}}
       ${{distCardHtml}}
       ${{gmapsCardHtml}}
     `;
@@ -1269,6 +1346,18 @@ function buildSidebar(features, lang) {{
     }});
     list.appendChild(card);
   }});
+}}
+
+// ── Welcome Modal Controller ───────────────────────────────────────────────
+function closeWelcomeModal(e) {{
+  if (e && e.target && e.target.id !== 'welcome-modal' && e.target.id !== 'modal-btn') return;
+  const modal = document.getElementById('welcome-modal');
+  if (modal) {{
+    modal.classList.add('hidden');
+    setTimeout(() => {{
+      modal.style.display = 'none';
+    }}, 260);
+  }}
 }}
 
 // ── Region Dropdown Builder ────────────────────────────────────────────────
@@ -1425,72 +1514,20 @@ function clearCurrentRoute() {{
   if (pill) pill.style.display = 'none';
 }}
 
+function openGoogleMapsRoute(event, farmLat, farmLon, farmName) {{
+  if (event) event.stopPropagation();
+  let url;
+  if (userCoords && userCoords.lat && userCoords.lon) {{
+    url = `https://www.google.com/maps/dir/?api=1&origin=${{userCoords.lat}},${{userCoords.lon}}&destination=${{farmLat}},${{farmLon}}&travelmode=driving`;
+  }} else {{
+    url = `https://www.google.com/maps/dir/?api=1&destination=${{farmLat}},${{farmLon}}&travelmode=driving`;
+  }}
+  window.open(url, '_blank', 'noopener,noreferrer');
+}}
+
 function drawRouteTo(event, farmLat, farmLon, farmName) {{
   if (event) event.stopPropagation();
-  if (!userCoords) {{
-    alert(currentLang === 'ka' ? 'გთხოვთ ჯერ ჩართოთ "ჩემთან ახლოს"' : 'Please activate "Near Me" first');
-    triggerNearMe();
-    return;
-  }}
-  clearCurrentRoute();
-
-  const [uLat, uLon] = [userCoords.lat, userCoords.lon];
-  const distKm = getDistanceKm(uLat, uLon, farmLat, farmLon);
-  const times = calculateTravelTimes(distKm);
-
-  function showRoutePill(distanceDisplay, minutesDisplay) {{
-    let pill = document.getElementById('route-info-pill');
-    if (!pill) return;
-    const driveStr = formatMinutes(minutesDisplay, currentLang);
-    const distUnit = (currentLang === 'ka' ? 'კმ' : 'km');
-    pill.innerHTML = `
-      <span>🚗 <strong>${{farmName}}</strong> • ${{distanceDisplay}} ${{distUnit}} (~${{driveStr}})</span>
-      <button class="route-clear-btn" onclick="clearCurrentRoute()" title="${{I18N[currentLang].clear_route}}">✕</button>
-    `;
-    pill.style.display = 'flex';
-  }}
-
-  function drawFallbackPolyline() {{
-    const line = L.polyline([[uLat, uLon], [farmLat, farmLon]], {{
-      color: '#2563eb',
-      weight: 4,
-      opacity: 0.9,
-      dashArray: '8, 8'
-    }});
-    currentRouteLayer = L.featureGroup([line]).addTo(map);
-    map.fitBounds(currentRouteLayer.getBounds().pad(0.2));
-    showRoutePill(distKm.toFixed(1), times.driveMinutes);
-    if (window.innerWidth <= 768) setMobileView('map');
-  }}
-
-  const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${{uLon}},${{uLat}};${{farmLon}},${{farmLat}}?overview=full&geometries=geojson`;
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 3500);
-
-  fetch(osrmUrl, {{ signal: controller.signal }})
-    .then(r => r.json())
-    .then(data => {{
-      clearTimeout(timer);
-      if (data.routes && data.routes[0]) {{
-        const geom = data.routes[0].geometry;
-        const latlngs = geom.coordinates.map(c => [c[1], c[0]]);
-        const roadDistKm = (data.routes[0].distance / 1000).toFixed(1);
-        const roadMin = Math.round(data.routes[0].duration / 60);
-
-        const casing = L.polyline(latlngs, {{ color: '#0d47a1', weight: 7, opacity: 0.45, lineCap: 'round', lineJoin: 'round' }});
-        const core = L.polyline(latlngs, {{ color: '#2563eb', weight: 4.5, opacity: 0.95, lineCap: 'round', lineJoin: 'round' }});
-        currentRouteLayer = L.featureGroup([casing, core]).addTo(map);
-        map.fitBounds(currentRouteLayer.getBounds().pad(0.18));
-        showRoutePill(roadDistKm, roadMin);
-        if (window.innerWidth <= 768) setMobileView('map');
-      }} else {{
-        drawFallbackPolyline();
-      }}
-    }})
-    .catch(() => {{
-      clearTimeout(timer);
-      drawFallbackPolyline();
-    }});
+  openGoogleMapsRoute(event, farmLat, farmLon, farmName);
 }}
 
 // ── Filtering Logic ────────────────────────────────────────────────────────
@@ -1528,14 +1565,14 @@ function applyFilters() {{
         isFallbackClosest = true;
         document.getElementById('near-me-status-text').textContent =
           I18N[currentLang].fallback_closest
-            .replace('{radius}', activeRadiusKm)
-            .replace('{count}', candidateFeatures.length);
+            .replace('{{radius}}', activeRadiusKm)
+            .replace('{{count}}', candidateFeatures.length);
       }} else {{
         candidateFeatures = inRadius.map(item => item.f);
         isFallbackClosest = false;
         document.getElementById('near-me-status-text').textContent =
           I18N[currentLang].showing_within_radius
-            .replace('{radius}', activeRadiusKm);
+            .replace('{{radius}}', activeRadiusKm);
       }}
     }}
   }} else {{
@@ -1645,6 +1682,14 @@ function switchLanguage(lang) {{
     userMarker.bindPopup(userPopupHtml, {{ maxWidth: getPopupMaxWidth() }});
     if (wasOpen) userMarker.openPopup();
   }}
+
+  // Update Welcome Modal if open
+  const modalTitle = document.getElementById('modal-title');
+  if (modalTitle) modalTitle.textContent = I18N[lang].modal_title;
+  const modalDesc = document.getElementById('modal-desc');
+  if (modalDesc) modalDesc.textContent = I18N[lang].modal_desc;
+  const modalBtn = document.getElementById('modal-btn');
+  if (modalBtn) modalBtn.textContent = I18N[lang].modal_btn;
 
   // Update Region dropdown
   populateRegionSelect(lang);

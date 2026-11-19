@@ -113,5 +113,16 @@ Strict quality controls: no mass supermarkets (Carrefour, Goodwill, Nikora, Agro
   - [x] Regenerated `output/georgia_farms_map.html`
   - [x] Re-ran `execution/evaluate_directory.py`: **100.0% Pass (Grade A+)** with mobile responsiveness audit included
 
+- [x] **Phase 9: Near Me Geolocation, Radius Filtering & Route Drawing** ✅ 2026-11-18
+  - [x] Implemented `📍 Near Me` / `📍 ჩემთან ახლოს` GPS acquisition using `navigator.geolocation.getCurrentPosition` (with graceful fallback to Tbilisi demo center)
+  - [x] Added pulsing blue user-location pin (`@keyframes userPulse`) with open popup showing coordinates and background reverse-geocoded address via Nominatim
+  - [x] Rendered subtle translucent blue radius zone circle (`L.circle`, default 25 km, color `#1a73e8`, fill `#38bdf8`)
+  - [x] Added compact status bar above sidebar list with `"Reset / Show All"` (`"ყველას ჩვენება"`) button and quick radius dropdown selector (`10 km`, `25 km`, `50 km`, `All Georgia` / `მთელი საქართველო`)
+  - [x] Implemented automatic fallback to 5 closest farms if $< 2$ farms match within active radius
+  - [x] Added Haversine distance (`📏 km`), driving time (`🚗`), and walking time (`🚶`) badges to all cards and map popups
+  - [x] Implemented `"Draw Route"` / `"მარშრუტის ჩვენება"` with live OSRM road geometry fetching, map bounds zoom, and fallback straight dashed line
+  - [x] Regenerated `output/georgia_farms_map.html` and verified 100% test pass in `execution/evaluate_directory.py`
+
+
 
 
