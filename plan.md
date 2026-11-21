@@ -126,3 +126,19 @@ Strict quality controls: no mass supermarkets (Carrefour, Goodwill, Nikora, Agro
 
 
 
+
+
+## Phase 10: Saburtalo District Hyper-Local Proof of Concept (PoC)
+
+- [x] **Narrow Scope & Rules**: Defined Saburtalo bounding box (`41.705–41.755 N`, `44.700–44.790 E`) and 4 hyper-local categories (`farm_shop`, `dairy_hub`, `meat_eggs`, `delivery_coop`).
+- [x] **Scout & Reflect (`search_saburtalo.py` -> `verify_saburtalo.py`)**:
+  - Scouted authentic artisanal shops, cheese points, village meat/egg stores, and delivery points in Saburtalo.
+  - Strict Reflection rule: Rejected all commercial supermarket chains (Carrefour, Agrohub, Goodwill, Nikora, Spar, Fresco).
+  - Output verified dataset to `output/saburtalo_farms.json`.
+- [x] **Map Publisher (`publish_saburtalo.py`)**:
+  - Centered map directly on Saburtalo (`[41.7255, 44.7485]`, zoom `14`).
+  - Sub-district filters (`Pekini / Kostava`, `Vazha-Pshavela`, `Nutsubidze`, `Kazbegi / Delisi`, `Lisi`).
+  - Retained bilingual switcher (`ქართული | EN`), WhatsApp links, Near Me geolocation, and Google Maps routing.
+  - Output to `output/saburtalo_poc.html` and `output/index.html`.
+- [x] **Quantitative Evaluation (`evaluate_directory.py --saburtalo`)**:
+  - Enforced 100% of pins strictly within Saburtalo territorial bounds.

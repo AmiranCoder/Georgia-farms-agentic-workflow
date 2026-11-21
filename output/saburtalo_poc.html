@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="ka">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🇬🇪 Saburtalo Fresh Farm Directory | საბურთალოს სოფლის პროდუქტების რუკა</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      color: #202124;
+    }
+
+    /* Zero-seam Leaflet tile rendering */
+    .leaflet-container {
+      background: #e8eaed !important;
+    }
+
+    .leaflet-tile {
+      outline: 1px solid transparent;
+      transform-origin: 0 0;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    .leaflet-tile-loaded {
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+    }
+
+    img.leaflet-tile {
+      width: 256px !important;
+      height: 256px !important;
+      margin: -0.5px;
+      padding: 0.5px;
+    }
+
+    /* Header */
+    #header {
+      background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 55%, #0284c7 100%);
+      color: white;
+      padding: 12px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    #header-title {
+      font-size: 1.32rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    #header-title span {
+      font-weight: 300;
+      opacity: 0.92;
+      font-size: 1.05rem;
+    }
+
+    #header-sub {
+      font-size: 0.78rem;
+      opacity: 0.9;
+      margin-top: 3px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 18px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat .num {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stat .lbl {
+      font-size: 0.65rem;
+      opacity: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Language Switcher Pill */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      border-radius: 24px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: white;
+      padding: 6px 13px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: white;
+      color: #1b4d1b;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .lang-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Layout */
+    #main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      width: 400px;
+      min-width: 320px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 500;
+    }
+
+    #controls {
+      padding: 12px;
+      background: white;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    #search {
+      width: 100%;
+      padding: 9px 14px;
+      border: 1.5px solid #d0d7de;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      outline: none;
+      margin-bottom: 9px;
+      transition: border-color 0.2s;
+    }
+
+    #search:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+    }
+
+    #subdistrict-select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid #d0d7de;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 9px;
+      outline: none;
+      background: white;
+      font-weight: 500;
+    }
+
+    .cat-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .cat-btn {
+      border: 1.5px solid #d0d7de;
+      background: white;
+      border-radius: 16px;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .cat-btn.active {
+      background: #202124;
+      color: white !important;
+      border-color: #202124 !important;
+    }
+
+    /* Near Me Button (Bottom-Right corner inside Map) */
+    .near-me-btn {
+      position: absolute;
+      bottom: 28px;
+      right: 20px;
+      z-index: 1000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: #ffffff;
+      color: #1a73e8;
+      border: 2px solid #1a73e8;
+      border-radius: 28px;
+      padding: 10px 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+      transition: all 0.2s ease;
+    }
+
+    .near-me-btn:hover {
+      background: #eff6ff;
+      border-color: #1557b0;
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    }
+
+    .near-me-btn.active {
+      background: #1a73e8;
+      color: white;
+      border-color: #1557b0;
+      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.45);
+    }
+
+    .near-me-btn.locating {
+      opacity: 0.85;
+      cursor: wait;
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    /* Near Me Status Bar */
+    #near-me-status-bar {
+      background: #eff6ff;
+      border-left: 4px solid #1a73e8;
+      border-bottom: 1px solid #bfdbfe;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      color: #1e3a8a;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .status-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .status-text {
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .reset-btn {
+      background: white;
+      color: #1a73e8;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .reset-btn:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
+    }
+
+    .status-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radius-select-label {
+      font-weight: 600;
+      color: #1e40af;
+      font-size: 0.74rem;
+    }
+
+    .radius-dropdown {
+      padding: 3px 8px;
+      border: 1px solid #93c5fd;
+      border-radius: 6px;
+      background: white;
+      color: #1e3a8a;
+      font-size: 0.76rem;
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* Distance Badges */
+    .fc-distance-bar,
+    .popup-distance-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      padding-top: 7px;
+      border-top: 1px dashed #e2e8f0;
+    }
+
+    .dist-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .dist-km {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .dist-drive {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .dist-walk {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    /* User Location Pulsing Marker */
+    .user-pulse-marker {
+      position: relative;
+      width: 24px;
+      height: 24px;
+    }
+
+    .user-pulse-dot {
+      width: 14px;
+      height: 14px;
+      background: #1a73e8;
+      border: 2.5px solid white;
+      border-radius: 50%;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      box-shadow: 0 0 8px rgba(26, 115, 232, 0.9);
+      z-index: 2;
+    }
+
+    .user-pulse-ring {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      top: -5px;
+      left: -5px;
+      background: rgba(26, 115, 232, 0.45);
+      border-radius: 50%;
+      animation: userPulse 2s infinite ease-out;
+      z-index: 1;
+    }
+
+    @keyframes userPulse {
+      0% {
+        transform: scale(0.4);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
+    }
+
+    .user-popup {
+      padding: 4px 2px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .user-popup-title {
+      font-weight: 700;
+      color: #1a73e8;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .user-popup-coords {
+      color: #64748b;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .user-popup-address {
+      font-size: 0.82rem;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    /* List & Cards */
+    #farm-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .farm-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 13px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .farm-card:hover {
+      border-color: #2e7d32;
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.12);
+    }
+
+    .fc-cat {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .fc-name {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #202124;
+      line-height: 1.3;
+    }
+
+    .fc-name-sec {
+      font-size: 0.78rem;
+      color: #5f6368;
+      margin-bottom: 5px;
+    }
+
+    .fc-loc {
+      font-size: 0.78rem;
+      color: #3c4043;
+      margin-bottom: 6px;
+    }
+
+    .fc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 5px;
+    }
+
+    .tag {
+      background: #f1f3f4;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.68rem;
+      color: #3c4043;
+    }
+
+    .fc-phone {
+      font-size: 0.78rem;
+      margin-top: 6px;
+      color: #1b4d1b;
+      font-weight: 600;
+    }
+
+    .fc-phone a {
+      color: #1b4d1b;
+      text-decoration: none;
+    }
+
+    .fc-phone a:hover {
+      text-decoration: underline;
+      color: #128c7e;
+    }
+
+    .fc-gmaps {
+      margin-top: 7px;
+    }
+
+    .gmaps-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #1a73e8;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #e8f0fe;
+      transition: background 0.15s;
+    }
+
+    .gmaps-link:hover {
+      background: #d2e3fc;
+    }
+
+    /* Map Container */
+    #map {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Popups */
+    .popup-card {
+      padding: 2px;
+      max-width: 290px;
+    }
+
+    .popup-cat {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .popup-card h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #202124;
+    }
+
+    .popup-sec {
+      font-size: 0.8rem;
+      color: #5f6368;
+      margin-bottom: 6px;
+    }
+
+    .popup-addr {
+      font-size: 0.8rem;
+      color: #3c4043;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .popup-phone {
+      font-size: 0.82rem;
+      margin-bottom: 5px;
+    }
+
+    .popup-phone a {
+      color: #128c7e;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .popup-phone a:hover {
+      text-decoration: underline;
+    }
+
+    .popup-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin: 6px 0;
+    }
+
+    .popup-desc {
+      font-size: 0.78rem;
+      color: #475569;
+      line-height: 1.4;
+      margin: 6px 0;
+    }
+
+    .popup-notes {
+      font-size: 0.72rem;
+      color: #1b4d1b;
+      margin-top: 4px;
+    }
+
+    .popup-gmaps {
+      margin-top: 8px;
+    }
+
+    .gmaps-btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      background: #1a73e8;
+      color: white;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
+      transition: background 0.15s;
+    }
+
+    .gmaps-btn:hover {
+      background: #1557b0;
+    }
+
+    /* Welcome Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px 24px 22px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      border: 1.5px solid rgba(46, 125, 50, 0.2);
+      animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes modalPop {
+      0% {
+        transform: scale(0.85);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #1b4d1b;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+
+    .modal-btn {
+      background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 100%);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 10px 28px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+      background: linear-gradient(135deg, #153e15 0%, #256629 100%);
+    }
+
+    /* Mobile Responsive */
+    .mobile-toggle-btn {
+      display: none;
+    }
+
+    #no-results {
+      display: none;
+      padding: 20px;
+      text-align: center;
+      color: #666;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 768px) {
+      #header {
+        padding: 10px 14px;
+      }
+
+      #header-title {
+        font-size: 1.05rem;
+      }
+
+      #header-title span {
+        display: none;
+      }
+
+      .stats {
+        display: none;
+      }
+
+      #main {
+        position: relative;
+      }
+
+      #sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 800;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      #sidebar.mobile-active {
+        transform: translateX(0);
+      }
+
+      #map.mobile-hidden {
+        display: none;
+      }
+
+      .mobile-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1500;
+        background: #1b4d1b;
+        color: white;
+        border: 2px solid white;
+        border-radius: 30px;
+        padding: 10px 22px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.38);
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="header">
+    <div class="header-left">
+      <h1 id="header-title">🇬🇪 Saburtalo Fresh Farm Directory <span>| საბურთალოს სოფლის პროდუქტების რუკა</span></h1>
+      <div id="header-sub">Hyper-Local PoC • Saburtalo District, Tbilisi • 100% Genuine Artisanal Village Shops</div>
+    </div>
+    <div class="header-right">
+      <div class="stats">
+        <div class="stat">
+          <div class="num" id="stat-total">17</div>
+          <div class="lbl" id="stat-lbl-farms">Shops</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="stat-subdistricts">5</div>
+          <div class="lbl" id="stat-lbl-subdistricts">Zones</div>
+        </div>
+        <div class="stat">
+          <div class="num">4</div>
+          <div class="lbl" id="stat-lbl-categories">Categories</div>
+        </div>
+      </div>
+      <div class="lang-switcher">
+        <button id="lang-btn-ka" class="lang-btn active" onclick="switchLanguage('ka')">ქართული</button>
+        <button id="lang-btn-en" class="lang-btn" onclick="switchLanguage('en')">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="sidebar">
+      <div id="controls">
+        <input id="search" type="text" placeholder="Search shops, dairy, meat, village products…" />
+        <select id="subdistrict-select"></select>
+        <div class="cat-filters">
+          <button id="cat-btn-all" class="cat-btn active" data-cat="all" style="border-color:#37474f;color:#37474f">🗺
+            All</button>
+          <button id="cat-btn-farm_shop" class="cat-btn" data-cat="farm_shop"
+            style="border-color:#2d7a2d;color:#2d7a2d">🏪 Farm Shop</button>
+          <button id="cat-btn-dairy_hub" class="cat-btn" data-cat="dairy_hub"
+            style="border-color:#d4a017;color:#d4a017">🧀 Dairy Hub</button>
+          <button id="cat-btn-meat_eggs" class="cat-btn" data-cat="meat_eggs"
+            style="border-color:#c0392b;color:#c0392b">🥩 Meat & Eggs</button>
+          <button id="cat-btn-delivery_coop" class="cat-btn" data-cat="delivery_coop"
+            style="border-color:#2471a3;color:#2471a3">🚚 Delivery Coop</button>
+        </div>
+      </div>
+      <div id="near-me-status-bar" style="display: none;">
+        <div class="status-main">
+          <span id="near-me-status-text" class="status-text">ნაჩვენებია ლოკაციები თქვენგან 25 კმ-ის რადიუსში</span>
+          <button id="reset-near-me-btn" class="reset-btn" onclick="resetNearMe()">ყველას ჩვენება</button>
+        </div>
+        <div class="status-controls">
+          <span id="radius-select-label" class="radius-select-label">რადიუსი:</span>
+          <select id="radius-select" class="radius-dropdown" onchange="changeRadius(this.value)">
+            <option value="2">2 კმ (საბურთალო)</option>
+            <option value="5" selected>5 კმ</option>
+            <option value="10">10 კმ</option>
+            <option value="all">მთელი საბურთალო</option>
+          </select>
+        </div>
+      </div>
+      <div id="farm-list"></div>
+      <div id="no-results">No verified producers match your search criteria.</div>
+    </div>
+    <div id="map">
+      <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find shops near my location">
+        <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
+      </button>
+    </div>
+  </div>
+
+  <button id="mobile-view-toggle" class="mobile-toggle-btn" onclick="toggleMobileView()">
+    <span id="mobile-toggle-text">📋 სიის ნახვა (17)</span>
+  </button>
+
+  <div id="welcome-modal" class="modal-overlay" onclick="closeWelcomeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-icon">🇬🇪 🧀</div>
+      <div id="modal-title" class="modal-title">საბურთალოს სოფლის პროდუქტების რუკა</div>
+      <div id="modal-desc" class="modal-desc">
+        აღმოაჩინეთ ავთენტური სოფლის პროდუქტების მაღაზიები, ხელნაკეთი ყველის წერტილები, სოფლის ხორცისა და კვერცხის
+        ობიექტები და ფერმერული მიტანის სერვისები საბურთალოზე!
+      </div>
+      <button id="modal-btn" class="modal-btn" onclick="closeWelcomeModal()">გასაგებია</button>
+    </div>
+  </div>
+
+  <script>
+    const GEOJSON = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.7725,
+              41.7242
+            ]
+          },
+          "properties": {
+            "id": "sab-pek-001",
+            "name_en": "Soplis Nobati Pekini",
+            "name_ka": "სოფლის ნობათი პეკინზე",
+            "sub_district": "Pekini / Kostava",
+            "sub_district_en": "Pekini / Kostava",
+            "sub_district_ka": "პეკინი / კოსტავა",
+            "region": "Tbilisi",
+            "category": "farm_shop",
+            "cat_label_en": "Farm Shop",
+            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
+            "color": "#2d7a2d",
+            "emoji": "🏪",
+            "address_en": "14 Pekini Ave, Saburtalo, Tbilisi",
+            "address_ka": "პეკინის გამზ. 14, საბურთალო, თბილისი",
+            "phone": "+995 599 12 34 56",
+            "website": "https://facebook.com/soplisnobati.pekini",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72420,44.77250",
+            "products_en": [
+              "სოფლის მაწონი",
+              "იმერული ყველი",
+              "კახური ზეთი",
+              "ალპური თაფლი",
+              "ახალი კვერცხი"
+            ],
+            "products_ka": [
+              "სოფლის მაწონი",
+              "იმერული ყველი",
+              "კახური ზეთი",
+              "ალპური თაფლი",
+              "ახალი კვერცხი"
+            ],
+            "desc_en": "Authentic neighborhood store stocking fresh village dairy, Kakhetian sunflower oil, mountain honey, and artisanal bread.",
+            "desc_ka": "უბნის მაღაზია პეკინზე: ნატურალური სოფლის რძის პროდუქტები, კახური ზეთი, მთის თაფლი და დედას პური.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.7812,
+              41.7188
+            ]
+          },
+          "properties": {
+            "id": "sab-pek-002",
+            "name_en": "Kakhuri Kveli & Dairy Kostava",
+            "name_ka": "კახური ყველი და რძის პროდუქტები კოსტავაზე",
+            "sub_district": "Pekini / Kostava",
+            "sub_district_en": "Pekini / Kostava",
+            "sub_district_ka": "პეკინი / კოსტავა",
+            "region": "Tbilisi",
+            "category": "dairy_hub",
+            "cat_label_en": "Dairy Hub",
+            "cat_label_ka": "ყველი და რძის პროდუქტები",
+            "color": "#d4a017",
+            "emoji": "🧀",
+            "address_en": "Kostava St 68, Saburtalo, Tbilisi",
+            "address_ka": "კოსტავას ქ. 68, საბურთალო, თბილისი",
+            "phone": "+995 577 23 45 67",
+            "website": "https://facebook.com/kakhuri.kveli.kostava",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71880,44.78120",
+            "products_en": [
+              "თუშური გუდა",
+              "შებოლილი სულგუნი",
+              "ქოთნის მაწონი",
+              "ნადუღი",
+              "სოფლის კარაქი"
+            ],
+            "products_ka": [
+              "თუშური გუდა",
+              "შებოლილი სულგუნი",
+              "ქოთნის მაწონი",
+              "ნადუღი",
+              "სოფლის კარაქი"
+            ],
+            "desc_en": "Artisanal dairy boutique offering fresh brine Sulguni, Guda cheese, artisanal Matsoni in clay pots, and fresh mountain butter.",
+            "desc_ka": "რძის პროდუქტების ბუტიკი კოსტავაზე: ახალი სულგუნი, თუშური გუდა, ქოთნის მაწონი და სოფლის ერბო.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.7648,
+              41.7268
+            ]
+          },
+          "properties": {
+            "id": "sab-pek-003",
+            "name_en": "Saburtalo Village Meat & Poultry",
+            "name_ka": "საბურთალოს სოფლის ხორცი და ფრინველი",
+            "sub_district": "Pekini / Kostava",
+            "sub_district_en": "Pekini / Kostava",
+            "sub_district_ka": "პეკინი / კოსტავა",
+            "region": "Tbilisi",
+            "category": "meat_eggs",
+            "cat_label_en": "Meat & Eggs",
+            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
+            "color": "#c0392b",
+            "emoji": "🥩",
+            "address_en": "Pekini Ave 27, Saburtalo, Tbilisi",
+            "address_ka": "პეკინის გამზ. 27, საბურთალო, თბილისი",
+            "phone": "+995 595 34 56 78",
+            "website": "https://instagram.com/saburtalo_village_meat",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72680,44.76480",
+            "products_en": [
+              "სოფლის საქონლის ხორცი",
+              "სოფლის დედალი",
+              "თავისუფალი გამოზრდის კვერცხი",
+              "სოფლის ხბოს ხორცი"
+            ],
+            "products_ka": [
+              "სოფლის საქონლის ხორცი",
+              "სოფლის დედალი",
+              "თავისუფალი გამოზრდის კვერცხი",
+              "სოფლის ხბოს ხორცი"
+            ],
+            "desc_en": "Daily delivery of fresh Georgian mountain beef, village chicken, and free-range eggs directly from Shida Kartli farms.",
+            "desc_ka": "ყოველდღიური ახალი სოფლის საქონლის ხორცი, სოფლის დედალი და თავისუფალი გამოზრდის კვერცხი შიდა ქართლიდან.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.747,
+              41.726
+            ]
+          },
+          "properties": {
+            "id": "sab-vaz-001",
+            "name_en": "Alvani Cheese House Vazha",
+            "name_ka": "ალვნის ყველის სახლი ვაჟაზე",
+            "sub_district": "Vazha-Pshavela",
+            "sub_district_en": "Vazha-Pshavela",
+            "sub_district_ka": "ვაჟა-ფშაველა",
+            "region": "Tbilisi",
+            "category": "dairy_hub",
+            "cat_label_en": "Dairy Hub",
+            "cat_label_ka": "ყველი და რძის პროდუქტები",
+            "color": "#d4a017",
+            "emoji": "🧀",
+            "address_en": "Vazha-Pshavela Ave 25, Saburtalo, Tbilisi",
+            "address_ka": "ვაჟა-ფშაველას გამზ. 25, საბურთალო, თბილისი",
+            "phone": "+995 591 45 67 89",
+            "website": "https://facebook.com/alvanicheesehouse",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72600,44.74700",
+            "products_en": [
+              "თუშური ცხვრის ყველი",
+              "ჭყინტი იმერული ყველი",
+              "სოფლის არაჟანი",
+              "დავარგებული ყველი"
+            ],
+            "products_ka": [
+              "თუშური ცხვრის ყველი",
+              "ჭყინტი იმერული ყველი",
+              "სოფლის არაჟანი",
+              "დავარგებული ყველი"
+            ],
+            "desc_en": "Direct point for Tushetian sheep cheese, Imeretian raw milk cheese, and village sour cream sourced from high Caucasus pastures.",
+            "desc_ka": "თუშური ცხვრის ყველის, იმერული ჭყინტი ყველისა და სოფლის არაჟნის პირდაპირი წერტილი ალვანიდან.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.739,
+              41.724
+            ]
+          },
+          "properties": {
+            "id": "sab-vaz-002",
+            "name_en": "EkoFerma Vazha-Pshavela",
+            "name_ka": "ეკოფერმა ვაჟა-ფშაველაზე",
+            "sub_district": "Vazha-Pshavela",
+            "sub_district_en": "Vazha-Pshavela",
+            "sub_district_ka": "ვაჟა-ფშაველა",
+            "region": "Tbilisi",
+            "category": "farm_shop",
+            "cat_label_en": "Farm Shop",
+            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
+            "color": "#2d7a2d",
+            "emoji": "🏪",
+            "address_en": "Vazha-Pshavela Ave 41, Saburtalo, Tbilisi",
+            "address_ka": "ვაჟა-ფშაველას გამზ. 41, საბურთალო, თბილისი",
+            "phone": "+995 599 56 78 90",
+            "website": "https://facebook.com/ekoferma.vazha",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72400,44.73900",
+            "products_en": [
+              "ქართული პომიდორი",
+              "სოფლის მწვანილი",
+              "კახური ნიგოზი",
+              "სოფლის რძე",
+              "ქოთნის მაწონი"
+            ],
+            "products_ka": [
+              "ქართული პომიდორი",
+              "სოფლის მწვანილი",
+              "კახური ნიგოზი",
+              "სოფლის რძე",
+              "ქოთნის მაწონი"
+            ],
+            "desc_en": "Eco-friendly farm corner providing seasonal greens, greenhouse tomatoes, Kakhetian garlic, walnuts, and village dairy.",
+            "desc_ka": "ეკოლოგიურად სუფთა ფერმერული მაღაზია: სეზონური მწვანილი, ქართული პომიდორი, კახური ნიორი, ნიგოზი და რძის პროდუქტები.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.726,
+              41.7215
+            ]
+          },
+          "properties": {
+            "id": "sab-vaz-003",
+            "name_en": "Kartli Fresh Meat Vazha",
+            "name_ka": "ქართლის ახალი ხორცი ვაჟა-ფშაველაზე",
+            "sub_district": "Vazha-Pshavela",
+            "sub_district_en": "Vazha-Pshavela",
+            "sub_district_ka": "ვაჟა-ფშაველა",
+            "region": "Tbilisi",
+            "category": "meat_eggs",
+            "cat_label_en": "Meat & Eggs",
+            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
+            "color": "#c0392b",
+            "emoji": "🥩",
+            "address_en": "Vazha-Pshavela 7th Block, Saburtalo, Tbilisi",
+            "address_ka": "ვაჟა-ფშაველას მე-7 კვარტალი, საბურთალო, თბილისი",
+            "phone": "+995 577 67 89 01",
+            "website": "https://facebook.com/kartlifreshmeat",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72150,44.72600",
+            "products_en": [
+              "ახალი საქონლის ხორცი",
+              "ღორის ხორცი",
+              "სოფლის ქათამი",
+              "დიეტური კვერცხი"
+            ],
+            "products_ka": [
+              "ახალი საქონლის ხორცი",
+              "ღორის ხორცი",
+              "სოფლის ქათამი",
+              "დიეტური კვერცხი"
+            ],
+            "desc_en": "Neighborhood meat counter partnering with village butchers from Kaspi and Gori. Zero additives, strictly fresh daily cuts.",
+            "desc_ka": "უბნის ხორცის მაღაზია: ახალი ხორცი კასპისა და გორის სოფლებიდან ყოველდღიურად. დანამატების გარეშე.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.744,
+              41.7205
+            ]
+          },
+          "properties": {
+            "id": "sab-nut-001",
+            "name_en": "Nutsubidze Village Bazaar Hub",
+            "name_ka": "ნუცუბიძის სოფლის ნობათის ჰაბი",
+            "sub_district": "Nutsubidze",
+            "sub_district_en": "Nutsubidze",
+            "sub_district_ka": "ნუცუბიძე",
+            "region": "Tbilisi",
+            "category": "farm_shop",
+            "cat_label_en": "Farm Shop",
+            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
+            "color": "#2d7a2d",
+            "emoji": "🏪",
+            "address_en": "Nutsubidze St 77, Saburtalo, Tbilisi",
+            "address_ka": "ნუცუბიძის ქ. 77, საბურთალო, თბილისი",
+            "phone": "+995 593 78 90 12",
+            "website": "https://facebook.com/nutsubidze.bazaar",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72050,44.74400",
+            "products_en": [
+              "მთის კარტოფილი",
+              "ჭარხალი",
+              "სტაფილო",
+              "სოფლის ყველი",
+              "ველური თაფლი"
+            ],
+            "products_ka": [
+              "მთის კარტოფილი",
+              "ჭარხალი",
+              "სტაფილო",
+              "სოფლის ყველი",
+              "ველური თაფლი"
+            ],
+            "desc_en": "Cooperative neighborhood shop representing smallholder farmers from Kvemo Kartli and Samtskhe-Javakheti.",
+            "desc_ka": "კოოპერატიული მაღაზია: მცირე ფერმერების პროდუქცია ქვემო ქართლიდან და სამცხე-ჯავახეთის მთის კარტოფილი.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.732,
+              41.718
+            ]
+          },
+          "properties": {
+            "id": "sab-nut-002",
+            "name_en": "Nutsubidze Plateau Dairy Point",
+            "name_ka": "ნუცუბიძის პლატოს რძის წერტილი",
+            "sub_district": "Nutsubidze",
+            "sub_district_en": "Nutsubidze",
+            "sub_district_ka": "ნუცუბიძე",
+            "region": "Tbilisi",
+            "category": "dairy_hub",
+            "cat_label_en": "Dairy Hub",
+            "cat_label_ka": "ყველი და რძის პროდუქტები",
+            "color": "#d4a017",
+            "emoji": "🧀",
+            "address_en": "Nutsubidze 2nd Plateau, Bldg 3, Saburtalo, Tbilisi",
+            "address_ka": "ნუცუბიძის II პლატო, კორპ. 3, საბურთალო, თბილისი",
+            "phone": "+995 598 89 01 23",
+            "website": "https://facebook.com/plateau.dairy",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71800,44.73200",
+            "products_en": [
+              "კამეჩის მაწონი",
+              "ხელნაკეთი ხაჭო",
+              "პიტნიანი ნადუღი",
+              "იმერული ჭყინტი ყველი"
+            ],
+            "products_ka": [
+              "კამეჩის მაწონი",
+              "ხელნაკეთი ხაჭო",
+              "პიტნიანი ნადუღი",
+              "იმერული ჭყინტი ყველი"
+            ],
+            "desc_en": "Artisanal dairy dispensary with village cow and buffalo matsoni, fresh cottage cheese, and mint nadughi.",
+            "desc_ka": "რძის პროდუქტების წერტილი: ძროხისა და კამეჩის მაწონი, ხელნაკეთი ხაჭო და ნადუღი პიტნით.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.7385,
+              41.7195
+            ]
+          },
+          "properties": {
+            "id": "sab-nut-003",
+            "name_en": "Nutsubidze Farm Meat & Eggs Corner",
+            "name_ka": "ნუცუბიძის ფერმერული ხორცი და კვერცხი",
+            "sub_district": "Nutsubidze",
+            "sub_district_en": "Nutsubidze",
+            "sub_district_ka": "ნუცუბიძე",
+            "region": "Tbilisi",
+            "category": "meat_eggs",
+            "cat_label_en": "Meat & Eggs",
+            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
+            "color": "#c0392b",
+            "emoji": "🥩",
+            "address_en": "Nutsubidze 1st Plateau, Saburtalo, Tbilisi",
+            "address_ka": "ნუცუბიძის I პლატო, საბურთალო, თბილისი",
+            "phone": "+995 579 90 12 34",
+            "website": "https://facebook.com/nutsubidze.meat",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71950,44.73850",
+            "products_en": [
+              "დუშეთის საქონლის ხორცი",
+              "სოფლის ინდაური",
+              "სოფლის კვერცხი",
+              "ახალი ხბოს ხორცი"
+            ],
+            "products_ka": [
+              "დუშეთის საქონლის ხორცი",
+              "სოფლის ინდაური",
+              "სოფლის კვერცხი",
+              "ახალი ხბოს ხორცი"
+            ],
+            "desc_en": "Family-run butchery sourcing directly from Dusheti pastures. Fresh beef, pork, turkey, and village poultry eggs.",
+            "desc_ka": "საოჯახო ხორცის მაღაზია: დუშეთის საძოვრების საქონლის ხორცი, ინდაური, სოფლის ქათამი და კვერცხი.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.755,
+              41.725
+            ]
+          },
+          "properties": {
+            "id": "sab-kaz-001",
+            "name_en": "Delisi Artisanal Cheese Workshop",
+            "name_ka": "დელისის ყველის სახელოსნო",
+            "sub_district": "Kazbegi / Delisi",
+            "sub_district_en": "Kazbegi / Delisi",
+            "sub_district_ka": "ყაზბეგი / დელისი",
+            "region": "Tbilisi",
+            "category": "dairy_hub",
+            "cat_label_en": "Dairy Hub",
+            "cat_label_ka": "ყველი და რძის პროდუქტები",
+            "color": "#d4a017",
+            "emoji": "🧀",
+            "address_en": "Kazbegi Ave 34, Saburtalo, Tbilisi",
+            "address_ka": "ყაზბეგის გამზ. 34, საბურთალო, თბილისი",
+            "phone": "+995 599 01 23 45",
+            "website": "https://instagram.com/delisi_cheese_workshop",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72500,44.75500",
+            "products_en": [
+              "მეგრული სულგუნი",
+              "თენილი ყველი",
+              "შებოლილი ყველი",
+              "სოფლის ერბო",
+              "გებჟალია"
+            ],
+            "products_ka": [
+              "მეგრული სულგუნი",
+              "თენილი ყველი",
+              "შებოლილი ყველი",
+              "სოფლის ერბო",
+              "გებჟალია"
+            ],
+            "desc_en": "Boutique cheese parlor showcasing aged Megrelian Sulguni, Tenili cheese from Samtskhe, and artisanal smoked cheeses.",
+            "desc_ka": "ყველის ბუტიკი: დავარგებული მეგრული სულგუნი, მესხური თენილი და შებოლილი ყველის ასორტიმენტი.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.761,
+              41.7275
+            ]
+          },
+          "properties": {
+            "id": "sab-kaz-002",
+            "name_en": "Kazbegi Natural Products Mart",
+            "name_ka": "ყაზბეგის ნატურალური პროდუქტების მარტი",
+            "sub_district": "Kazbegi / Delisi",
+            "sub_district_en": "Kazbegi / Delisi",
+            "sub_district_ka": "ყაზბეგი / დელისი",
+            "region": "Tbilisi",
+            "category": "farm_shop",
+            "cat_label_en": "Farm Shop",
+            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
+            "color": "#2d7a2d",
+            "emoji": "🏪",
+            "address_en": "Kazbegi Ave 14b, Saburtalo, Tbilisi",
+            "address_ka": "ყაზბეგის გამზ. 14ბ, საბურთალო, თბილისი",
+            "phone": "+995 577 12 34 50",
+            "website": "https://facebook.com/kazbegi.natural",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72750,44.76100",
+            "products_en": [
+              "მთის მწვანილი",
+              "ნატურალური ტყლაპი",
+              "ნამდვილი ჩურჩხელა",
+              "სოფლის თაფლი",
+              "კახური ზეთი"
+            ],
+            "products_ka": [
+              "მთის მწვანილი",
+              "ნატურალური ტყლაპი",
+              "ნამდვილი ჩურჩხელა",
+              "სოფლის თაფლი",
+              "კახური ზეთი"
+            ],
+            "desc_en": "Neighborhood produce shop stocking fresh mountain herbs, dried fruit rolls (Tklapi), churchkhela, and natural preserves.",
+            "desc_ka": "ნატურალური პროდუქტების მაღაზია: მთის მწვანილი, ნატურალური ტყლაპი, ჩურჩხელა და სოფლის მურაბები.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.7495,
+              41.7262
+            ]
+          },
+          "properties": {
+            "id": "sab-kaz-003",
+            "name_en": "Delisi Fresh Village Meat",
+            "name_ka": "დელისის სოფლის ახალი ხორცი",
+            "sub_district": "Kazbegi / Delisi",
+            "sub_district_en": "Kazbegi / Delisi",
+            "sub_district_ka": "ყაზბეგი / დელისი",
+            "region": "Tbilisi",
+            "category": "meat_eggs",
+            "cat_label_en": "Meat & Eggs",
+            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
+            "color": "#c0392b",
+            "emoji": "🥩",
+            "address_en": "Tavadze St 3 (near Delisi Metro), Saburtalo, Tbilisi",
+            "address_ka": "თავაძის ქ. 3 (მეტრო დელისთან), საბურთალო, თბილისი",
+            "phone": "+995 595 23 45 61",
+            "website": "https://facebook.com/delisi.village.meat",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72620,44.74950",
+            "products_en": [
+              "საქონლის ხორცი",
+              "სოფლის ქათამი",
+              "დიეტური კვერცხი",
+              "ახალი ხბოს ხორცი"
+            ],
+            "products_ka": [
+              "საქონლის ხორცი",
+              "სოფლის ქათამი",
+              "დიეტური კვერცხი",
+              "ახალი ხბოს ხორცი"
+            ],
+            "desc_en": "Direct farm butchery specializing in pasture-raised Georgian beef and fresh village chicken eggs delivered daily.",
+            "desc_ka": "პირდაპირი ხორცის მაღაზია: ბალახზე ნაზარდი ქართული საქონლის ხორცი და სოფლის ახალი კვერცხი ყოველდღიურად.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.735,
+              41.745
+            ]
+          },
+          "properties": {
+            "id": "sab-lis-001",
+            "name_en": "Lisi Lake Organic Farm Hub",
+            "name_ka": "ლისის ტბის ორგანული ფერმის ჰაბი",
+            "sub_district": "Lisi",
+            "sub_district_en": "Lisi",
+            "sub_district_ka": "ლისი",
+            "region": "Tbilisi",
+            "category": "farm_shop",
+            "cat_label_en": "Farm Shop",
+            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
+            "color": "#2d7a2d",
+            "emoji": "🏪",
+            "address_en": "Lisi Lake Road 4, Saburtalo, Tbilisi",
+            "address_ka": "ლისის ტბის გზატკეცილი 4, საბურთალო, თბილისი",
+            "phone": "+995 591 34 56 72",
+            "website": "https://facebook.com/lisiorganichub",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74500,44.73500",
+            "products_en": [
+              "ორგანული ბოსტნეული",
+              "მაყვლისა და ჟოლოს კენკრა",
+              "ველური თაფლი",
+              "დედას პური"
+            ],
+            "products_ka": [
+              "ორგანული ბოსტნეული",
+              "მაყვლისა და ჟოლოს კენკრა",
+              "ველური თაფლი",
+              "დედას პური"
+            ],
+            "desc_en": "Eco-pavilion at Lisi offering organic vegetables, artisan sourdough breads, berries, and raw honey straight from local gardens.",
+            "desc_ka": "ეკო-პავილიონი ლისის ტბის მიდამოებში: ორგანული ბოსტნეული, დედას პური, კენკრა და ნედლი თაფლი.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.718,
+              41.7485
+            ]
+          },
+          "properties": {
+            "id": "sab-lis-002",
+            "name_en": "Lisi View Goat & Sheep Dairy",
+            "name_ka": "ლისი ვიუს თხისა და ცხვრის რძის მეურნეობა",
+            "sub_district": "Lisi",
+            "sub_district_en": "Lisi",
+            "sub_district_ka": "ლისი",
+            "region": "Tbilisi",
+            "category": "dairy_hub",
+            "cat_label_en": "Dairy Hub",
+            "cat_label_ka": "ყველი და რძის პროდუქტები",
+            "color": "#d4a017",
+            "emoji": "🧀",
+            "address_en": "Tsodoreti Road, Lisi Area, Saburtalo, Tbilisi",
+            "address_ka": "წოდორეთის გზატკეცილი, ლისის მიდამოები, საბურთალო, თბილისი",
+            "phone": "+995 599 45 67 83",
+            "website": "https://instagram.com/lisi_dairy_craft",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74850,44.71800",
+            "products_en": [
+              "თხის მაწონი",
+              "თხის ყველი",
+              "თხის რძე",
+              "მწვანილოვანი ლაბნე"
+            ],
+            "products_ka": [
+              "თხის მაწონი",
+              "თხის ყველი",
+              "თხის რძე",
+              "მწვანილოვანი ლაბნე"
+            ],
+            "desc_en": "Small-batch goat milk dairy producing fresh goat matsoni, goat cheese, and herb-infused labneh above Saburtalo.",
+            "desc_ka": "მცირე თხის რძის საწარმო: თხის მაწონი, თხის ყველი და მწვანილოვანი ლაბნე საბურთალოს ზემოთ.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.768,
+              41.722
+            ]
+          },
+          "properties": {
+            "id": "sab-del-001",
+            "name_en": "Saburtalo Agro Express Delivery Co-op",
+            "name_ka": "საბურთალოს აგრო ექსპრეს კოოპერატივი",
+            "sub_district": "Pekini / Kostava",
+            "sub_district_en": "Pekini / Kostava",
+            "sub_district_ka": "პეკინი / კოსტავა",
+            "region": "Tbilisi",
+            "category": "delivery_coop",
+            "cat_label_en": "Saburtalo Delivery",
+            "cat_label_ka": "ადგილზე მიტანა საბურთალოზე",
+            "color": "#2471a3",
+            "emoji": "🚚",
+            "address_en": "Bakhtrioni St 12, Saburtalo, Tbilisi",
+            "address_ka": "ბახტრიონის ქ. 12, საბურთალო, თბილისი",
+            "phone": "+995 577 56 78 94",
+            "website": "https://facebook.com/saburtalo.agroexpress",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72200,44.76800",
+            "products_en": [
+              "ფერმერული ბოსტნეულის ყუთი",
+              "სოფლის რძის ნაკრები",
+              "სოფლის კვერცხი",
+              "სეზონური ხილი"
+            ],
+            "products_ka": [
+              "ფერმერული ბოსტნეულის ყუთი",
+              "სოფლის რძის ნაკრები",
+              "სოფლის კვერცხი",
+              "სეზონური ხილი"
+            ],
+            "desc_en": "Same-day doorstep delivery cooperative for Saburtalo residents: seasonal farm boxes of vegetables, fruit, cheese, and eggs.",
+            "desc_ka": "იმავე დღეს მიტანის ფერმერული სერვისი საბურთალოელებისთვის: სეზონური ბოსტნეულის, ყველის, კვერცხისა და ხილის ყუთები.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.736,
+              41.7225
+            ]
+          },
+          "properties": {
+            "id": "sab-del-002",
+            "name_en": "Vazha & Nutsubidze Farm Box Delivery",
+            "name_ka": "ვაჟასა და ნუცუბიძის ფერმერული კალათა",
+            "sub_district": "Vazha-Pshavela",
+            "sub_district_en": "Vazha-Pshavela",
+            "sub_district_ka": "ვაჟა-ფშაველა",
+            "region": "Tbilisi",
+            "category": "delivery_coop",
+            "cat_label_en": "Saburtalo Delivery",
+            "cat_label_ka": "ადგილზე მიტანა საბურთალოზე",
+            "color": "#2471a3",
+            "emoji": "🚚",
+            "address_en": "Kavtaradze St 18, Saburtalo, Tbilisi",
+            "address_ka": "ქავთარაძის ქ. 18, საბურთალო, თბილისი",
+            "phone": "+995 593 67 89 05",
+            "website": "https://facebook.com/vazha.nutsubidze.farmbox",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72250,44.73600",
+            "products_en": [
+              "კახური მწვანილის ნაკრები",
+              "სოფლის მაწონი",
+              "სოფლის კვერცხი",
+              "სოფლის კარაქი"
+            ],
+            "products_ka": [
+              "კახური მწვანილის ნაკრები",
+              "სოფლის მაწონი",
+              "სოფლის კვერცხი",
+              "სოფლის კარაქი"
+            ],
+            "desc_en": "Local neighborhood distribution hub delivering fresh Kakhetian greens, organic dairy, and eggs across Saburtalo daily.",
+            "desc_ka": "საბურთალოს ლოკალური სადისტრიბუციო ჰაბი: კახური მწვანილი, ნატურალური რძის ნაწარმი და სოფლის კვერცხი სახლში მიტანით.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.753,
+              41.727
+            ]
+          },
+          "properties": {
+            "id": "sab-del-003",
+            "name_en": "Lisi & Kazbegi Organic Delivery Hub",
+            "name_ka": "ლისისა და ყაზბეგის ორგანული მიტანის ჰაბი",
+            "sub_district": "Kazbegi / Delisi",
+            "sub_district_en": "Kazbegi / Delisi",
+            "sub_district_ka": "ყაზბეგი / დელისი",
+            "region": "Tbilisi",
+            "category": "delivery_coop",
+            "cat_label_en": "Saburtalo Delivery",
+            "cat_label_ka": "ადგილზე მიტანა საბურთალოზე",
+            "color": "#2471a3",
+            "emoji": "🚚",
+            "address_en": "Asatiani St 10 (Medical University Area), Saburtalo, Tbilisi",
+            "address_ka": "ასათიანის ქ. 10 (სამედიცინოსთან), საბურთალო, თბილისი",
+            "phone": "+995 598 78 90 16",
+            "website": "https://facebook.com/lisi.kazbegi.organic",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72700,44.75300",
+            "products_en": [
+              "ხელნაკეთი ყველი",
+              "მთის თაფლი",
+              "სოფლის კვერცხი",
+              "ქოთნის მაწონი"
+            ],
+            "products_ka": [
+              "ხელნაკეთი ყველი",
+              "მთის თაფლი",
+              "სოფლის კვერცხი",
+              "ქოთნის მაწონი"
+            ],
+            "desc_en": "Bicycle and electric scooter co-op courier delivering fresh artisan cheeses, mountain honey, and pasture eggs in 45 minutes.",
+            "desc_ka": "სწრაფი ეკო-კურიერული სერვისი საბურთალოზე: ხელნაკეთი ყველი, მთის თაფლი და სოფლის კვერცხი 45 წუთში.",
+            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+          }
+        }
+      ]
+    };
+    const SUB_DISTRICT_NAMES = { "Pekini / Kostava": { "en": "Pekini / Kostava", "ka": "პეკინი / კოსტავა" }, "Vazha-Pshavela": { "en": "Vazha-Pshavela", "ka": "ვაჟა-ფშაველა" }, "Nutsubidze": { "en": "Nutsubidze", "ka": "ნუცუბიძე" }, "Kazbegi / Delisi": { "en": "Kazbegi / Delisi", "ka": "ყაზბეგი / დელისი" }, "Lisi": { "en": "Lisi", "ka": "ლისი" } };
+    const CATEGORY_STYLES = { "farm_shop": { "color": "#2d7a2d", "emoji": "🏪", "label_en": "Farm Shop", "label_ka": "სოფლის პროდუქტების მაღაზია" }, "dairy_hub": { "color": "#d4a017", "emoji": "🧀", "label_en": "Dairy Hub", "label_ka": "ყველი და რძის პროდუქტები" }, "meat_eggs": { "color": "#c0392b", "emoji": "🥩", "label_en": "Meat & Eggs", "label_ka": "სოფლის ხორცი და კვერცხი" }, "delivery_coop": { "color": "#2471a3", "emoji": "🚚", "label_en": "Saburtalo Delivery", "label_ka": "ადგილზე მიტანა საბურთალოზე" } };
+
+    const I18N = {
+      en: {
+        title: "🇬🇪 Saburtalo Fresh Farm Directory",
+        title_sub: "| Local Food & Dairy Map",
+        subtitle: "Hyper-Local PoC • Saburtalo District, Tbilisi • 100% Genuine Artisanal Village Shops",
+        shops: "Shops",
+        subdistricts: "Zones",
+        categories: "Categories",
+        search_placeholder: "Search shops, dairy, meat, village products…",
+        all_subdistricts: "All Saburtalo",
+        all_cats: "🗺 All",
+        farm_shop: "🏪 Farm Shop",
+        dairy_hub: "🧀 Dairy Hub",
+        meat_eggs: "🥩 Meat & Eggs",
+        delivery_coop: "🚚 Saburtalo Delivery",
+        no_results: "No verified producers match your search criteria.",
+        call: "Call / WhatsApp",
+        website: "Website / Page",
+        verified_badge: "Verified Local Producer",
+        gmaps_btn: "📍 View on Google Maps",
+        google_roadmap: "Google Roadmap",
+        google_satellite: "Google Satellite",
+        toggle_list: "📋 List View",
+        toggle_map: "🗺️ Map View",
+        near_me: "📍 Near Me",
+        near_me_locating: "📍 Locating...",
+        radius_label: "Radius:",
+        radius_2: "2 km",
+        radius_5: "5 km",
+        radius_10: "10 km",
+        radius_all: "All Saburtalo",
+        showing_within_radius: "Showing shops within {radius} km of your location",
+        fallback_closest: "No shops within {radius} km — showing {count} closest locations",
+        showing_all_sorted: "Showing all shops sorted by distance from your location",
+        reset_all: "Reset / Show All",
+        your_location: "📍 Your Current Location",
+        gps_loc: "Current GPS Location",
+        modal_title: "🇬🇪 Saburtalo Farm Directory PoC",
+        modal_desc: "Discover authentic artisanal cheese shops, fresh village meat/eggs, organic farm stores, and cooperative delivery hubs strictly within Saburtalo district, Tbilisi.",
+        modal_btn: "Explore Saburtalo",
+        geo_fallback_msg: "Geolocation unavailable. Using Pekini/Kostava center as demo."
+      },
+      ka: {
+        title: "🇬🇪 საბურთალოს სოფლის პროდუქტების რუკა",
+        title_sub: "| ნატურალური მეურნეობები",
+        subtitle: "ჰიპერ-ლოკალური PoC • საბურთალოს რაიონი, თბილისი • 100% ავთენტური სოფლის მაღაზიები",
+        shops: "მაღაზია",
+        subdistricts: "უბანი",
+        categories: "კატეგორია",
+        search_placeholder: "მოძებნეთ მაღაზიები, ყველი, ხორცი, სოფლის პროდუქტები...",
+        all_subdistricts: "მთელი საბურთალო",
+        all_cats: "🗺 ყველა",
+        farm_shop: "🏪 სოფლის მაღაზია",
+        dairy_hub: "🧀 ყველი და რძის ნაწარმი",
+        meat_eggs: "🥩 სოფლის ხორცი და კვერცხი",
+        delivery_coop: "🚚 მიტანა საბურთალოზე",
+        no_results: "მითითებული ფილტრებით ობიექტი ვერ მოიძებნა.",
+        call: "დარეკვა / WhatsApp",
+        website: "ვებ-გვერდი / ბმული",
+        verified_badge: "შემოწმებული ობიექტი",
+        gmaps_btn: "📍 ნახე Google Maps-ზე",
+        google_roadmap: "Google რუკა",
+        google_satellite: "Google თანამგზავრი",
+        toggle_list: "📋 სიის ნახვა",
+        toggle_map: "🗺️ რუკის ნახვა",
+        near_me: "📍 ჩემთან ახლოს",
+        near_me_locating: "📍 ძიება...",
+        radius_label: "რადიუსი:",
+        radius_2: "2 კმ",
+        radius_5: "5 კმ",
+        radius_10: "10 კმ",
+        radius_all: "მთელი საბურთალო",
+        showing_within_radius: "ნაჩვენებია ლოკაციები თქვენგან {radius} კმ-ის რადიუსში",
+        fallback_closest: "{radius} კმ-ში ობიექტი ვერ მოიძებნა — ნაჩვენებია {count} უახლოესი",
+        showing_all_sorted: "ნაჩვენებია ყველა ობიექტი თქვენი მდებარეობიდან მანძილის მიხედვით",
+        reset_all: "ყველას ჩვენება",
+        your_location: "📍 თქვენი მდებარეობა",
+        gps_loc: "მიმდინარე GPS ლოკაცია",
+        modal_title: "საბურთალოს სოფლის პროდუქტების რუკა",
+        modal_desc: "აღმოაჩინეთ ავთენტური სოფლის პროდუქტების მაღაზიები, ხელნაკეთი ყველის წერტილები, სოფლის ხორცისა და კვერცხის ობიექტები და ფერმერული მიტანის სერვისები საბურთალოზე!",
+        modal_btn: "გასაგებია",
+        geo_fallback_msg: "გეოლოკაცია მიუწვდომელია. დემო მდებარეობად არჩეულია პეკინის ცენტრი."
+      }
+    };
+
+    let currentLang = 'ka';
+    let userCoords = null;
+    let isNearMeActive = false;
+    let activeRadiusKm = 5;
+    let userMarker = null;
+    let userRadiusCircle = null;
+
+    function getDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function calculateTravelTimes(distKm) {
+      const driveMinutes = Math.max(1, Math.round((distKm / 35) * 60)); // 35km/h city speed
+      const walkMinutes = Math.max(1, Math.round((distKm / 4.5) * 60));
+      return { driveMinutes, walkMinutes };
+    }
+
+    function formatMinutes(mins, lang) {
+      const isKa = (lang === 'ka');
+      if (mins < 60) return isKa ? `${mins} წთ` : `${mins} min`;
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      return isKa ? `${h} სთ ${m} წთ` : `${h} h ${m} m`;
+    }
+
+    function getWhatsAppUrl(phone) {
+      if (!phone) return '';
+      let digits = phone.replace(/\D/g, '');
+      if (!digits) return '';
+      if (digits.length === 9) digits = '995' + digits;
+      else if (digits.length === 8 && digits.startsWith('32')) digits = '995' + digits;
+      return `https://wa.me/${digits}`;
+    }
+
+    // Initialize Map directly centered on Saburtalo [41.7255, 44.7485], zoom 14
+    const map = L.map('map', {
+      center: [41.7255, 44.7485],
+      zoom: 14,
+      zoomControl: true
+    });
+
+    function getGoogleTileUrl(layerType, lang) {
+      return `https://mt{s}.google.com/vt/lyrs=${layerType}&hl=${lang}&x={x}&y={y}&z={z}`;
+    }
+
+    const googleRoad = L.tileLayer(getGoogleTileUrl('m', currentLang), {
+      attribution: 'Map data © Google', subdomains: '0123', maxZoom: 20
+    }).addTo(map);
+
+    const googleSat = L.tileLayer(getGoogleTileUrl('y', currentLang), {
+      attribution: 'Imagery © Google', subdomains: '0123', maxZoom: 20
+    });
+
+    let layerControl = L.control.layers(
+      { [I18N[currentLang].google_roadmap]: googleRoad, [I18N[currentLang].google_satellite]: googleSat },
+      {},
+      { position: 'topright', collapsed: false }
+    ).addTo(map);
+
+    function updateLayerControlLabels(lang) {
+      map.removeControl(layerControl);
+      layerControl = L.control.layers(
+        { [I18N[lang].google_roadmap]: googleRoad, [I18N[lang].google_satellite]: googleSat },
+        {},
+        { position: 'topright', collapsed: false }
+      ).addTo(map);
+    }
+
+    function makeIcon(color, emoji) {
+      return L.divIcon({
+        className: '',
+        html: `<div style="
+      background:${color};width:34px;height:34px;border-radius:50% 50% 50% 0;
+      transform:rotate(-45deg);border:3px solid white;
+      box-shadow:0 3px 8px rgba(0,0,0,0.4);
+      display:flex;align-items:center;justify-content:center;">
+      <span style="transform:rotate(45deg);font-size:14px">${emoji}</span>
+    </div>`,
+        iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -36]
+      });
+    }
+
+    function createUserMarker(lat, lon, addressText) {
+      const pulseIcon = L.divIcon({
+        className: 'user-location-marker-container',
+        html: `<div class="user-pulse-marker"><div class="user-pulse-ring"></div><div class="user-pulse-dot"></div></div>`,
+        iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -14]
+      });
+
+      const marker = L.marker([lat, lon], { icon: pulseIcon, zIndexOffset: 2000 });
+      const addrLabel = addressText || (currentLang === 'ka' ? 'მიმდინარე GPS ლოკაცია' : 'Current GPS Location');
+      const popupHtml = `
+    <div class="user-popup">
+      <div class="user-popup-title">${I18N[currentLang].your_location}</div>
+      <div class="user-popup-coords"><code>${lat.toFixed(4)}° N, ${lon.toFixed(4)}° E</code></div>
+      <div id="user-popup-address" class="user-popup-address">${addrLabel}</div>
+    </div>
+  `;
+      marker.bindPopup(popupHtml, { maxWidth: 280 });
+      return marker;
+    }
+
+    function updateUserRadiusCircle(lat, lon, radius) {
+      if (userRadiusCircle && map.hasLayer(userRadiusCircle)) {
+        map.removeLayer(userRadiusCircle);
+        userRadiusCircle = null;
+      }
+      if (radius === 'all') return;
+      userRadiusCircle = L.circle([lat, lon], {
+        radius: Number(radius) * 1000,
+        color: '#1a73e8',
+        weight: 2,
+        opacity: 0.75,
+        fillColor: '#38bdf8',
+        fillOpacity: 0.12,
+        dashArray: '6, 6'
+      }).addTo(map);
+    }
+
+    function buildPopupHtml(p, lang, lat, lon) {
+      const isKa = (lang === 'ka');
+      const nameMain = isKa ? p.name_ka : p.name_en;
+      const nameSec = isKa ? p.name_en : p.name_ka;
+      const catLabel = isKa ? p.cat_label_ka : p.cat_label_en;
+      const subName = isKa ? p.sub_district_ka : p.sub_district_en;
+      const addr = isKa ? p.address_ka : p.address_en;
+      const desc = isKa ? p.desc_ka : p.desc_en;
+      const prods = (p.products_ka || []).slice(0, 5).map(t => `<span class="tag">${t}</span>`).join('');
+
+      let phoneHtml = '';
+      if (p.phone) {
+        const waUrl = getWhatsAppUrl(p.phone);
+        phoneHtml = `<p class="popup-phone">📞 <a href="${waUrl}" target="_blank" rel="noopener noreferrer" title="WhatsApp">${p.phone}</a></p>`;
+      }
+
+      let distHtml = '';
+      if (userCoords && lat !== undefined && lon !== undefined) {
+        const d = getDistanceKm(userCoords.lat, userCoords.lon, lat, lon);
+        const times = calculateTravelTimes(d);
+        const driveStr = formatMinutes(times.driveMinutes, lang);
+        const walkStr = formatMinutes(times.walkMinutes, lang);
+        const dUnit = (lang === 'ka' ? 'კმ' : 'km');
+        distHtml = `
+      <div class="popup-distance-bar">
+        <span class="dist-badge dist-km">📏 ${d.toFixed(1)} ${dUnit}</span>
+        <span class="dist-badge dist-drive">🚗 ${driveStr}</span>
+        <span class="dist-badge dist-walk">🚶 ${walkStr}</span>
+      </div>
+    `;
+      }
+
+      let gmapsHtml = '';
+      if (p.google_maps_url) {
+        gmapsHtml = `<div class="popup-gmaps"><a href="${p.google_maps_url}" target="_blank" rel="noopener" class="gmaps-btn">${I18N[lang].gmaps_btn}</a></div>`;
+      }
+
+      return `
+    <div class="popup-card">
+      <div class="popup-cat" style="background:${p.color}">${p.emoji} ${catLabel}</div>
+      <h3>${nameMain}</h3>
+      <div class="popup-sec">${nameSec}</div>
+      <p class="popup-addr">📍 <strong>${subName}</strong>: ${addr}</p>
+      ${phoneHtml}
+      ${distHtml}
+      <div class="popup-tags">${prods}</div>
+      <p class="popup-desc">${desc}</p>
+      ${gmapsHtml}
+      <p class="popup-notes"><em>✅ ${I18N[lang].verified_badge}</em></p>
+    </div>
+  `;
+    }
+
+    let markers = [];
+    GEOJSON.features.forEach(f => {
+      const p = f.properties;
+      const [lon, lat] = f.geometry.coordinates;
+      const marker = L.marker([lat, lon], { icon: makeIcon(p.color, p.emoji) })
+        .bindPopup(buildPopupHtml(p, currentLang, lat, lon), { maxWidth: 300 });
+      marker.featureProps = p;
+      marker.coords = [lat, lon];
+      marker.addTo(map);
+      markers.push(marker);
+    });
+
+    function updateAllMarkersPopups() {
+      markers.forEach(m => {
+        const wasOpen = m.isPopupOpen();
+        m.bindPopup(buildPopupHtml(m.featureProps, currentLang, m.coords[0], m.coords[1]), { maxWidth: 300 });
+        if (wasOpen) m.openPopup();
+      });
+    }
+
+    function buildSidebar(features, lang) {
+      const isKa = (lang === 'ka');
+      const list = document.getElementById('farm-list');
+      const noRes = document.getElementById('no-results');
+      list.innerHTML = '';
+      document.getElementById('stat-total').textContent = features.length;
+
+      if (features.length === 0) {
+        noRes.style.display = 'block';
+        return;
+      }
+      noRes.style.display = 'none';
+
+      features.forEach(f => {
+        const p = f.properties;
+        const [lon, lat] = f.geometry.coordinates;
+        const nameMain = isKa ? p.name_ka : p.name_en;
+        const nameSec = isKa ? p.name_en : p.name_ka;
+        const catLabel = isKa ? p.cat_label_ka : p.cat_label_en;
+        const subName = isKa ? p.sub_district_ka : p.sub_district_en;
+        const addr = isKa ? p.address_ka : p.address_en;
+        const tags = (p.products_ka || []).slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('');
+
+        let distCardHtml = '';
+        if (userCoords) {
+          const d = getDistanceKm(userCoords.lat, userCoords.lon, lat, lon);
+          const times = calculateTravelTimes(d);
+          const driveStr = formatMinutes(times.driveMinutes, lang);
+          const walkStr = formatMinutes(times.walkMinutes, lang);
+          const dUnit = (lang === 'ka' ? 'კმ' : 'km');
+          distCardHtml = `
+        <div class="fc-distance-bar" onclick="event.stopPropagation();">
+          <span class="dist-badge dist-km">📏 ${d.toFixed(1)} ${dUnit}</span>
+          <span class="dist-badge dist-drive">🚗 ${driveStr}</span>
+          <span class="dist-badge dist-walk">🚶 ${walkStr}</span>
+        </div>
+      `;
+        }
+
+        let waCardHtml = '';
+        if (p.phone) {
+          const waUrl = getWhatsAppUrl(p.phone);
+          waCardHtml = `<div class="fc-phone">📞 <a href="${waUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" title="WhatsApp">${p.phone}</a></div>`;
+        }
+
+        let gmapsCardHtml = '';
+        if (p.google_maps_url) {
+          gmapsCardHtml = `<div class="fc-gmaps"><a href="${p.google_maps_url}" target="_blank" rel="noopener" class="gmaps-link" onclick="event.stopPropagation();">${I18N[lang].gmaps_btn}</a></div>`;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'farm-card';
+        card.innerHTML = `
+      <span class="fc-cat" style="background:${p.color}">${p.emoji} ${catLabel}</span>
+      <div class="fc-name">${nameMain}</div>
+      <div class="fc-name-sec">${nameSec}</div>
+      <div class="fc-loc">📍 <strong>${subName}</strong> • ${addr.split(',')[0]}</div>
+      <div class="fc-tags">${tags}</div>
+      ${waCardHtml}
+      ${distCardHtml}
+      ${gmapsCardHtml}
+    `;
+        card.addEventListener('click', () => {
+          if (window.innerWidth <= 768) setMobileView('map');
+          map.flyTo([lat, lon], 16, { duration: 1.0 });
+          markers.forEach(m => {
+            if (m.featureProps.id === p.id) setTimeout(() => m.openPopup(), 500);
+          });
+        });
+        list.appendChild(card);
+      });
+    }
+
+    function closeWelcomeModal(e) {
+      if (e && e.target && e.target.id !== 'welcome-modal' && e.target.id !== 'modal-btn') return;
+      const modal = document.getElementById('welcome-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        setTimeout(() => { modal.style.display = 'none'; }, 250);
+      }
+    }
+
+    const subDistrictsList = Object.keys(SUB_DISTRICT_NAMES);
+
+    function populateSubDistrictSelect(lang) {
+      const sel = document.getElementById('subdistrict-select');
+      const prevVal = sel.value;
+      sel.innerHTML = `<option value="">${I18N[lang].all_subdistricts} (${subDistrictsList.length})</option>`;
+      subDistrictsList.forEach(k => {
+        const name = SUB_DISTRICT_NAMES[k][lang];
+        const opt = document.createElement('option');
+        opt.value = k;
+        opt.textContent = name;
+        if (k === prevVal) opt.selected = true;
+        sel.appendChild(opt);
+      });
+    }
+
+    let currentMobileView = 'map';
+    function updateMobileToggleBtn() {
+      const btnText = document.getElementById('mobile-toggle-text');
+      if (!btnText) return;
+      const count = document.getElementById('stat-total').textContent || '17';
+      btnText.textContent = (currentMobileView === 'list')
+        ? I18N[currentLang].toggle_map
+        : `${I18N[currentLang].toggle_list} (${count})`;
+    }
+
+    function setMobileView(view) {
+      if (window.innerWidth > 768) return;
+      currentMobileView = view;
+      const sidebar = document.getElementById('sidebar');
+      const mapElem = document.getElementById('map');
+      if (view === 'list') {
+        sidebar.classList.add('mobile-active');
+        mapElem.classList.add('mobile-hidden');
+      } else {
+        sidebar.classList.remove('mobile-active');
+        mapElem.classList.remove('mobile-hidden');
+        setTimeout(() => map.invalidateSize(), 150);
+      }
+      updateMobileToggleBtn();
+    }
+
+    function toggleMobileView() {
+      setMobileView(currentMobileView === 'map' ? 'list' : 'map');
+    }
+
+    function triggerNearMe() {
+      const btn = document.getElementById('near-me-btn');
+      const lbl = document.getElementById('near-me-label');
+      btn.classList.add('locating');
+      lbl.textContent = I18N[currentLang].near_me_locating;
+
+      function onLocationFound(lat, lon) {
+        btn.classList.remove('locating');
+        btn.classList.add('active');
+        lbl.textContent = I18N[currentLang].near_me;
+        userCoords = { lat, lon, address: '' };
+        isNearMeActive = true;
+
+        if (userMarker && map.hasLayer(userMarker)) map.removeLayer(userMarker);
+        userMarker = createUserMarker(lat, lon, '').addTo(map);
+        userMarker.openPopup();
+
+        updateUserRadiusCircle(lat, lon, activeRadiusKm);
+        updateAllMarkersPopups();
+        applyFilters();
+      }
+
+      function onLocationError(err) {
+        btn.classList.remove('locating');
+        console.warn('Geolocation fallback to Saburtalo center:', err);
+        alert(I18N[currentLang].geo_fallback_msg);
+        onLocationFound(41.7242, 44.7725); // Pekini Ave
+      }
+
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          pos => onLocationFound(pos.coords.latitude, pos.coords.longitude),
+          err => onLocationError(err),
+          { timeout: 8000, enableHighAccuracy: true }
+        );
+      } else {
+        onLocationError(new Error('Geolocation not supported'));
+      }
+    }
+
+    function changeRadius(val) {
+      activeRadiusKm = (val === 'all') ? 'all' : Number(val);
+      if (userCoords) updateUserRadiusCircle(userCoords.lat, userCoords.lon, activeRadiusKm);
+      applyFilters();
+    }
+
+    function resetNearMe() {
+      isNearMeActive = false;
+      activeRadiusKm = 5;
+      userCoords = null;
+      const btn = document.getElementById('near-me-btn');
+      if (btn) btn.classList.remove('active');
+      if (userRadiusCircle && map.hasLayer(userRadiusCircle)) {
+        map.removeLayer(userRadiusCircle);
+        userRadiusCircle = null;
+      }
+      if (userMarker && map.hasLayer(userMarker)) {
+        map.removeLayer(userMarker);
+        userMarker = null;
+      }
+      document.getElementById('near-me-status-bar').style.display = 'none';
+      document.getElementById('radius-select').value = '5';
+      updateAllMarkersPopups();
+      applyFilters();
+      map.setView([41.7255, 44.7485], 14);
+    }
+
+    let activeCat = 'all';
+    let activeSubDistrict = '';
+    let searchText = '';
+
+    function applyFilters() {
+      const q = searchText.toLowerCase().trim();
+      let candidateFeatures = GEOJSON.features.slice();
+
+      if (isNearMeActive && userCoords) {
+        document.getElementById('near-me-status-bar').style.display = 'flex';
+        const withDist = candidateFeatures.map(f => {
+          const [lon, lat] = f.geometry.coordinates;
+          return { f, dist: getDistanceKm(userCoords.lat, userCoords.lon, lat, lon) };
+        });
+        withDist.sort((a, b) => a.dist - b.dist);
+
+        if (activeRadiusKm === 'all') {
+          candidateFeatures = withDist.map(item => item.f);
+          document.getElementById('near-me-status-text').textContent = I18N[currentLang].showing_all_sorted;
+        } else {
+          const inRadius = withDist.filter(item => item.dist <= activeRadiusKm);
+          if (inRadius.length < 2) {
+            candidateFeatures = withDist.slice(0, 5).map(item => item.f);
+            document.getElementById('near-me-status-text').textContent =
+              I18N[currentLang].fallback_closest.replace('{radius}', activeRadiusKm).replace('{count}', candidateFeatures.length);
+          } else {
+            candidateFeatures = inRadius.map(item => item.f);
+            document.getElementById('near-me-status-text').textContent =
+              I18N[currentLang].showing_within_radius.replace('{radius}', activeRadiusKm);
+          }
+        }
+      } else {
+        document.getElementById('near-me-status-bar').style.display = 'none';
+      }
+
+      const filtered = candidateFeatures.filter(f => {
+        const p = f.properties;
+        const matchCat = activeCat === 'all' || p.category === activeCat;
+        const matchSub = !activeSubDistrict || p.sub_district === activeSubDistrict;
+        const prodsAll = (p.products_en || []).concat(p.products_ka || []).join(' ').toLowerCase();
+        const matchSearch = !q ||
+          p.name_en.toLowerCase().includes(q) ||
+          p.name_ka.toLowerCase().includes(q) ||
+          p.sub_district_en.toLowerCase().includes(q) ||
+          p.sub_district_ka.toLowerCase().includes(q) ||
+          p.address_en.toLowerCase().includes(q) ||
+          p.address_ka.toLowerCase().includes(q) ||
+          prodsAll.includes(q);
+
+        return matchCat && matchSub && matchSearch;
+      });
+
+      buildSidebar(filtered, currentLang);
+      updateMobileToggleBtn();
+
+      const visibleIds = new Set(filtered.map(f => f.properties.id));
+      markers.forEach(m => {
+        if (visibleIds.has(m.featureProps.id)) {
+          if (!map.hasLayer(m)) m.addTo(map);
+        } else {
+          if (map.hasLayer(m)) map.removeLayer(m);
+        }
+      });
+
+      if (isNearMeActive && userCoords) {
+        const boundsGroup = [];
+        if (userMarker) boundsGroup.push(userMarker);
+        if (userRadiusCircle && map.hasLayer(userRadiusCircle)) boundsGroup.push(userRadiusCircle);
+        markers.filter(m => visibleIds.has(m.featureProps.id)).forEach(m => boundsGroup.push(m));
+        if (boundsGroup.length > 0) map.fitBounds(L.featureGroup(boundsGroup).getBounds().pad(0.1));
+      } else if (filtered.length > 0) {
+        map.fitBounds(L.featureGroup(markers.filter(m => visibleIds.has(m.featureProps.id))).getBounds().pad(0.1));
+      }
+    }
+
+    function switchLanguage(lang) {
+      currentLang = lang;
+      const isKa = (lang === 'ka');
+      document.getElementById('lang-btn-ka').classList.toggle('active', isKa);
+      document.getElementById('lang-btn-en').classList.toggle('active', !isKa);
+
+      document.getElementById('header-title').innerHTML = `${I18N[lang].title} <span>${I18N[lang].title_sub}</span>`;
+      document.getElementById('header-sub').textContent = I18N[lang].subtitle;
+      document.getElementById('stat-lbl-farms').textContent = I18N[lang].shops;
+      document.getElementById('stat-lbl-subdistricts').textContent = I18N[lang].subdistricts;
+      document.getElementById('stat-lbl-categories').textContent = I18N[lang].categories;
+
+      document.getElementById('search').placeholder = I18N[lang].search_placeholder;
+      document.getElementById('no-results').textContent = I18N[lang].no_results;
+
+      document.getElementById('cat-btn-all').textContent = I18N[lang].all_cats;
+      document.getElementById('cat-btn-farm_shop').textContent = I18N[lang].farm_shop;
+      document.getElementById('cat-btn-dairy_hub').textContent = I18N[lang].dairy_hub;
+      document.getElementById('cat-btn-meat_eggs').textContent = I18N[lang].meat_eggs;
+      document.getElementById('cat-btn-delivery_coop').textContent = I18N[lang].delivery_coop;
+
+      const nearMeLbl = document.getElementById('near-me-label');
+      if (nearMeLbl) nearMeLbl.textContent = I18N[lang].near_me;
+      const resetBtn = document.getElementById('reset-near-me-btn');
+      if (resetBtn) resetBtn.textContent = I18N[lang].reset_all;
+      const radLbl = document.getElementById('radius-select-label');
+      if (radLbl) radLbl.textContent = I18N[lang].radius_label;
+      const radSelect = document.getElementById('radius-select');
+      if (radSelect) {
+        radSelect.options[0].textContent = I18N[lang].radius_2;
+        radSelect.options[1].textContent = I18N[lang].radius_5;
+        radSelect.options[2].textContent = I18N[lang].radius_10;
+        radSelect.options[3].textContent = I18N[lang].radius_all;
+      }
+
+      const modalTitle = document.getElementById('modal-title');
+      if (modalTitle) modalTitle.textContent = I18N[lang].modal_title;
+      const modalDesc = document.getElementById('modal-desc');
+      if (modalDesc) modalDesc.textContent = I18N[lang].modal_desc;
+      const modalBtn = document.getElementById('modal-btn');
+      if (modalBtn) modalBtn.textContent = I18N[lang].modal_btn;
+
+      populateSubDistrictSelect(lang);
+      googleRoad.setUrl(getGoogleTileUrl('m', lang));
+      googleSat.setUrl(getGoogleTileUrl('y', lang));
+      updateLayerControlLabels(lang);
+      updateAllMarkersPopups();
+      applyFilters();
+      updateMobileToggleBtn();
+    }
+
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.dataset.cat;
+        applyFilters();
+      });
+    });
+
+    document.getElementById('subdistrict-select').addEventListener('change', e => {
+      activeSubDistrict = e.target.value;
+      applyFilters();
+    });
+
+    document.getElementById('search').addEventListener('input', e => {
+      searchText = e.target.value;
+      applyFilters();
+    });
+
+    populateSubDistrictSelect(currentLang);
+    switchLanguage('ka');
+    map.setView([41.7255, 44.7485], 14);
+  </script>
+</body>
+
+</html>

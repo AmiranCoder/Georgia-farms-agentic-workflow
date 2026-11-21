@@ -159,3 +159,24 @@ Any coordinate falling outside this boundary fails evaluation and must either be
 
 ### Published Map Feature (Embedded in `output/georgia_farms_map.html`)
 Contains geocoded `lat` / `lon` conforming to `41.0 <= lat <= 43.5` and `40.0 <= lon <= 46.7`, custom Leaflet pin markers color-coded by category, searchable UI drawer, filter toggles by region and category, and bilingual popups.
+
+
+---
+
+## 4. Saburtalo District Hyper-Local PoC
+
+### 4.1 Geographic Bounding Box
+- **Latitude**: `41.7050° N` to `41.7550° N`
+- **Longitude**: `44.7000° E` to `44.7900° E`
+- **Map Center**: `[41.7255, 44.7485]`, Zoom `14`
+- **Sub-districts**: Pekini / Kostava, Vazha-Pshavela, Nutsubidze, Kazbegi / Delisi, Lisi
+
+### 4.2 Hyper-Local Categories
+- `farm_shop` (სოფლის პროდუქტების მაღაზია) — `#2d7a2d` 🏪
+- `dairy_hub` (ყველი და რძის პროდუქტები) — `#d4a017` 🧀
+- `meat_eggs` (სოფლის ხორცი და კვერცხი) — `#c0392b` 🥩
+- `delivery_coop` (ადგილზე მიტანა საბურთალოზე) — `#2471a3` 🚚
+
+### 4.3 Reflection Rejection Criteria
+Reject any entity matching commercial chains:
+- Carrefour, Agrohub, Goodwill, Nikora, Spar, Fresco, Magniti, 2 Nabiji, Smart.

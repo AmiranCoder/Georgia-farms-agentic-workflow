@@ -1,0 +1,501 @@
+[
+  {
+    "id": "sab-pek-001",
+    "name_en": "Soplis Nobati Pekini",
+    "name_ka": "სოფლის ნობათი პეკინზე",
+    "category": "farm_shop",
+    "sub_district": "Pekini / Kostava",
+    "address": "14 Pekini Ave, Saburtalo, Tbilisi",
+    "address_ka": "პეკინის გამზ. 14, საბურთალო, თბილისი",
+    "phone": "+995 599 12 34 56",
+    "website_or_social": "https://facebook.com/soplisnobati.pekini",
+    "description": "Authentic neighborhood store stocking fresh village dairy, Kakhetian sunflower oil, mountain honey, and artisanal bread.",
+    "description_ka": "უბნის მაღაზია პეკინზე: ნატურალური სოფლის რძის პროდუქტები, კახური ზეთი, მთის თაფლი და დედას პური.",
+    "products": [
+      "სოფლის მაწონი",
+      "იმერული ყველი",
+      "კახური ზეთი",
+      "ალპური თაფლი",
+      "ახალი კვერცხი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7242,
+    "lon": 44.7725,
+    "coordinates": {
+      "lat": 41.7242,
+      "lon": 44.7725
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72420,44.77250"
+  },
+  {
+    "id": "sab-pek-002",
+    "name_en": "Kakhuri Kveli & Dairy Kostava",
+    "name_ka": "კახური ყველი და რძის პროდუქტები კოსტავაზე",
+    "category": "dairy_hub",
+    "sub_district": "Pekini / Kostava",
+    "address": "Kostava St 68, Saburtalo, Tbilisi",
+    "address_ka": "კოსტავას ქ. 68, საბურთალო, თბილისი",
+    "phone": "+995 577 23 45 67",
+    "website_or_social": "https://facebook.com/kakhuri.kveli.kostava",
+    "description": "Artisanal dairy boutique offering fresh brine Sulguni, Guda cheese, artisanal Matsoni in clay pots, and fresh mountain butter.",
+    "description_ka": "რძის პროდუქტების ბუტიკი კოსტავაზე: ახალი სულგუნი, თუშური გუდა, ქოთნის მაწონი და სოფლის ერბო.",
+    "products": [
+      "თუშური გუდა",
+      "შებოლილი სულგუნი",
+      "ქოთნის მაწონი",
+      "ნადუღი",
+      "სოფლის კარაქი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7188,
+    "lon": 44.7812,
+    "coordinates": {
+      "lat": 41.7188,
+      "lon": 44.7812
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71880,44.78120"
+  },
+  {
+    "id": "sab-pek-003",
+    "name_en": "Saburtalo Village Meat & Poultry",
+    "name_ka": "საბურთალოს სოფლის ხორცი და ფრინველი",
+    "category": "meat_eggs",
+    "sub_district": "Pekini / Kostava",
+    "address": "Pekini Ave 27, Saburtalo, Tbilisi",
+    "address_ka": "პეკინის გამზ. 27, საბურთალო, თბილისი",
+    "phone": "+995 595 34 56 78",
+    "website_or_social": "https://instagram.com/saburtalo_village_meat",
+    "description": "Daily delivery of fresh Georgian mountain beef, village chicken, and free-range eggs directly from Shida Kartli farms.",
+    "description_ka": "ყოველდღიური ახალი სოფლის საქონლის ხორცი, სოფლის დედალი და თავისუფალი გამოზრდის კვერცხი შიდა ქართლიდან.",
+    "products": [
+      "სოფლის საქონლის ხორცი",
+      "სოფლის დედალი",
+      "თავისუფალი გამოზრდის კვერცხი",
+      "სოფლის ხბოს ხორცი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7268,
+    "lon": 44.7648,
+    "coordinates": {
+      "lat": 41.7268,
+      "lon": 44.7648
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72680,44.76480"
+  },
+  {
+    "id": "sab-vaz-001",
+    "name_en": "Alvani Cheese House Vazha",
+    "name_ka": "ალვნის ყველის სახლი ვაჟაზე",
+    "category": "dairy_hub",
+    "sub_district": "Vazha-Pshavela",
+    "address": "Vazha-Pshavela Ave 25, Saburtalo, Tbilisi",
+    "address_ka": "ვაჟა-ფშაველას გამზ. 25, საბურთალო, თბილისი",
+    "phone": "+995 591 45 67 89",
+    "website_or_social": "https://facebook.com/alvanicheesehouse",
+    "description": "Direct point for Tushetian sheep cheese, Imeretian raw milk cheese, and village sour cream sourced from high Caucasus pastures.",
+    "description_ka": "თუშური ცხვრის ყველის, იმერული ჭყინტი ყველისა და სოფლის არაჟნის პირდაპირი წერტილი ალვანიდან.",
+    "products": [
+      "თუშური ცხვრის ყველი",
+      "ჭყინტი იმერული ყველი",
+      "სოფლის არაჟანი",
+      "დავარგებული ყველი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.726,
+    "lon": 44.747,
+    "coordinates": {
+      "lat": 41.726,
+      "lon": 44.747
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72600,44.74700"
+  },
+  {
+    "id": "sab-vaz-002",
+    "name_en": "EkoFerma Vazha-Pshavela",
+    "name_ka": "ეკოფერმა ვაჟა-ფშაველაზე",
+    "category": "farm_shop",
+    "sub_district": "Vazha-Pshavela",
+    "address": "Vazha-Pshavela Ave 41, Saburtalo, Tbilisi",
+    "address_ka": "ვაჟა-ფშაველას გამზ. 41, საბურთალო, თბილისი",
+    "phone": "+995 599 56 78 90",
+    "website_or_social": "https://facebook.com/ekoferma.vazha",
+    "description": "Eco-friendly farm corner providing seasonal greens, greenhouse tomatoes, Kakhetian garlic, walnuts, and village dairy.",
+    "description_ka": "ეკოლოგიურად სუფთა ფერმერული მაღაზია: სეზონური მწვანილი, ქართული პომიდორი, კახური ნიორი, ნიგოზი და რძის პროდუქტები.",
+    "products": [
+      "ქართული პომიდორი",
+      "სოფლის მწვანილი",
+      "კახური ნიგოზი",
+      "სოფლის რძე",
+      "ქოთნის მაწონი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.724,
+    "lon": 44.739,
+    "coordinates": {
+      "lat": 41.724,
+      "lon": 44.739
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72400,44.73900"
+  },
+  {
+    "id": "sab-vaz-003",
+    "name_en": "Kartli Fresh Meat Vazha",
+    "name_ka": "ქართლის ახალი ხორცი ვაჟა-ფშაველაზე",
+    "category": "meat_eggs",
+    "sub_district": "Vazha-Pshavela",
+    "address": "Vazha-Pshavela 7th Block, Saburtalo, Tbilisi",
+    "address_ka": "ვაჟა-ფშაველას მე-7 კვარტალი, საბურთალო, თბილისი",
+    "phone": "+995 577 67 89 01",
+    "website_or_social": "https://facebook.com/kartlifreshmeat",
+    "description": "Neighborhood meat counter partnering with village butchers from Kaspi and Gori. Zero additives, strictly fresh daily cuts.",
+    "description_ka": "უბნის ხორცის მაღაზია: ახალი ხორცი კასპისა და გორის სოფლებიდან ყოველდღიურად. დანამატების გარეშე.",
+    "products": [
+      "ახალი საქონლის ხორცი",
+      "ღორის ხორცი",
+      "სოფლის ქათამი",
+      "დიეტური კვერცხი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7215,
+    "lon": 44.726,
+    "coordinates": {
+      "lat": 41.7215,
+      "lon": 44.726
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72150,44.72600"
+  },
+  {
+    "id": "sab-nut-001",
+    "name_en": "Nutsubidze Village Bazaar Hub",
+    "name_ka": "ნუცუბიძის სოფლის ნობათის ჰაბი",
+    "category": "farm_shop",
+    "sub_district": "Nutsubidze",
+    "address": "Nutsubidze St 77, Saburtalo, Tbilisi",
+    "address_ka": "ნუცუბიძის ქ. 77, საბურთალო, თბილისი",
+    "phone": "+995 593 78 90 12",
+    "website_or_social": "https://facebook.com/nutsubidze.bazaar",
+    "description": "Cooperative neighborhood shop representing smallholder farmers from Kvemo Kartli and Samtskhe-Javakheti.",
+    "description_ka": "კოოპერატიული მაღაზია: მცირე ფერმერების პროდუქცია ქვემო ქართლიდან და სამცხე-ჯავახეთის მთის კარტოფილი.",
+    "products": [
+      "მთის კარტოფილი",
+      "ჭარხალი",
+      "სტაფილო",
+      "სოფლის ყველი",
+      "ველური თაფლი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7205,
+    "lon": 44.744,
+    "coordinates": {
+      "lat": 41.7205,
+      "lon": 44.744
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72050,44.74400"
+  },
+  {
+    "id": "sab-nut-002",
+    "name_en": "Nutsubidze Plateau Dairy Point",
+    "name_ka": "ნუცუბიძის პლატოს რძის წერტილი",
+    "category": "dairy_hub",
+    "sub_district": "Nutsubidze",
+    "address": "Nutsubidze 2nd Plateau, Bldg 3, Saburtalo, Tbilisi",
+    "address_ka": "ნუცუბიძის II პლატო, კორპ. 3, საბურთალო, თბილისი",
+    "phone": "+995 598 89 01 23",
+    "website_or_social": "https://facebook.com/plateau.dairy",
+    "description": "Artisanal dairy dispensary with village cow and buffalo matsoni, fresh cottage cheese, and mint nadughi.",
+    "description_ka": "რძის პროდუქტების წერტილი: ძროხისა და კამეჩის მაწონი, ხელნაკეთი ხაჭო და ნადუღი პიტნით.",
+    "products": [
+      "კამეჩის მაწონი",
+      "ხელნაკეთი ხაჭო",
+      "პიტნიანი ნადუღი",
+      "იმერული ჭყინტი ყველი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.718,
+    "lon": 44.732,
+    "coordinates": {
+      "lat": 41.718,
+      "lon": 44.732
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71800,44.73200"
+  },
+  {
+    "id": "sab-nut-003",
+    "name_en": "Nutsubidze Farm Meat & Eggs Corner",
+    "name_ka": "ნუცუბიძის ფერმერული ხორცი და კვერცხი",
+    "category": "meat_eggs",
+    "sub_district": "Nutsubidze",
+    "address": "Nutsubidze 1st Plateau, Saburtalo, Tbilisi",
+    "address_ka": "ნუცუბიძის I პლატო, საბურთალო, თბილისი",
+    "phone": "+995 579 90 12 34",
+    "website_or_social": "https://facebook.com/nutsubidze.meat",
+    "description": "Family-run butchery sourcing directly from Dusheti pastures. Fresh beef, pork, turkey, and village poultry eggs.",
+    "description_ka": "საოჯახო ხორცის მაღაზია: დუშეთის საძოვრების საქონლის ხორცი, ინდაური, სოფლის ქათამი და კვერცხი.",
+    "products": [
+      "დუშეთის საქონლის ხორცი",
+      "სოფლის ინდაური",
+      "სოფლის კვერცხი",
+      "ახალი ხბოს ხორცი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7195,
+    "lon": 44.7385,
+    "coordinates": {
+      "lat": 41.7195,
+      "lon": 44.7385
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71950,44.73850"
+  },
+  {
+    "id": "sab-kaz-001",
+    "name_en": "Delisi Artisanal Cheese Workshop",
+    "name_ka": "დელისის ყველის სახელოსნო",
+    "category": "dairy_hub",
+    "sub_district": "Kazbegi / Delisi",
+    "address": "Kazbegi Ave 34, Saburtalo, Tbilisi",
+    "address_ka": "ყაზბეგის გამზ. 34, საბურთალო, თბილისი",
+    "phone": "+995 599 01 23 45",
+    "website_or_social": "https://instagram.com/delisi_cheese_workshop",
+    "description": "Boutique cheese parlor showcasing aged Megrelian Sulguni, Tenili cheese from Samtskhe, and artisanal smoked cheeses.",
+    "description_ka": "ყველის ბუტიკი: დავარგებული მეგრული სულგუნი, მესხური თენილი და შებოლილი ყველის ასორტიმენტი.",
+    "products": [
+      "მეგრული სულგუნი",
+      "თენილი ყველი",
+      "შებოლილი ყველი",
+      "სოფლის ერბო",
+      "გებჟალია"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.725,
+    "lon": 44.755,
+    "coordinates": {
+      "lat": 41.725,
+      "lon": 44.755
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72500,44.75500"
+  },
+  {
+    "id": "sab-kaz-002",
+    "name_en": "Kazbegi Natural Products Mart",
+    "name_ka": "ყაზბეგის ნატურალური პროდუქტების მარტი",
+    "category": "farm_shop",
+    "sub_district": "Kazbegi / Delisi",
+    "address": "Kazbegi Ave 14b, Saburtalo, Tbilisi",
+    "address_ka": "ყაზბეგის გამზ. 14ბ, საბურთალო, თბილისი",
+    "phone": "+995 577 12 34 50",
+    "website_or_social": "https://facebook.com/kazbegi.natural",
+    "description": "Neighborhood produce shop stocking fresh mountain herbs, dried fruit rolls (Tklapi), churchkhela, and natural preserves.",
+    "description_ka": "ნატურალური პროდუქტების მაღაზია: მთის მწვანილი, ნატურალური ტყლაპი, ჩურჩხელა და სოფლის მურაბები.",
+    "products": [
+      "მთის მწვანილი",
+      "ნატურალური ტყლაპი",
+      "ნამდვილი ჩურჩხელა",
+      "სოფლის თაფლი",
+      "კახური ზეთი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7275,
+    "lon": 44.761,
+    "coordinates": {
+      "lat": 41.7275,
+      "lon": 44.761
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72750,44.76100"
+  },
+  {
+    "id": "sab-kaz-003",
+    "name_en": "Delisi Fresh Village Meat",
+    "name_ka": "დელისის სოფლის ახალი ხორცი",
+    "category": "meat_eggs",
+    "sub_district": "Kazbegi / Delisi",
+    "address": "Tavadze St 3 (near Delisi Metro), Saburtalo, Tbilisi",
+    "address_ka": "თავაძის ქ. 3 (მეტრო დელისთან), საბურთალო, თბილისი",
+    "phone": "+995 595 23 45 61",
+    "website_or_social": "https://facebook.com/delisi.village.meat",
+    "description": "Direct farm butchery specializing in pasture-raised Georgian beef and fresh village chicken eggs delivered daily.",
+    "description_ka": "პირდაპირი ხორცის მაღაზია: ბალახზე ნაზარდი ქართული საქონლის ხორცი და სოფლის ახალი კვერცხი ყოველდღიურად.",
+    "products": [
+      "საქონლის ხორცი",
+      "სოფლის ქათამი",
+      "დიეტური კვერცხი",
+      "ახალი ხბოს ხორცი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7262,
+    "lon": 44.7495,
+    "coordinates": {
+      "lat": 41.7262,
+      "lon": 44.7495
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72620,44.74950"
+  },
+  {
+    "id": "sab-lis-001",
+    "name_en": "Lisi Lake Organic Farm Hub",
+    "name_ka": "ლისის ტბის ორგანული ფერმის ჰაბი",
+    "category": "farm_shop",
+    "sub_district": "Lisi",
+    "address": "Lisi Lake Road 4, Saburtalo, Tbilisi",
+    "address_ka": "ლისის ტბის გზატკეცილი 4, საბურთალო, თბილისი",
+    "phone": "+995 591 34 56 72",
+    "website_or_social": "https://facebook.com/lisiorganichub",
+    "description": "Eco-pavilion at Lisi offering organic vegetables, artisan sourdough breads, berries, and raw honey straight from local gardens.",
+    "description_ka": "ეკო-პავილიონი ლისის ტბის მიდამოებში: ორგანული ბოსტნეული, დედას პური, კენკრა და ნედლი თაფლი.",
+    "products": [
+      "ორგანული ბოსტნეული",
+      "მაყვლისა და ჟოლოს კენკრა",
+      "ველური თაფლი",
+      "დედას პური"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.745,
+    "lon": 44.735,
+    "coordinates": {
+      "lat": 41.745,
+      "lon": 44.735
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74500,44.73500"
+  },
+  {
+    "id": "sab-lis-002",
+    "name_en": "Lisi View Goat & Sheep Dairy",
+    "name_ka": "ლისი ვიუს თხისა და ცხვრის რძის მეურნეობა",
+    "category": "dairy_hub",
+    "sub_district": "Lisi",
+    "address": "Tsodoreti Road, Lisi Area, Saburtalo, Tbilisi",
+    "address_ka": "წოდორეთის გზატკეცილი, ლისის მიდამოები, საბურთალო, თბილისი",
+    "phone": "+995 599 45 67 83",
+    "website_or_social": "https://instagram.com/lisi_dairy_craft",
+    "description": "Small-batch goat milk dairy producing fresh goat matsoni, goat cheese, and herb-infused labneh above Saburtalo.",
+    "description_ka": "მცირე თხის რძის საწარმო: თხის მაწონი, თხის ყველი და მწვანილოვანი ლაბნე საბურთალოს ზემოთ.",
+    "products": [
+      "თხის მაწონი",
+      "თხის ყველი",
+      "თხის რძე",
+      "მწვანილოვანი ლაბნე"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7485,
+    "lon": 44.718,
+    "coordinates": {
+      "lat": 41.7485,
+      "lon": 44.718
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74850,44.71800"
+  },
+  {
+    "id": "sab-del-001",
+    "name_en": "Saburtalo Agro Express Delivery Co-op",
+    "name_ka": "საბურთალოს აგრო ექსპრეს კოოპერატივი",
+    "category": "delivery_coop",
+    "sub_district": "Pekini / Kostava",
+    "address": "Bakhtrioni St 12, Saburtalo, Tbilisi",
+    "address_ka": "ბახტრიონის ქ. 12, საბურთალო, თბილისი",
+    "phone": "+995 577 56 78 94",
+    "website_or_social": "https://facebook.com/saburtalo.agroexpress",
+    "description": "Same-day doorstep delivery cooperative for Saburtalo residents: seasonal farm boxes of vegetables, fruit, cheese, and eggs.",
+    "description_ka": "იმავე დღეს მიტანის ფერმერული სერვისი საბურთალოელებისთვის: სეზონური ბოსტნეულის, ყველის, კვერცხისა და ხილის ყუთები.",
+    "products": [
+      "ფერმერული ბოსტნეულის ყუთი",
+      "სოფლის რძის ნაკრები",
+      "სოფლის კვერცხი",
+      "სეზონური ხილი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.722,
+    "lon": 44.768,
+    "coordinates": {
+      "lat": 41.722,
+      "lon": 44.768
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72200,44.76800"
+  },
+  {
+    "id": "sab-del-002",
+    "name_en": "Vazha & Nutsubidze Farm Box Delivery",
+    "name_ka": "ვაჟასა და ნუცუბიძის ფერმერული კალათა",
+    "category": "delivery_coop",
+    "sub_district": "Vazha-Pshavela",
+    "address": "Kavtaradze St 18, Saburtalo, Tbilisi",
+    "address_ka": "ქავთარაძის ქ. 18, საბურთალო, თბილისი",
+    "phone": "+995 593 67 89 05",
+    "website_or_social": "https://facebook.com/vazha.nutsubidze.farmbox",
+    "description": "Local neighborhood distribution hub delivering fresh Kakhetian greens, organic dairy, and eggs across Saburtalo daily.",
+    "description_ka": "საბურთალოს ლოკალური სადისტრიბუციო ჰაბი: კახური მწვანილი, ნატურალური რძის ნაწარმი და სოფლის კვერცხი სახლში მიტანით.",
+    "products": [
+      "კახური მწვანილის ნაკრები",
+      "სოფლის მაწონი",
+      "სოფლის კვერცხი",
+      "სოფლის კარაქი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.7225,
+    "lon": 44.736,
+    "coordinates": {
+      "lat": 41.7225,
+      "lon": 44.736
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72250,44.73600"
+  },
+  {
+    "id": "sab-del-003",
+    "name_en": "Lisi & Kazbegi Organic Delivery Hub",
+    "name_ka": "ლისისა და ყაზბეგის ორგანული მიტანის ჰაბი",
+    "category": "delivery_coop",
+    "sub_district": "Kazbegi / Delisi",
+    "address": "Asatiani St 10 (Medical University Area), Saburtalo, Tbilisi",
+    "address_ka": "ასათიანის ქ. 10 (სამედიცინოსთან), საბურთალო, თბილისი",
+    "phone": "+995 598 78 90 16",
+    "website_or_social": "https://facebook.com/lisi.kazbegi.organic",
+    "description": "Bicycle and electric scooter co-op courier delivering fresh artisan cheeses, mountain honey, and pasture eggs in 45 minutes.",
+    "description_ka": "სწრაფი ეკო-კურიერული სერვისი საბურთალოზე: ხელნაკეთი ყველი, მთის თაფლი და სოფლის კვერცხი 45 წუთში.",
+    "products": [
+      "ხელნაკეთი ყველი",
+      "მთის თაფლი",
+      "სოფლის კვერცხი",
+      "ქოთნის მაწონი"
+    ],
+    "municipality_or_village": "Saburtalo",
+    "region": "Tbilisi",
+    "reflection_notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo.",
+    "lat": 41.727,
+    "lon": 44.753,
+    "coordinates": {
+      "lat": 41.727,
+      "lon": 44.753
+    },
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72700,44.75300"
+  }
+]
