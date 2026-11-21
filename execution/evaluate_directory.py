@@ -2,7 +2,7 @@
 """
 execution/evaluate_directory.py
 Andrew Ng's Agentic Evals — Quality, Coverage & Geospatial Benchmark
-Supports both Georgia Nationwide Directory and Saburtalo District PoC modes.
+Supports both Georgia Nationwide Directory and Saburtalo District Dairy PoC modes.
 """
 
 import argparse
@@ -13,7 +13,6 @@ import re
 import sys
 from datetime import datetime, timezone
 
-# Territorial Bounding Boxes
 BOUNDS_GEORGIA = {"lat_min": 41.0, "lat_max": 43.5, "lon_min": 40.0, "lon_max": 46.7}
 BOUNDS_SABURTALO = {"lat_min": 41.7050, "lat_max": 41.7550, "lon_min": 44.7000, "lon_max": 44.7900}
 
@@ -28,7 +27,7 @@ EXPECTED_SABURTALO_SUBDISTRICTS = [
     "Pekini / Kostava", "Vazha-Pshavela", "Nutsubidze",
     "Kazbegi / Delisi", "Lisi"
 ]
-EXPECTED_SABURTALO_CATEGORIES = ["farm_shop", "dairy_hub", "meat_eggs", "delivery_coop"]
+EXPECTED_SABURTALO_CATEGORIES = ["fresh_milk", "matsoni_cream", "cheese_artisan", "delivery_coop"]
 
 def haversine_distance_m(lat1, lon1, lat2, lon2):
     R = 6371000.0
@@ -48,7 +47,7 @@ def evaluate(saburtalo_mode=False):
         report_path = os.path.join(base_dir, "output", "eval_report_saburtalo.md")
         geo_bounds = BOUNDS_SABURTALO
         expected_categories = EXPECTED_SABURTALO_CATEGORIES
-        project_title = "Saburtalo District Hyper-Local PoC"
+        project_title = "Saburtalo District High-Quality Dairy PoC"
     else:
         verified_path = os.path.join(base_dir, "output", "verified_farms.json")
         map_html_path = os.path.join(base_dir, "output", "georgia_farms_map.html")
@@ -189,7 +188,7 @@ def evaluate(saburtalo_mode=False):
     print(f"  • HTML Map Artifact Audit: {map_score:.1f}%")
 
     report_md = f"""# 🏆 Evaluation Report: {project_title}
-**Mode**: `{'Saburtalo PoC' if saburtalo_mode else 'Georgia Nationwide'}`  
+**Mode**: `{'Saburtalo Dairy PoC' if saburtalo_mode else 'Georgia Nationwide'}`  
 **Generated At**: `{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}`  
 **Composite Quality Score**: **`{composite_score:.1f}%`** (Grade: **`{grade}`**)
 
@@ -209,7 +208,7 @@ def evaluate(saburtalo_mode=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--saburtalo", action="store_true", help="Evaluate Saburtalo District PoC")
+    parser.add_argument("--saburtalo", action="store_true", help="Evaluate Saburtalo District Dairy PoC")
     args = parser.parse_args()
     score = evaluate(saburtalo_mode=args.saburtalo)
     if score < 95.0:

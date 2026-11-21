@@ -2,14 +2,14 @@
 """
 execution/verify_saburtalo.py
 Quality Verifier — Reflection Pattern (Andrew Ng Agentic Workflow)
+Focused strictly on High-Quality Dairy Products in Saburtalo District:
+(Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream, Artisanal Cheese)
 
-Filters raw leads for the Saburtalo District PoC:
-1. Rejection Gate: Reject all supermarket chains (Carrefour, Agrohub, Goodwill, Nikora, Spar, Fresco, etc.)
-2. Completeness Gate: Must have verified phone, address, and category.
-3. Authenticity Gate: Must be genuine village/artisanal producer or local delivery co-op.
-4. Geospatial Scope Gate: Must belong to Saburtalo neighborhoods.
-
-Saves verified list to output/saburtalo_farms.json.
+Filters:
+1. Chain Rejection Gate: Reject Carrefour, Agrohub, Goodwill, Nikora, Spar, Fresco, etc.
+2. Dairy Focus Gate: Must provide verified dairy products.
+3. Category Gate: Must belong to one of 4 dairy categories.
+4. Contact & Geospatial Gate: Valid phone & verified Saburtalo address.
 """
 
 import json
@@ -24,10 +24,15 @@ REJECTED_CHAINS = [
     "magniti", "2 nabiji", "ori nabiji", "smart"
 ]
 
-VALID_CATEGORIES = ["farm_shop", "dairy_hub", "meat_eggs", "delivery_coop"]
+VALID_CATEGORIES = ["fresh_milk", "matsoni_cream", "cheese_artisan", "delivery_coop"]
 VALID_SUB_DISTRICTS = [
     "Pekini / Kostava", "Vazha-Pshavela", "Nutsubidze",
     "Kazbegi / Delisi", "Lisi", "Kavtaradze"
+]
+
+REQUIRED_DAIRY_KEYWORDS = [
+    "milk", "რძე", "matsoni", "მაწონი", "cottage cheese", "ხაჭო",
+    "sour cream", "არაჟანი", "cheese", "ყველი", "nadughi", "ნადუღი", "bio milk", "ბიო რძე"
 ]
 
 def is_chain(name, desc):
@@ -44,7 +49,7 @@ def verify():
     with open(RAW_PATH, "r", encoding="utf-8") as f:
         raw_leads = json.load(f)
 
-    print(f"\n🔍 Quality Verifier (Reflection Agent) — Auditing {len(raw_leads)} Saburtalo Leads\n{'='*70}")
+    print(f"\n🔍 Quality Verifier (Reflection Agent) — Auditing {len(raw_leads)} Saburtalo Dairy Leads\n{'='*70}")
 
     verified = []
     rejected = []
@@ -58,6 +63,7 @@ def verify():
         phone = item.get("phone", "")
         addr = item.get("address", "")
         sub_dist = item.get("sub_district", "")
+        prods = item.get("products", [])
 
         # Gate 1: Chain rejection
         chain_flag, chain_matched = is_chain(name_en + " " + name_ka, desc)
@@ -67,21 +73,29 @@ def verify():
             rejected.append({"id": fid, "name": name_en, "reason": msg})
             continue
 
-        # Gate 2: Category validity
+        # Gate 2: Dairy relevance
+        all_text = f"{name_en} {name_ka} {desc} {' '.join(prods)}".lower()
+        if not any(k in all_text for k in REQUIRED_DAIRY_KEYWORDS):
+            msg = f"Non-Dairy Entity: No dairy items found in {name_en}"
+            print(f"  ❌ [{fid}] {msg}")
+            rejected.append({"id": fid, "name": name_en, "reason": msg})
+            continue
+
+        # Gate 3: Category validity
         if cat not in VALID_CATEGORIES:
             msg = f"Invalid Category: '{cat}' not in {VALID_CATEGORIES}"
             print(f"  ❌ [{fid}] {msg}")
             rejected.append({"id": fid, "name": name_en, "reason": msg})
             continue
 
-        # Gate 3: Sub-district validity
+        # Gate 4: Sub-district validity
         if sub_dist not in VALID_SUB_DISTRICTS:
             msg = f"Invalid Sub-district: '{sub_dist}' not in {VALID_SUB_DISTRICTS}"
             print(f"  ❌ [{fid}] {msg}")
             rejected.append({"id": fid, "name": name_en, "reason": msg})
             continue
 
-        # Gate 4: Phone and address presence
+        # Gate 5: Phone and address presence
         if not phone or len(re.sub(r'\D', '', phone)) < 9:
             msg = f"Missing or invalid phone number: '{phone}'"
             print(f"  ❌ [{fid}] {msg}")
@@ -94,7 +108,7 @@ def verify():
             rejected.append({"id": fid, "name": name_en, "reason": msg})
             continue
 
-        item["reflection_notes"] = "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+        item["reflection_notes"] = "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
         verified.append(item)
         print(f"  ✅ [{fid}] PASS: {name_en} ({cat} | {sub_dist})")
 
@@ -102,7 +116,7 @@ def verify():
         json.dump(verified, f, ensure_ascii=False, indent=2)
 
     print(f"\n{'='*70}")
-    print(f"Reflection Summary: {len(verified)} verified, {len(rejected)} rejected.")
+    print(f"Reflection Summary: {len(verified)} verified dairy points, {len(rejected)} rejected.")
     print(f"Saved verified list to: {VERIFIED_PATH}\n")
 
 if __name__ == "__main__":

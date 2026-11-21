@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
 execution/publish_saburtalo.py
-Map Publisher — Saburtalo District PoC (Leaflet + Google Roadmap/Satellite Layers)
+Map Publisher — Saburtalo Dairy Directory PoC (Leaflet + Google Roadmap/Satellite Layers)
 
+Dedicated to High-Quality Dairy Products in Saburtalo (Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream, Artisanal Cheese).
 Centers directly on Saburtalo district, Tbilisi [41.7255, 44.7485], zoom 14.
-Bounding box strictly enforced: Lat: 41.705 to 41.755, Lon: 44.700 to 44.790.
+Bounding box strictly enforced: Lat: 41.7050 to 41.7550, Lon: 44.7000 to 44.7900.
 Outputs:
   - output/saburtalo_poc.html
   - output/index.html (identical copy)
@@ -12,13 +13,11 @@ Outputs:
 
 import json
 import os
-import shutil
 
 VERIFIED_PATH = os.path.join(os.path.dirname(__file__), "..", "output", "saburtalo_farms.json")
 OUTPUT_POC_PATH = os.path.join(os.path.dirname(__file__), "..", "output", "saburtalo_poc.html")
 OUTPUT_INDEX_PATH = os.path.join(os.path.dirname(__file__), "..", "output", "index.html")
 
-# Strict Saburtalo Bounding Box
 SABURTALO_BOUNDS = {
     "lat_min": 41.7050,
     "lat_max": 41.7550,
@@ -26,32 +25,31 @@ SABURTALO_BOUNDS = {
     "lon_max": 44.7900
 }
 
-# High-Precision Gazetteer for Saburtalo Addresses (all strictly within bounding box)
 SABURTALO_GAZETTEER = {
-    "14 Pekini Ave, Saburtalo, Tbilisi":                       (41.7242, 44.7725),
     "Kostava St 68, Saburtalo, Tbilisi":                       (41.7188, 44.7812),
+    "14 Pekini Ave, Saburtalo, Tbilisi":                       (41.7242, 44.7725),
     "Pekini Ave 27, Saburtalo, Tbilisi":                       (41.7268, 44.7648),
     "Vazha-Pshavela Ave 25, Saburtalo, Tbilisi":               (41.7260, 44.7470),
     "Vazha-Pshavela Ave 41, Saburtalo, Tbilisi":               (41.7240, 44.7390),
     "Vazha-Pshavela 7th Block, Saburtalo, Tbilisi":            (41.7215, 44.7260),
-    "Nutsubidze St 77, Saburtalo, Tbilisi":                    (41.7205, 44.7440),
     "Nutsubidze 2nd Plateau, Bldg 3, Saburtalo, Tbilisi":      (41.7180, 44.7320),
+    "Nutsubidze St 77, Saburtalo, Tbilisi":                    (41.7205, 44.7440),
     "Nutsubidze 1st Plateau, Saburtalo, Tbilisi":              (41.7195, 44.7385),
     "Kazbegi Ave 34, Saburtalo, Tbilisi":                      (41.7250, 44.7550),
     "Kazbegi Ave 14b, Saburtalo, Tbilisi":                     (41.7275, 44.7610),
     "Tavadze St 3 (near Delisi Metro), Saburtalo, Tbilisi":    (41.7262, 44.7495),
-    "Lisi Lake Road 4, Saburtalo, Tbilisi":                    (41.7450, 44.7350),
     "Tsodoreti Road, Lisi Area, Saburtalo, Tbilisi":           (41.7485, 44.7180),
+    "Lisi Lake Road 4, Saburtalo, Tbilisi":                    (41.7450, 44.7350),
     "Bakhtrioni St 12, Saburtalo, Tbilisi":                    (41.7220, 44.7680),
     "Kavtaradze St 18, Saburtalo, Tbilisi":                    (41.7225, 44.7360),
     "Asatiani St 10 (Medical University Area), Saburtalo, Tbilisi": (41.7270, 44.7530),
 }
 
 CATEGORY_STYLES = {
-    "farm_shop":    {"color": "#2d7a2d", "emoji": "🏪", "label_en": "Farm Shop",         "label_ka": "სოფლის პროდუქტების მაღაზია"},
-    "dairy_hub":    {"color": "#d4a017", "emoji": "🧀", "label_en": "Dairy Hub",         "label_ka": "ყველი და რძის პროდუქტები"},
-    "meat_eggs":    {"color": "#c0392b", "emoji": "🥩", "label_en": "Meat & Eggs",       "label_ka": "სოფლის ხორცი და კვერცხი"},
-    "delivery_coop":{"color": "#2471a3", "emoji": "🚚", "label_en": "Saburtalo Delivery","label_ka": "ადგილზე მიტანა საბურთალოზე"},
+    "fresh_milk":    {"color": "#0284c7", "emoji": "🥛", "label_en": "Milk & Bio Milk",      "label_ka": "ცოცხალი & ბიო რძე"},
+    "matsoni_cream": {"color": "#059669", "emoji": "🥣", "label_en": "Matsoni, Cream & Curd", "label_ka": "მაწონი, არაჟანი & ხაჭო"},
+    "cheese_artisan":{"color": "#d97706", "emoji": "🧀", "label_en": "Artisanal Cheese",     "label_ka": "ხელნაკეთი ყველი"},
+    "delivery_coop": {"color": "#7c3aed", "emoji": "🚚", "label_en": "Dairy Delivery Co-op", "label_ka": "რძის პროდუქტების მიტანა"},
 }
 
 SUB_DISTRICT_NAMES = {
@@ -61,6 +59,16 @@ SUB_DISTRICT_NAMES = {
     "Kazbegi / Delisi": {"en": "Kazbegi / Delisi", "ka": "ყაზბეგი / დელისი"},
     "Lisi":             {"en": "Lisi",             "ka": "ლისი"},
 }
+
+# Quick product filter tags
+DAIRY_QUICK_FILTERS = [
+    {"id": "all", "label_en": "All Dairy", "label_ka": "ყველა რძის ნაწარმი", "icon": "🥛"},
+    {"id": "milk", "label_en": "Milk / Bio Milk", "label_ka": "ცოცხალი & ბიო რძე", "icon": "🥛", "terms": ["milk", "რძე", "bio milk", "ბიო რძე"]},
+    {"id": "cottage_cheese", "label_en": "Cottage Cheese", "label_ka": "ხაჭო", "icon": "🥣", "terms": ["cottage cheese", "ხაჭო", "curd"]},
+    {"id": "matsoni", "label_en": "Matsoni", "label_ka": "მაწონი", "icon": "🏺", "terms": ["matsoni", "მაწონი", "buffalo matsoni"]},
+    {"id": "sour_cream", "label_en": "Sour Cream", "label_ka": "არაჟანი", "icon": "🍶", "terms": ["sour cream", "არაჟანი", "cream"]},
+    {"id": "cheese", "label_en": "Cheese / Sulguni", "label_ka": "ყველი / სულგუნი", "icon": "🧀", "terms": ["cheese", "ყველი", "sulguni", "სულგუნი", "guda", "გუდა", "tenili", "თენილი"]},
+]
 
 def geocode(addr):
     if addr in SABURTALO_GAZETTEER:
@@ -93,7 +101,7 @@ def build_features(farms):
         farm["coordinates"] = {"lat": lat, "lon": lon}
         farm["google_maps_url"] = gmaps_url
 
-        style = CATEGORY_STYLES.get(farm["category"], CATEGORY_STYLES["farm_shop"])
+        style = CATEGORY_STYLES.get(farm["category"], CATEGORY_STYLES["fresh_milk"])
         sub_info = SUB_DISTRICT_NAMES.get(farm["sub_district"], {"en": farm["sub_district"], "ka": farm["sub_district"]})
 
         features.append({
@@ -118,27 +126,28 @@ def build_features(farms):
                 "website": farm.get("website_or_social", ""),
                 "google_maps_url": gmaps_url,
                 "products_en": farm.get("products", []),
-                "products_ka": farm.get("products", []),
+                "products_ka": farm.get("products_ka", farm.get("products", [])),
                 "desc_en": farm.get("description", ""),
                 "desc_ka": farm.get("description_ka", farm.get("description", "")),
                 "notes": farm.get("reflection_notes", "")
             }
         })
 
-    print(f"✅ Saburtalo Features built: {passed} passed strict bounding box ({SABURTALO_BOUNDS['lat_min']}-{SABURTALO_BOUNDS['lat_max']} N, {SABURTALO_BOUNDS['lon_min']}-{SABURTALO_BOUNDS['lon_max']} E)")
+    print(f"✅ Saburtalo Dairy Features: {passed} passed strict bounding box.")
     return features
 
 def render_html(features):
     geojson_str = json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False, indent=2)
     sub_districts_json = json.dumps(SUB_DISTRICT_NAMES, ensure_ascii=False)
     cat_styles_json = json.dumps(CATEGORY_STYLES, ensure_ascii=False)
+    dairy_filters_json = json.dumps(DAIRY_QUICK_FILTERS, ensure_ascii=False)
 
     return f"""<!DOCTYPE html>
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🇬🇪 Saburtalo Fresh Farm Directory | საბურთალოს სოფლის პროდუქტების რუკა</title>
+<title>🥛 Saburtalo Fresh Dairy Directory | საბურთალოს ნატურალური რძის ნაწარმის რუკა</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -163,13 +172,13 @@ def render_html(features):
 
   /* Header */
   #header {{
-    background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 55%, #0284c7 100%);
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 45%, #059669 100%);
     color: white; padding: 12px 22px;
     display: flex; align-items: center; justify-content: space-between; gap: 14px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.3); z-index: 1000; flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25); z-index: 1000; flex-shrink: 0;
   }}
   .header-left {{ flex: 1; }}
-  #header-title {{ font-size: 1.32rem; font-weight: 700; letter-spacing: -0.2px; }}
+  #header-title {{ font-size: 1.35rem; font-weight: 700; letter-spacing: -0.2px; }}
   #header-title span {{ font-weight: 300; opacity: 0.92; font-size: 1.05rem; }}
   #header-sub {{ font-size: 0.78rem; opacity: 0.9; margin-top: 3px; }}
 
@@ -192,7 +201,7 @@ def render_html(features):
     border-radius: 20px; cursor: pointer; transition: all 0.2s ease;
   }}
   .lang-btn.active {{
-    background: white; color: #1b4d1b;
+    background: white; color: #0369a1;
     box-shadow: 0 2px 6px rgba(0,0,0,0.25);
   }}
   .lang-btn:hover:not(.active) {{ background: rgba(255, 255, 255, 0.15); }}
@@ -202,62 +211,80 @@ def render_html(features):
 
   /* Sidebar */
   #sidebar {{
-    width: 400px; min-width: 320px; background: #fafafa;
-    border-right: 1px solid #e0e0e0; display: flex; flex-direction: column;
+    width: 410px; min-width: 320px; background: #f8fafc;
+    border-right: 1px solid #e2e8f0; display: flex; flex-direction: column;
     overflow: hidden; z-index: 500;
   }}
-  #controls {{ padding: 12px; background: white; border-bottom: 1px solid #e5e5e5; }}
+  #controls {{ padding: 12px; background: white; border-bottom: 1px solid #e2e8f0; }}
   #search {{
-    width: 100%; padding: 9px 14px; border: 1.5px solid #d0d7de; border-radius: 20px;
+    width: 100%; padding: 9px 14px; border: 1.5px solid #cbd5e1; border-radius: 20px;
     font-size: 0.88rem; outline: none; margin-bottom: 9px; transition: border-color 0.2s;
   }}
-  #search:focus {{ border-color: #2e7d32; box-shadow: 0 0 0 3px rgba(46,125,50,0.15); }}
+  #search:focus {{ border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2,132,199,0.15); }}
   
   #subdistrict-select {{
-    width: 100%; padding: 8px 12px; border: 1.5px solid #d0d7de; border-radius: 8px;
+    width: 100%; padding: 8px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px;
     font-size: 0.85rem; margin-bottom: 9px; outline: none; background: white; font-weight: 500;
   }}
-  .cat-filters {{ display: flex; flex-wrap: wrap; gap: 6px; }}
+
+  /* Dairy Product Pills */
+  .dairy-pill-bar {{
+    display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 8px;
+    scrollbar-width: thin;
+  }}
+  .dairy-pill-bar::-webkit-scrollbar {{ height: 4px; }}
+  .dairy-pill-bar::-webkit-scrollbar-thumb {{ background: #cbd5e1; border-radius: 4px; }}
+  .dairy-pill {{
+    display: inline-flex; align-items: center; gap: 4px;
+    border: 1.5px solid #cbd5e1; background: #f1f5f9; border-radius: 16px;
+    padding: 5px 11px; font-size: 0.74rem; font-weight: 700; cursor: pointer;
+    white-space: nowrap; color: #334155; transition: all 0.18s ease;
+  }}
+  .dairy-pill:hover {{ background: #e2e8f0; border-color: #94a3b8; }}
+  .dairy-pill.active {{ background: #0284c7; color: white; border-color: #0284c7; box-shadow: 0 2px 6px rgba(2,132,199,0.3); }}
+
+  /* Category Filter Buttons */
+  .cat-filters {{ display: flex; flex-wrap: wrap; gap: 5px; }}
   .cat-btn {{
-    border: 1.5px solid #d0d7de; background: white; border-radius: 16px;
-    padding: 4px 10px; font-size: 0.74rem; font-weight: 600; cursor: pointer;
+    border: 1.5px solid #cbd5e1; background: white; border-radius: 14px;
+    padding: 4px 9px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
     transition: all 0.15s ease;
   }}
-  .cat-btn.active {{ background: #202124; color: white !important; border-color: #202124 !important; }}
+  .cat-btn.active {{ background: #0f172a; color: white !important; border-color: #0f172a !important; }}
 
-  /* Near Me Button (Bottom-Right corner inside Map) */
+  /* Near Me Button */
   .near-me-btn {{
     position: absolute; bottom: 28px; right: 20px; z-index: 1000;
     display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    background: #ffffff; color: #1a73e8; border: 2px solid #1a73e8; border-radius: 28px;
+    background: #ffffff; color: #0284c7; border: 2px solid #0284c7; border-radius: 28px;
     padding: 10px 18px; font-size: 0.88rem; font-weight: 700; cursor: pointer; white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.22); transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2); transition: all 0.2s ease;
   }}
-  .near-me-btn:hover {{ background: #eff6ff; border-color: #1557b0; transform: translateY(-1.5px); box-shadow: 0 6px 18px rgba(0,0,0,0.28); }}
+  .near-me-btn:hover {{ background: #f0f9ff; border-color: #0369a1; transform: translateY(-1.5px); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }}
   .near-me-btn.active {{
-    background: #1a73e8; color: white; border-color: #1557b0;
-    box-shadow: 0 4px 14px rgba(26,115,232,0.45);
+    background: #0284c7; color: white; border-color: #0369a1;
+    box-shadow: 0 4px 14px rgba(2,132,199,0.45);
   }}
   .near-me-btn.locating {{ opacity: 0.85; cursor: wait; background: #fef3c7; color: #92400e; border-color: #fde68a; }}
 
   /* Near Me Status Bar */
   #near-me-status-bar {{
-    background: #eff6ff; border-left: 4px solid #1a73e8; border-bottom: 1px solid #bfdbfe;
-    padding: 9px 12px; font-size: 0.78rem; color: #1e3a8a; display: flex; flex-direction: column; gap: 6px;
+    background: #f0f9ff; border-left: 4px solid #0284c7; border-bottom: 1px solid #bae6fd;
+    padding: 9px 12px; font-size: 0.78rem; color: #0369a1; display: flex; flex-direction: column; gap: 6px;
   }}
   .status-main {{ display: flex; align-items: center; justify-content: space-between; gap: 8px; }}
   .status-text {{ font-weight: 600; line-height: 1.35; }}
   .reset-btn {{
-    background: white; color: #1a73e8; border: 1px solid #bfdbfe; border-radius: 6px;
+    background: white; color: #0284c7; border: 1px solid #bae6fd; border-radius: 6px;
     padding: 3px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; white-space: nowrap;
     transition: all 0.15s ease;
   }}
-  .reset-btn:hover {{ background: #dbeafe; border-color: #93c5fd; }}
+  .reset-btn:hover {{ background: #e0f2fe; border-color: #7dd3fc; }}
   .status-controls {{ display: flex; align-items: center; gap: 8px; }}
-  .radius-select-label {{ font-weight: 600; color: #1e40af; font-size: 0.74rem; }}
+  .radius-select-label {{ font-weight: 600; color: #0369a1; font-size: 0.74rem; }}
   .radius-dropdown {{
-    padding: 3px 8px; border: 1px solid #93c5fd; border-radius: 6px;
-    background: white; color: #1e3a8a; font-size: 0.76rem; font-weight: 600; outline: none;
+    padding: 3px 8px; border: 1px solid #7dd3fc; border-radius: 6px;
+    background: white; color: #0369a1; font-size: 0.76rem; font-weight: 600; outline: none;
   }}
 
   /* Distance Badges */
@@ -276,13 +303,13 @@ def render_html(features):
   /* User Location Pulsing Marker */
   .user-pulse-marker {{ position: relative; width: 24px; height: 24px; }}
   .user-pulse-dot {{
-    width: 14px; height: 14px; background: #1a73e8; border: 2.5px solid white;
+    width: 14px; height: 14px; background: #0284c7; border: 2.5px solid white;
     border-radius: 50%; position: absolute; top: 5px; left: 5px;
-    box-shadow: 0 0 8px rgba(26,115,232,0.9); z-index: 2;
+    box-shadow: 0 0 8px rgba(2,132,199,0.9); z-index: 2;
   }}
   .user-pulse-ring {{
     position: absolute; width: 34px; height: 34px; top: -5px; left: -5px;
-    background: rgba(26, 115, 232, 0.45); border-radius: 50%;
+    background: rgba(2, 132, 199, 0.45); border-radius: 50%;
     animation: userPulse 2s infinite ease-out; z-index: 1;
   }}
   @keyframes userPulse {{
@@ -290,34 +317,35 @@ def render_html(features):
     100% {{ transform: scale(2.2); opacity: 0; }}
   }}
   .user-popup {{ padding: 4px 2px; font-size: 0.85rem; line-height: 1.4; }}
-  .user-popup-title {{ font-weight: 700; color: #1a73e8; font-size: 0.95rem; margin-bottom: 4px; }}
+  .user-popup-title {{ font-weight: 700; color: #0284c7; font-size: 0.95rem; margin-bottom: 4px; }}
   .user-popup-coords {{ color: #64748b; font-size: 0.78rem; margin-bottom: 4px; }}
   .user-popup-address {{ font-size: 0.82rem; color: #334155; font-weight: 500; }}
 
   /* List & Cards */
   #farm-list {{ flex: 1; overflow-y: auto; padding: 10px; }}
   .farm-card {{
-    background: white; border: 1px solid #e0e0e0; border-radius: 12px;
+    background: white; border: 1px solid #e2e8f0; border-radius: 12px;
     padding: 13px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }}
-  .farm-card:hover {{ border-color: #2e7d32; transform: translateY(-1.5px); box-shadow: 0 4px 12px rgba(46,125,50,0.12); }}
+  .farm-card:hover {{ border-color: #0284c7; transform: translateY(-1.5px); box-shadow: 0 4px 12px rgba(2,132,199,0.12); }}
   .fc-cat {{ display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; color: white; margin-bottom: 6px; }}
-  .fc-name {{ font-size: 0.96rem; font-weight: 700; color: #202124; line-height: 1.3; }}
-  .fc-name-sec {{ font-size: 0.78rem; color: #5f6368; margin-bottom: 5px; }}
-  .fc-loc {{ font-size: 0.78rem; color: #3c4043; margin-bottom: 6px; }}
+  .fc-name {{ font-size: 0.96rem; font-weight: 700; color: #0f172a; line-height: 1.3; }}
+  .fc-name-sec {{ font-size: 0.78rem; color: #64748b; margin-bottom: 5px; }}
+  .fc-loc {{ font-size: 0.78rem; color: #334155; margin-bottom: 6px; }}
   .fc-tags {{ display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }}
-  .tag {{ background: #f1f3f4; border-radius: 4px; padding: 2px 6px; font-size: 0.68rem; color: #3c4043; }}
-  .fc-phone {{ font-size: 0.78rem; margin-top: 6px; color: #1b4d1b; font-weight: 600; }}
-  .fc-phone a {{ color: #1b4d1b; text-decoration: none; }}
-  .fc-phone a:hover {{ text-decoration: underline; color: #128c7e; }}
+  .tag {{ background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 2px 6px; font-size: 0.68rem; color: #166534; font-weight: 600; }}
+  .tag.tag-highlight {{ background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }}
+  .fc-phone {{ font-size: 0.78rem; margin-top: 6px; color: #0369a1; font-weight: 600; }}
+  .fc-phone a {{ color: #0369a1; text-decoration: none; }}
+  .fc-phone a:hover {{ text-decoration: underline; color: #0284c7; }}
   .fc-gmaps {{ margin-top: 7px; }}
   .gmaps-link {{
     display: inline-flex; align-items: center; gap: 4px; font-size: 0.74rem; font-weight: 600;
-    color: #1a73e8; text-decoration: none; padding: 3px 8px; border-radius: 6px;
-    background: #e8f0fe; transition: background 0.15s;
+    color: #0284c7; text-decoration: none; padding: 3px 8px; border-radius: 6px;
+    background: #e0f2fe; transition: background 0.15s;
   }}
-  .gmaps-link:hover {{ background: #d2e3fc; }}
+  .gmaps-link:hover {{ background: #bae6fd; }}
 
   /* Map Container */
   #map {{ flex: 1; height: 100%; position: relative; }}
@@ -325,23 +353,23 @@ def render_html(features):
   /* Popups */
   .popup-card {{ padding: 2px; max-width: 290px; }}
   .popup-cat {{ display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; color: white; margin-bottom: 6px; }}
-  .popup-card h3 {{ font-size: 1.02rem; font-weight: 700; margin-bottom: 2px; color: #202124; }}
-  .popup-sec {{ font-size: 0.8rem; color: #5f6368; margin-bottom: 6px; }}
-  .popup-addr {{ font-size: 0.8rem; color: #3c4043; margin-bottom: 6px; line-height: 1.35; }}
+  .popup-card h3 {{ font-size: 1.02rem; font-weight: 700; margin-bottom: 2px; color: #0f172a; }}
+  .popup-sec {{ font-size: 0.8rem; color: #64748b; margin-bottom: 6px; }}
+  .popup-addr {{ font-size: 0.8rem; color: #334155; margin-bottom: 6px; line-height: 1.35; }}
   .popup-phone {{ font-size: 0.82rem; margin-bottom: 5px; }}
   .popup-phone a {{ color: #128c7e; font-weight: 700; text-decoration: none; }}
   .popup-phone a:hover {{ text-decoration: underline; }}
   .popup-tags {{ display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }}
   .popup-desc {{ font-size: 0.78rem; color: #475569; line-height: 1.4; margin: 6px 0; }}
-  .popup-notes {{ font-size: 0.72rem; color: #1b4d1b; margin-top: 4px; }}
+  .popup-notes {{ font-size: 0.72rem; color: #0369a1; margin-top: 4px; }}
   .popup-gmaps {{ margin-top: 8px; }}
   .gmaps-btn {{
     display: inline-block; width: 100%; text-align: center;
-    background: #1a73e8; color: white; padding: 7px 12px;
+    background: #0284c7; color: white; padding: 7px 12px;
     border-radius: 8px; font-size: 0.82rem; font-weight: 700; text-decoration: none;
-    box-shadow: 0 2px 6px rgba(26,115,232,0.3); transition: background 0.15s;
+    box-shadow: 0 2px 6px rgba(2,132,199,0.3); transition: background 0.15s;
   }}
-  .gmaps-btn:hover {{ background: #1557b0; }}
+  .gmaps-btn:hover {{ background: #0369a1; }}
 
   /* Welcome Modal */
   .modal-overlay {{
@@ -355,7 +383,7 @@ def render_html(features):
     background: #ffffff; border-radius: 20px;
     padding: 28px 24px 22px; max-width: 440px; width: 90%;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center;
-    border: 1.5px solid rgba(46, 125, 50, 0.2);
+    border: 1.5px solid rgba(2, 132, 199, 0.25);
     animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }}
   @keyframes modalPop {{
@@ -363,19 +391,19 @@ def render_html(features):
     100% {{ transform: scale(1); opacity: 1; }}
   }}
   .modal-icon {{ font-size: 2.8rem; line-height: 1; margin-bottom: 12px; }}
-  .modal-title {{ font-size: 1.25rem; font-weight: 800; color: #1b4d1b; margin-bottom: 8px; line-height: 1.35; }}
+  .modal-title {{ font-size: 1.25rem; font-weight: 800; color: #0369a1; margin-bottom: 8px; line-height: 1.35; }}
   .modal-desc {{ font-size: 0.9rem; color: #475569; line-height: 1.55; margin-bottom: 20px; }}
   .modal-btn {{
-    background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 100%);
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
     color: white; border: none; border-radius: 24px;
     padding: 10px 28px; font-size: 0.92rem; font-weight: 700;
-    cursor: pointer; box-shadow: 0 4px 12px rgba(46,125,50,0.35);
+    cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.35);
     transition: all 0.2s ease;
   }}
   .modal-btn:hover {{
     transform: translateY(-1.5px);
-    box-shadow: 0 6px 16px rgba(46,125,50,0.45);
-    background: linear-gradient(135deg, #153e15 0%, #256629 100%);
+    box-shadow: 0 6px 16px rgba(2,132,199,0.45);
+    background: linear-gradient(135deg, #02537c 0%, #0369a1 100%);
   }}
 
   /* Mobile Responsive */
@@ -397,7 +425,7 @@ def render_html(features):
     .mobile-toggle-btn {{
       display: flex; align-items: center; justify-content: center;
       position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      z-index: 1500; background: #1b4d1b; color: white;
+      z-index: 1500; background: #0369a1; color: white;
       border: 2px solid white; border-radius: 30px;
       padding: 10px 22px; font-size: 0.92rem; font-weight: 700;
       box-shadow: 0 4px 14px rgba(0,0,0,0.38); cursor: pointer;
@@ -409,12 +437,12 @@ def render_html(features):
 
 <div id="header">
   <div class="header-left">
-    <h1 id="header-title">🇬🇪 Saburtalo Fresh Farm Directory <span>| საბურთალოს სოფლის პროდუქტების რუკა</span></h1>
-    <div id="header-sub">Hyper-Local PoC • Saburtalo District, Tbilisi • 100% Genuine Artisanal Village Shops</div>
+    <h1 id="header-title">🥛 Saburtalo Fresh Dairy Directory <span>| საბურთალოს ნატურალური რძის ნაწარმი</span></h1>
+    <div id="header-sub">High-Quality Dairy • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream</div>
   </div>
   <div class="header-right">
     <div class="stats">
-      <div class="stat"><div class="num" id="stat-total">{len(features)}</div><div class="lbl" id="stat-lbl-farms">Shops</div></div>
+      <div class="stat"><div class="num" id="stat-total">{len(features)}</div><div class="lbl" id="stat-lbl-farms">Dairy Hubs</div></div>
       <div class="stat"><div class="num" id="stat-subdistricts">5</div><div class="lbl" id="stat-lbl-subdistricts">Zones</div></div>
       <div class="stat"><div class="num">4</div><div class="lbl" id="stat-lbl-categories">Categories</div></div>
     </div>
@@ -428,19 +456,30 @@ def render_html(features):
 <div id="main">
   <div id="sidebar">
     <div id="controls">
-      <input id="search" type="text" placeholder="Search shops, dairy, meat, village products…"/>
+      <input id="search" type="text" placeholder="Search milk, cottage cheese, matsoni, sour cream, bio milk…"/>
       <select id="subdistrict-select"></select>
+
+      <!-- Quick Dairy Product Pills Bar -->
+      <div class="dairy-pill-bar" id="dairy-pill-bar">
+        <button class="dairy-pill active" data-prod="all">🥛 <span class="pill-text">ყველა რძის ნაწარმი</span></button>
+        <button class="dairy-pill" data-prod="milk">🥛 <span class="pill-text">ცოცხალი & ბიო რძე</span></button>
+        <button class="dairy-pill" data-prod="cottage_cheese">🥣 <span class="pill-text">ხაჭო</span></button>
+        <button class="dairy-pill" data-prod="matsoni">🏺 <span class="pill-text">მაწონი</span></button>
+        <button class="dairy-pill" data-prod="sour_cream">🍶 <span class="pill-text">არაჟანი</span></button>
+        <button class="dairy-pill" data-prod="cheese">🧀 <span class="pill-text">ყველი / სულგუნი</span></button>
+      </div>
+
       <div class="cat-filters">
         <button id="cat-btn-all" class="cat-btn active" data-cat="all" style="border-color:#37474f;color:#37474f">🗺 All</button>
-        <button id="cat-btn-farm_shop" class="cat-btn" data-cat="farm_shop" style="border-color:#2d7a2d;color:#2d7a2d">🏪 Farm Shop</button>
-        <button id="cat-btn-dairy_hub" class="cat-btn" data-cat="dairy_hub" style="border-color:#d4a017;color:#d4a017">🧀 Dairy Hub</button>
-        <button id="cat-btn-meat_eggs" class="cat-btn" data-cat="meat_eggs" style="border-color:#c0392b;color:#c0392b">🥩 Meat & Eggs</button>
-        <button id="cat-btn-delivery_coop" class="cat-btn" data-cat="delivery_coop" style="border-color:#2471a3;color:#2471a3">🚚 Delivery Coop</button>
+        <button id="cat-btn-fresh_milk" class="cat-btn" data-cat="fresh_milk" style="border-color:#0284c7;color:#0284c7">🥛 Milk & Bio Milk</button>
+        <button id="cat-btn-matsoni_cream" class="cat-btn" data-cat="matsoni_cream" style="border-color:#059669;color:#059669">🥣 Matsoni & Cream</button>
+        <button id="cat-btn-cheese_artisan" class="cat-btn" data-cat="cheese_artisan" style="border-color:#d97706;color:#d97706">🧀 Artisanal Cheese</button>
+        <button id="cat-btn-delivery_coop" class="cat-btn" data-cat="delivery_coop" style="border-color:#7c3aed;color:#7c3aed">🚚 Dairy Delivery</button>
       </div>
     </div>
     <div id="near-me-status-bar" style="display: none;">
       <div class="status-main">
-        <span id="near-me-status-text" class="status-text">ნაჩვენებია ლოკაციები თქვენგან 25 კმ-ის რადიუსში</span>
+        <span id="near-me-status-text" class="status-text">ნაჩვენებია რძის ობიექტები თქვენგან 5 კმ-ის რადიუსში</span>
         <button id="reset-near-me-btn" class="reset-btn" onclick="resetNearMe()">ყველას ჩვენება</button>
       </div>
       <div class="status-controls">
@@ -454,10 +493,10 @@ def render_html(features):
       </div>
     </div>
     <div id="farm-list"></div>
-    <div id="no-results">No verified producers match your search criteria.</div>
+    <div id="no-results">No verified dairy producers match your search criteria.</div>
   </div>
   <div id="map">
-    <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find shops near my location">
+    <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find dairy near my location">
       <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
     </button>
   </div>
@@ -469,10 +508,10 @@ def render_html(features):
 
 <div id="welcome-modal" class="modal-overlay" onclick="closeWelcomeModal(event)">
   <div class="modal-card" onclick="event.stopPropagation()">
-    <div class="modal-icon">🇬🇪 🧀</div>
-    <div id="modal-title" class="modal-title">საბურთალოს სოფლის პროდუქტების რუკა</div>
+    <div class="modal-icon">🥛 🧀</div>
+    <div id="modal-title" class="modal-title">საბურთალოს ნატურალური რძის ნაწარმი</div>
     <div id="modal-desc" class="modal-desc">
-      აღმოაჩინეთ ავთენტური სოფლის პროდუქტების მაღაზიები, ხელნაკეთი ყველის წერტილები, სოფლის ხორცისა და კვერცხის ობიექტები და ფერმერული მიტანის სერვისები საბურთალოზე!
+      იპოვეთ სად შეიძინოთ უმაღლესი ხარისხის რძის ნაწარმი საბურთალოზე: ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი, ხელნაკეთი ყველი და ადგილზე მიტანის სერვისები!
     </div>
     <button id="modal-btn" class="modal-btn" onclick="closeWelcomeModal()">გასაგებია</button>
   </div>
@@ -482,26 +521,27 @@ def render_html(features):
 const GEOJSON = {geojson_str};
 const SUB_DISTRICT_NAMES = {sub_districts_json};
 const CATEGORY_STYLES = {cat_styles_json};
+const DAIRY_QUICK_FILTERS = {dairy_filters_json};
 
 const I18N = {{
   en: {{
-    title: "🇬🇪 Saburtalo Fresh Farm Directory",
-    title_sub: "| Local Food & Dairy Map",
-    subtitle: "Hyper-Local PoC • Saburtalo District, Tbilisi • 100% Genuine Artisanal Village Shops",
-    shops: "Shops",
+    title: "🥛 Saburtalo Fresh Dairy Directory",
+    title_sub: "| Milk, Matsoni, Cottage Cheese & Sour Cream",
+    subtitle: "High-Quality Dairy • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream",
+    hubs: "Dairy Hubs",
     subdistricts: "Zones",
     categories: "Categories",
-    search_placeholder: "Search shops, dairy, meat, village products…",
+    search_placeholder: "Search milk, cottage cheese, matsoni, sour cream, bio milk…",
     all_subdistricts: "All Saburtalo",
     all_cats: "🗺 All",
-    farm_shop: "🏪 Farm Shop",
-    dairy_hub: "🧀 Dairy Hub",
-    meat_eggs: "🥩 Meat & Eggs",
-    delivery_coop: "🚚 Saburtalo Delivery",
-    no_results: "No verified producers match your search criteria.",
+    fresh_milk: "🥛 Milk & Bio Milk",
+    matsoni_cream: "🥣 Matsoni & Cream",
+    cheese_artisan: "🧀 Artisanal Cheese",
+    delivery_coop: "🚚 Dairy Delivery",
+    no_results: "No verified dairy producers match your search criteria.",
     call: "Call / WhatsApp",
     website: "Website / Page",
-    verified_badge: "Verified Local Producer",
+    verified_badge: "Verified Dairy Provider",
     gmaps_btn: "📍 View on Google Maps",
     google_roadmap: "Google Roadmap",
     google_satellite: "Google Satellite",
@@ -514,35 +554,35 @@ const I18N = {{
     radius_5: "5 km",
     radius_10: "10 km",
     radius_all: "All Saburtalo",
-    showing_within_radius: "Showing shops within {{radius}} km of your location",
-    fallback_closest: "No shops within {{radius}} km — showing {{count}} closest locations",
-    showing_all_sorted: "Showing all shops sorted by distance from your location",
+    showing_within_radius: "Showing dairy points within {{radius}} km of your location",
+    fallback_closest: "No dairy points within {{radius}} km — showing {{count}} closest locations",
+    showing_all_sorted: "Showing all dairy points sorted by distance from your location",
     reset_all: "Reset / Show All",
     your_location: "📍 Your Current Location",
     gps_loc: "Current GPS Location",
-    modal_title: "🇬🇪 Saburtalo Farm Directory PoC",
-    modal_desc: "Discover authentic artisanal cheese shops, fresh village meat/eggs, organic farm stores, and cooperative delivery hubs strictly within Saburtalo district, Tbilisi.",
-    modal_btn: "Explore Saburtalo",
+    modal_title: "🥛 Saburtalo Dairy Directory",
+    modal_desc: "Find where to buy premium fresh dairy in Saburtalo: raw milk, bio milk, artisan cottage cheese, clay-pot matsoni, sour cream, and local doorstep delivery!",
+    modal_btn: "Explore Dairy",
     geo_fallback_msg: "Geolocation unavailable. Using Pekini/Kostava center as demo."
   }},
   ka: {{
-    title: "🇬🇪 საბურთალოს სოფლის პროდუქტების რუკა",
-    title_sub: "| ნატურალური მეურნეობები",
-    subtitle: "ჰიპერ-ლოკალური PoC • საბურთალოს რაიონი, თბილისი • 100% ავთენტური სოფლის მაღაზიები",
-    shops: "მაღაზია",
+    title: "🥛 საბურთალოს ნატურალური რძის ნაწარმი",
+    title_sub: "| ცოცხალი რძე, ხაჭო, მაწონი, არაჟანი & ყველი",
+    subtitle: "უმაღლესი ხარისხის რძის ნაწარმი • საბურთალოს რაიონი • ცოცხალი რძე, ბიო რძე, ხაჭო, მაწონი, არაჟანი",
+    hubs: "რძის წერტილი",
     subdistricts: "უბანი",
     categories: "კატეგორია",
-    search_placeholder: "მოძებნეთ მაღაზიები, ყველი, ხორცი, სოფლის პროდუქტები...",
+    search_placeholder: "მოძებნეთ რძე, ხაჭო, მაწონი, არაჟანი, ბიო რძე, ყველი...",
     all_subdistricts: "მთელი საბურთალო",
     all_cats: "🗺 ყველა",
-    farm_shop: "🏪 სოფლის მაღაზია",
-    dairy_hub: "🧀 ყველი და რძის ნაწარმი",
-    meat_eggs: "🥩 სოფლის ხორცი და კვერცხი",
-    delivery_coop: "🚚 მიტანა საბურთალოზე",
-    no_results: "მითითებული ფილტრებით ობიექტი ვერ მოიძებნა.",
+    fresh_milk: "🥛 ცოცხალი & ბიო რძე",
+    matsoni_cream: "🥣 მაწონი, არაჟანი & ხაჭო",
+    cheese_artisan: "🧀 ხელნაკეთი ყველი",
+    delivery_coop: "🚚 რძის მიტანა",
+    no_results: "მითითებული ფილტრებით რძის ობიექტი ვერ მოიძებნა.",
     call: "დარეკვა / WhatsApp",
     website: "ვებ-გვერდი / ბმული",
-    verified_badge: "შემოწმებული ობიექტი",
+    verified_badge: "შემოწმებული რძის ობიექტი",
     gmaps_btn: "📍 ნახე Google Maps-ზე",
     google_roadmap: "Google რუკა",
     google_satellite: "Google თანამგზავრი",
@@ -555,14 +595,14 @@ const I18N = {{
     radius_5: "5 კმ",
     radius_10: "10 კმ",
     radius_all: "მთელი საბურთალო",
-    showing_within_radius: "ნაჩვენებია ლოკაციები თქვენგან {{radius}} კმ-ის რადიუსში",
+    showing_within_radius: "ნაჩვენებია რძის ობიექტები თქვენგან {{radius}} კმ-ის რადიუსში",
     fallback_closest: "{{radius}} კმ-ში ობიექტი ვერ მოიძებნა — ნაჩვენებია {{count}} უახლოესი",
     showing_all_sorted: "ნაჩვენებია ყველა ობიექტი თქვენი მდებარეობიდან მანძილის მიხედვით",
     reset_all: "ყველას ჩვენება",
     your_location: "📍 თქვენი მდებარეობა",
     gps_loc: "მიმდინარე GPS ლოკაცია",
-    modal_title: "საბურთალოს სოფლის პროდუქტების რუკა",
-    modal_desc: "აღმოაჩინეთ ავთენტური სოფლის პროდუქტების მაღაზიები, ხელნაკეთი ყველის წერტილები, სოფლის ხორცისა და კვერცხის ობიექტები და ფერმერული მიტანის სერვისები საბურთალოზე!",
+    modal_title: "საბურთალოს ნატურალური რძის ნაწარმი",
+    modal_desc: "იპოვეთ სად შეიძინოთ უმაღლესი ხარისხის რძის ნაწარმი საბურთალოზე: ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი, ხელნაკეთი ყველი და ადგილზე მიტანის სერვისები!",
     modal_btn: "გასაგებია",
     geo_fallback_msg: "გეოლოკაცია მიუწვდომელია. დემო მდებარეობად არჩეულია პეკინის ცენტრი."
   }}
@@ -574,6 +614,7 @@ let isNearMeActive = false;
 let activeRadiusKm = 5;
 let userMarker = null;
 let userRadiusCircle = null;
+let activeDairyPill = 'all';
 
 function getDistanceKm(lat1, lon1, lat2, lon2) {{
   const R = 6371;
@@ -587,7 +628,7 @@ function getDistanceKm(lat1, lon1, lat2, lon2) {{
 }}
 
 function calculateTravelTimes(distKm) {{
-  const driveMinutes = Math.max(1, Math.round((distKm / 35) * 60)); // 35km/h city speed
+  const driveMinutes = Math.max(1, Math.round((distKm / 35) * 60));
   const walkMinutes = Math.max(1, Math.round((distKm / 4.5) * 60));
   return {{ driveMinutes, walkMinutes }};
 }}
@@ -609,7 +650,6 @@ function getWhatsAppUrl(phone) {{
   return `https://wa.me/${{digits}}`;
 }}
 
-// Initialize Map directly centered on Saburtalo [41.7255, 44.7485], zoom 14
 const map = L.map('map', {{
   center: [41.7255, 44.7485],
   zoom: 14,
@@ -649,9 +689,9 @@ function makeIcon(color, emoji) {{
     html: `<div style="
       background:${{color}};width:34px;height:34px;border-radius:50% 50% 50% 0;
       transform:rotate(-45deg);border:3px solid white;
-      box-shadow:0 3px 8px rgba(0,0,0,0.4);
+      box-shadow:0 3px 8px rgba(0,0,0,0.35);
       display:flex;align-items:center;justify-content:center;">
-      <span style="transform:rotate(45deg);font-size:14px">${{emoji}}</span>
+      <span style="transform:rotate(45deg);font-size:15px">${{emoji}}</span>
     </div>`,
     iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -36]
   }});
@@ -685,7 +725,7 @@ function updateUserRadiusCircle(lat, lon, radius) {{
   if (radius === 'all') return;
   userRadiusCircle = L.circle([lat, lon], {{
     radius: Number(radius) * 1000,
-    color: '#1a73e8',
+    color: '#0284c7',
     weight: 2,
     opacity: 0.75,
     fillColor: '#38bdf8',
@@ -702,7 +742,7 @@ function buildPopupHtml(p, lang, lat, lon) {{
   const subName = isKa ? p.sub_district_ka : p.sub_district_en;
   const addr = isKa ? p.address_ka : p.address_en;
   const desc = isKa ? p.desc_ka : p.desc_en;
-  const prods = (p.products_ka || []).slice(0, 5).map(t => `<span class="tag">${{t}}</span>`).join('');
+  const prods = (isKa ? p.products_ka : p.products_en || []).map(t => `<span class="tag tag-highlight">${{t}}</span>`).join('');
 
   let phoneHtml = '';
   if (p.phone) {{
@@ -788,7 +828,7 @@ function buildSidebar(features, lang) {{
     const catLabel = isKa ? p.cat_label_ka : p.cat_label_en;
     const subName = isKa ? p.sub_district_ka : p.sub_district_en;
     const addr = isKa ? p.address_ka : p.address_en;
-    const tags = (p.products_ka || []).slice(0, 4).map(t => `<span class="tag">${{t}}</span>`).join('');
+    const tags = (isKa ? p.products_ka : p.products_en || []).map(t => `<span class="tag tag-highlight">${{t}}</span>`).join('');
 
     let distCardHtml = '';
     if (userCoords) {{
@@ -921,7 +961,7 @@ function triggerNearMe() {{
     btn.classList.remove('locating');
     console.warn('Geolocation fallback to Saburtalo center:', err);
     alert(I18N[currentLang].geo_fallback_msg);
-    onLocationFound(41.7242, 44.7725); // Pekini Ave
+    onLocationFound(41.7242, 44.7725);
   }}
 
   if ('geolocation' in navigator) {{
@@ -966,6 +1006,14 @@ let activeCat = 'all';
 let activeSubDistrict = '';
 let searchText = '';
 
+function matchDairyPill(p, pillKey) {{
+  if (pillKey === 'all') return true;
+  const filterDef = DAIRY_QUICK_FILTERS.find(f => f.id === pillKey);
+  if (!filterDef || !filterDef.terms) return true;
+  const targetStr = ((p.products_en || []).concat(p.products_ka || []).concat([p.desc_en, p.desc_ka, p.name_en, p.name_ka])).join(' ').toLowerCase();
+  return filterDef.terms.some(term => targetStr.includes(term.toLowerCase()));
+}}
+
 function applyFilters() {{
   const q = searchText.toLowerCase().trim();
   let candidateFeatures = GEOJSON.features.slice();
@@ -1001,6 +1049,8 @@ function applyFilters() {{
     const p = f.properties;
     const matchCat = activeCat === 'all' || p.category === activeCat;
     const matchSub = !activeSubDistrict || p.sub_district === activeSubDistrict;
+    const matchPill = matchDairyPill(p, activeDairyPill);
+
     const prodsAll = (p.products_en || []).concat(p.products_ka || []).join(' ').toLowerCase();
     const matchSearch = !q ||
       p.name_en.toLowerCase().includes(q) ||
@@ -1009,9 +1059,11 @@ function applyFilters() {{
       p.sub_district_ka.toLowerCase().includes(q) ||
       p.address_en.toLowerCase().includes(q) ||
       p.address_ka.toLowerCase().includes(q) ||
+      p.desc_en.toLowerCase().includes(q) ||
+      p.desc_ka.toLowerCase().includes(q) ||
       prodsAll.includes(q);
 
-    return matchCat && matchSub && matchSearch;
+    return matchCat && matchSub && matchPill && matchSearch;
   }});
 
   buildSidebar(filtered, currentLang);
@@ -1045,17 +1097,27 @@ function switchLanguage(lang) {{
 
   document.getElementById('header-title').innerHTML = `${{I18N[lang].title}} <span>${{I18N[lang].title_sub}}</span>`;
   document.getElementById('header-sub').textContent = I18N[lang].subtitle;
-  document.getElementById('stat-lbl-farms').textContent = I18N[lang].shops;
+  document.getElementById('stat-lbl-farms').textContent = I18N[lang].hubs;
   document.getElementById('stat-lbl-subdistricts').textContent = I18N[lang].subdistricts;
   document.getElementById('stat-lbl-categories').textContent = I18N[lang].categories;
 
   document.getElementById('search').placeholder = I18N[lang].search_placeholder;
   document.getElementById('no-results').textContent = I18N[lang].no_results;
 
+  // Update Dairy Quick Pills
+  document.querySelectorAll('.dairy-pill').forEach(btn => {{
+    const prodKey = btn.dataset.prod;
+    const filterDef = DAIRY_QUICK_FILTERS.find(f => f.id === prodKey);
+    if (filterDef) {{
+      const textSpan = btn.querySelector('.pill-text');
+      if (textSpan) textSpan.textContent = isKa ? filterDef.label_ka : filterDef.label_en;
+    }}
+  }});
+
   document.getElementById('cat-btn-all').textContent = I18N[lang].all_cats;
-  document.getElementById('cat-btn-farm_shop').textContent = I18N[lang].farm_shop;
-  document.getElementById('cat-btn-dairy_hub').textContent = I18N[lang].dairy_hub;
-  document.getElementById('cat-btn-meat_eggs').textContent = I18N[lang].meat_eggs;
+  document.getElementById('cat-btn-fresh_milk').textContent = I18N[lang].fresh_milk;
+  document.getElementById('cat-btn-matsoni_cream').textContent = I18N[lang].matsoni_cream;
+  document.getElementById('cat-btn-cheese_artisan').textContent = I18N[lang].cheese_artisan;
   document.getElementById('cat-btn-delivery_coop').textContent = I18N[lang].delivery_coop;
 
   const nearMeLbl = document.getElementById('near-me-label');
@@ -1088,11 +1150,22 @@ function switchLanguage(lang) {{
   updateMobileToggleBtn();
 }}
 
+// Category Button Clicks
 document.querySelectorAll('.cat-btn').forEach(btn => {{
   btn.addEventListener('click', () => {{
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeCat = btn.dataset.cat;
+    applyFilters();
+  }});
+}});
+
+// Dairy Quick Pill Clicks
+document.querySelectorAll('.dairy-pill').forEach(btn => {{
+  btn.addEventListener('click', () => {{
+    document.querySelectorAll('.dairy-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeDairyPill = btn.dataset.prod;
     applyFilters();
   }});
 }});
@@ -1121,7 +1194,7 @@ def main():
     with open(VERIFIED_PATH, "r", encoding="utf-8") as f:
         farms = json.load(f)
 
-    print(f"\n🗺 Saburtalo Map Publisher — Geocoding & Rendering {len(farms)} Verified Locations\n{'─'*70}")
+    print(f"\n🗺 Saburtalo Dairy Publisher — Geocoding & Rendering {len(farms)} Dairy Locations\n{'─'*70}")
     features = build_features(farms)
     html_content = render_html(features)
 
@@ -1134,7 +1207,7 @@ def main():
     with open(VERIFIED_PATH, "w", encoding="utf-8") as f:
         json.dump(farms, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ Saburtalo PoC Map Created: {OUTPUT_POC_PATH}")
+    print(f"✅ Saburtalo Dairy Map Created: {OUTPUT_POC_PATH}")
     print(f"✅ Output index.html Created: {OUTPUT_INDEX_PATH}")
     print(f"   Locations plotted: {len(features)}")
     print(f"   Bounding Box: Lat [{SABURTALO_BOUNDS['lat_min']}, {SABURTALO_BOUNDS['lat_max']}], Lon [{SABURTALO_BOUNDS['lon_min']}, {SABURTALO_BOUNDS['lon_max']}]")

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🇬🇪 Saburtalo Fresh Farm Directory | საბურთალოს სოფლის პროდუქტების რუკა</title>
+  <title>🥛 Saburtalo Fresh Dairy Directory | საბურთალოს ნატურალური რძის ნაწარმის რუკა</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -48,14 +48,14 @@
 
     /* Header */
     #header {
-      background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 55%, #0284c7 100%);
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 45%, #059669 100%);
       color: white;
       padding: 12px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
       z-index: 1000;
       flex-shrink: 0;
     }
@@ -65,7 +65,7 @@
     }
 
     #header-title {
-      font-size: 1.32rem;
+      font-size: 1.35rem;
       font-weight: 700;
       letter-spacing: -0.2px;
     }
@@ -135,7 +135,7 @@
 
     .lang-btn.active {
       background: white;
-      color: #1b4d1b;
+      color: #0369a1;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     }
 
@@ -153,10 +153,10 @@
 
     /* Sidebar */
     #sidebar {
-      width: 400px;
+      width: 410px;
       min-width: 320px;
-      background: #fafafa;
-      border-right: 1px solid #e0e0e0;
+      background: #f8fafc;
+      border-right: 1px solid #e2e8f0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -166,13 +166,13 @@
     #controls {
       padding: 12px;
       background: white;
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e2e8f0;
     }
 
     #search {
       width: 100%;
       padding: 9px 14px;
-      border: 1.5px solid #d0d7de;
+      border: 1.5px solid #cbd5e1;
       border-radius: 20px;
       font-size: 0.88rem;
       outline: none;
@@ -181,14 +181,14 @@
     }
 
     #search:focus {
-      border-color: #2e7d32;
-      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
     #subdistrict-select {
       width: 100%;
       padding: 8px 12px;
-      border: 1.5px solid #d0d7de;
+      border: 1.5px solid #cbd5e1;
       border-radius: 8px;
       font-size: 0.85rem;
       margin-bottom: 9px;
@@ -197,30 +197,78 @@
       font-weight: 500;
     }
 
+    /* Dairy Product Pills */
+    .dairy-pill-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .dairy-pill-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .dairy-pill-bar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .dairy-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1.5px solid #cbd5e1;
+      background: #f1f5f9;
+      border-radius: 16px;
+      padding: 5px 11px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      color: #334155;
+      transition: all 0.18s ease;
+    }
+
+    .dairy-pill:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+    }
+
+    .dairy-pill.active {
+      background: #0284c7;
+      color: white;
+      border-color: #0284c7;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+    }
+
+    /* Category Filter Buttons */
     .cat-filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
     }
 
     .cat-btn {
-      border: 1.5px solid #d0d7de;
+      border: 1.5px solid #cbd5e1;
       background: white;
-      border-radius: 16px;
-      padding: 4px 10px;
-      font-size: 0.74rem;
+      border-radius: 14px;
+      padding: 4px 9px;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
     .cat-btn.active {
-      background: #202124;
+      background: #0f172a;
       color: white !important;
-      border-color: #202124 !important;
+      border-color: #0f172a !important;
     }
 
-    /* Near Me Button (Bottom-Right corner inside Map) */
+    /* Near Me Button */
     .near-me-btn {
       position: absolute;
       bottom: 28px;
@@ -231,30 +279,30 @@
       justify-content: center;
       gap: 7px;
       background: #ffffff;
-      color: #1a73e8;
-      border: 2px solid #1a73e8;
+      color: #0284c7;
+      border: 2px solid #0284c7;
       border-radius: 28px;
       padding: 10px 18px;
       font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
       transition: all 0.2s ease;
     }
 
     .near-me-btn:hover {
-      background: #eff6ff;
-      border-color: #1557b0;
+      background: #f0f9ff;
+      border-color: #0369a1;
       transform: translateY(-1.5px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
 
     .near-me-btn.active {
-      background: #1a73e8;
+      background: #0284c7;
       color: white;
-      border-color: #1557b0;
-      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.45);
+      border-color: #0369a1;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
     }
 
     .near-me-btn.locating {
@@ -267,12 +315,12 @@
 
     /* Near Me Status Bar */
     #near-me-status-bar {
-      background: #eff6ff;
-      border-left: 4px solid #1a73e8;
-      border-bottom: 1px solid #bfdbfe;
+      background: #f0f9ff;
+      border-left: 4px solid #0284c7;
+      border-bottom: 1px solid #bae6fd;
       padding: 9px 12px;
       font-size: 0.78rem;
-      color: #1e3a8a;
+      color: #0369a1;
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -292,8 +340,8 @@
 
     .reset-btn {
       background: white;
-      color: #1a73e8;
-      border: 1px solid #bfdbfe;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
       border-radius: 6px;
       padding: 3px 8px;
       font-size: 0.72rem;
@@ -304,8 +352,8 @@
     }
 
     .reset-btn:hover {
-      background: #dbeafe;
-      border-color: #93c5fd;
+      background: #e0f2fe;
+      border-color: #7dd3fc;
     }
 
     .status-controls {
@@ -316,16 +364,16 @@
 
     .radius-select-label {
       font-weight: 600;
-      color: #1e40af;
+      color: #0369a1;
       font-size: 0.74rem;
     }
 
     .radius-dropdown {
       padding: 3px 8px;
-      border: 1px solid #93c5fd;
+      border: 1px solid #7dd3fc;
       border-radius: 6px;
       background: white;
-      color: #1e3a8a;
+      color: #0369a1;
       font-size: 0.76rem;
       font-weight: 600;
       outline: none;
@@ -378,13 +426,13 @@
     .user-pulse-dot {
       width: 14px;
       height: 14px;
-      background: #1a73e8;
+      background: #0284c7;
       border: 2.5px solid white;
       border-radius: 50%;
       position: absolute;
       top: 5px;
       left: 5px;
-      box-shadow: 0 0 8px rgba(26, 115, 232, 0.9);
+      box-shadow: 0 0 8px rgba(2, 132, 199, 0.9);
       z-index: 2;
     }
 
@@ -394,7 +442,7 @@
       height: 34px;
       top: -5px;
       left: -5px;
-      background: rgba(26, 115, 232, 0.45);
+      background: rgba(2, 132, 199, 0.45);
       border-radius: 50%;
       animation: userPulse 2s infinite ease-out;
       z-index: 1;
@@ -420,7 +468,7 @@
 
     .user-popup-title {
       font-weight: 700;
-      color: #1a73e8;
+      color: #0284c7;
       font-size: 0.95rem;
       margin-bottom: 4px;
     }
@@ -446,19 +494,19 @@
 
     .farm-card {
       background: white;
-      border: 1px solid #e0e0e0;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 13px;
       margin-bottom: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .farm-card:hover {
-      border-color: #2e7d32;
+      border-color: #0284c7;
       transform: translateY(-1.5px);
-      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.12);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
     }
 
     .fc-cat {
@@ -474,19 +522,19 @@
     .fc-name {
       font-size: 0.96rem;
       font-weight: 700;
-      color: #202124;
+      color: #0f172a;
       line-height: 1.3;
     }
 
     .fc-name-sec {
       font-size: 0.78rem;
-      color: #5f6368;
+      color: #64748b;
       margin-bottom: 5px;
     }
 
     .fc-loc {
       font-size: 0.78rem;
-      color: #3c4043;
+      color: #334155;
       margin-bottom: 6px;
     }
 
@@ -498,28 +546,36 @@
     }
 
     .tag {
-      background: #f1f3f4;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
       border-radius: 4px;
       padding: 2px 6px;
       font-size: 0.68rem;
-      color: #3c4043;
+      color: #166534;
+      font-weight: 600;
+    }
+
+    .tag.tag-highlight {
+      background: #e0f2fe;
+      border-color: #bae6fd;
+      color: #0369a1;
     }
 
     .fc-phone {
       font-size: 0.78rem;
       margin-top: 6px;
-      color: #1b4d1b;
+      color: #0369a1;
       font-weight: 600;
     }
 
     .fc-phone a {
-      color: #1b4d1b;
+      color: #0369a1;
       text-decoration: none;
     }
 
     .fc-phone a:hover {
       text-decoration: underline;
-      color: #128c7e;
+      color: #0284c7;
     }
 
     .fc-gmaps {
@@ -532,16 +588,16 @@
       gap: 4px;
       font-size: 0.74rem;
       font-weight: 600;
-      color: #1a73e8;
+      color: #0284c7;
       text-decoration: none;
       padding: 3px 8px;
       border-radius: 6px;
-      background: #e8f0fe;
+      background: #e0f2fe;
       transition: background 0.15s;
     }
 
     .gmaps-link:hover {
-      background: #d2e3fc;
+      background: #bae6fd;
     }
 
     /* Map Container */
@@ -571,18 +627,18 @@
       font-size: 1.02rem;
       font-weight: 700;
       margin-bottom: 2px;
-      color: #202124;
+      color: #0f172a;
     }
 
     .popup-sec {
       font-size: 0.8rem;
-      color: #5f6368;
+      color: #64748b;
       margin-bottom: 6px;
     }
 
     .popup-addr {
       font-size: 0.8rem;
-      color: #3c4043;
+      color: #334155;
       margin-bottom: 6px;
       line-height: 1.35;
     }
@@ -618,7 +674,7 @@
 
     .popup-notes {
       font-size: 0.72rem;
-      color: #1b4d1b;
+      color: #0369a1;
       margin-top: 4px;
     }
 
@@ -630,19 +686,19 @@
       display: inline-block;
       width: 100%;
       text-align: center;
-      background: #1a73e8;
+      background: #0284c7;
       color: white;
       padding: 7px 12px;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
       transition: background 0.15s;
     }
 
     .gmaps-btn:hover {
-      background: #1557b0;
+      background: #0369a1;
     }
 
     /* Welcome Modal */
@@ -675,7 +731,7 @@
       width: 90%;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       text-align: center;
-      border: 1.5px solid rgba(46, 125, 50, 0.2);
+      border: 1.5px solid rgba(2, 132, 199, 0.25);
       animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -700,7 +756,7 @@
     .modal-title {
       font-size: 1.25rem;
       font-weight: 800;
-      color: #1b4d1b;
+      color: #0369a1;
       margin-bottom: 8px;
       line-height: 1.35;
     }
@@ -713,7 +769,7 @@
     }
 
     .modal-btn {
-      background: linear-gradient(135deg, #1b4d1b 0%, #2e7d32 100%);
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
       color: white;
       border: none;
       border-radius: 24px;
@@ -721,14 +777,14 @@
       font-size: 0.92rem;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
       transition: all 0.2s ease;
     }
 
     .modal-btn:hover {
       transform: translateY(-1.5px);
-      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
-      background: linear-gradient(135deg, #153e15 0%, #256629 100%);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.45);
+      background: linear-gradient(135deg, #02537c 0%, #0369a1 100%);
     }
 
     /* Mobile Responsive */
@@ -793,7 +849,7 @@
         left: 50%;
         transform: translateX(-50%);
         z-index: 1500;
-        background: #1b4d1b;
+        background: #0369a1;
         color: white;
         border: 2px solid white;
         border-radius: 30px;
@@ -811,14 +867,15 @@
 
   <div id="header">
     <div class="header-left">
-      <h1 id="header-title">🇬🇪 Saburtalo Fresh Farm Directory <span>| საბურთალოს სოფლის პროდუქტების რუკა</span></h1>
-      <div id="header-sub">Hyper-Local PoC • Saburtalo District, Tbilisi • 100% Genuine Artisanal Village Shops</div>
+      <h1 id="header-title">🥛 Saburtalo Fresh Dairy Directory <span>| საბურთალოს ნატურალური რძის ნაწარმი</span></h1>
+      <div id="header-sub">High-Quality Dairy • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese,
+        Matsoni, Sour Cream</div>
     </div>
     <div class="header-right">
       <div class="stats">
         <div class="stat">
           <div class="num" id="stat-total">17</div>
-          <div class="lbl" id="stat-lbl-farms">Shops</div>
+          <div class="lbl" id="stat-lbl-farms">Dairy Hubs</div>
         </div>
         <div class="stat">
           <div class="num" id="stat-subdistricts">5</div>
@@ -839,24 +896,36 @@
   <div id="main">
     <div id="sidebar">
       <div id="controls">
-        <input id="search" type="text" placeholder="Search shops, dairy, meat, village products…" />
+        <input id="search" type="text" placeholder="Search milk, cottage cheese, matsoni, sour cream, bio milk…" />
         <select id="subdistrict-select"></select>
+
+        <!-- Quick Dairy Product Pills Bar -->
+        <div class="dairy-pill-bar" id="dairy-pill-bar">
+          <button class="dairy-pill active" data-prod="all">🥛 <span class="pill-text">ყველა რძის
+              ნაწარმი</span></button>
+          <button class="dairy-pill" data-prod="milk">🥛 <span class="pill-text">ცოცხალი & ბიო რძე</span></button>
+          <button class="dairy-pill" data-prod="cottage_cheese">🥣 <span class="pill-text">ხაჭო</span></button>
+          <button class="dairy-pill" data-prod="matsoni">🏺 <span class="pill-text">მაწონი</span></button>
+          <button class="dairy-pill" data-prod="sour_cream">🍶 <span class="pill-text">არაჟანი</span></button>
+          <button class="dairy-pill" data-prod="cheese">🧀 <span class="pill-text">ყველი / სულგუნი</span></button>
+        </div>
+
         <div class="cat-filters">
           <button id="cat-btn-all" class="cat-btn active" data-cat="all" style="border-color:#37474f;color:#37474f">🗺
             All</button>
-          <button id="cat-btn-farm_shop" class="cat-btn" data-cat="farm_shop"
-            style="border-color:#2d7a2d;color:#2d7a2d">🏪 Farm Shop</button>
-          <button id="cat-btn-dairy_hub" class="cat-btn" data-cat="dairy_hub"
-            style="border-color:#d4a017;color:#d4a017">🧀 Dairy Hub</button>
-          <button id="cat-btn-meat_eggs" class="cat-btn" data-cat="meat_eggs"
-            style="border-color:#c0392b;color:#c0392b">🥩 Meat & Eggs</button>
+          <button id="cat-btn-fresh_milk" class="cat-btn" data-cat="fresh_milk"
+            style="border-color:#0284c7;color:#0284c7">🥛 Milk & Bio Milk</button>
+          <button id="cat-btn-matsoni_cream" class="cat-btn" data-cat="matsoni_cream"
+            style="border-color:#059669;color:#059669">🥣 Matsoni & Cream</button>
+          <button id="cat-btn-cheese_artisan" class="cat-btn" data-cat="cheese_artisan"
+            style="border-color:#d97706;color:#d97706">🧀 Artisanal Cheese</button>
           <button id="cat-btn-delivery_coop" class="cat-btn" data-cat="delivery_coop"
-            style="border-color:#2471a3;color:#2471a3">🚚 Delivery Coop</button>
+            style="border-color:#7c3aed;color:#7c3aed">🚚 Dairy Delivery</button>
         </div>
       </div>
       <div id="near-me-status-bar" style="display: none;">
         <div class="status-main">
-          <span id="near-me-status-text" class="status-text">ნაჩვენებია ლოკაციები თქვენგან 25 კმ-ის რადიუსში</span>
+          <span id="near-me-status-text" class="status-text">ნაჩვენებია რძის ობიექტები თქვენგან 5 კმ-ის რადიუსში</span>
           <button id="reset-near-me-btn" class="reset-btn" onclick="resetNearMe()">ყველას ჩვენება</button>
         </div>
         <div class="status-controls">
@@ -870,10 +939,10 @@
         </div>
       </div>
       <div id="farm-list"></div>
-      <div id="no-results">No verified producers match your search criteria.</div>
+      <div id="no-results">No verified dairy producers match your search criteria.</div>
     </div>
     <div id="map">
-      <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find shops near my location">
+      <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find dairy near my location">
         <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
       </button>
     </div>
@@ -885,11 +954,11 @@
 
   <div id="welcome-modal" class="modal-overlay" onclick="closeWelcomeModal(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
-      <div class="modal-icon">🇬🇪 🧀</div>
-      <div id="modal-title" class="modal-title">საბურთალოს სოფლის პროდუქტების რუკა</div>
+      <div class="modal-icon">🥛 🧀</div>
+      <div id="modal-title" class="modal-title">საბურთალოს ნატურალური რძის ნაწარმი</div>
       <div id="modal-desc" class="modal-desc">
-        აღმოაჩინეთ ავთენტური სოფლის პროდუქტების მაღაზიები, ხელნაკეთი ყველის წერტილები, სოფლის ხორცისა და კვერცხის
-        ობიექტები და ფერმერული მიტანის სერვისები საბურთალოზე!
+        იპოვეთ სად შეიძინოთ უმაღლესი ხარისხის რძის ნაწარმი საბურთალოზე: ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი,
+        ნაღების არაჟანი, ხელნაკეთი ყველი და ადგილზე მიტანის სერვისები!
       </div>
       <button id="modal-btn" class="modal-btn" onclick="closeWelcomeModal()">გასაგებია</button>
     </div>
@@ -904,68 +973,22 @@
           "geometry": {
             "type": "Point",
             "coordinates": [
-              44.7725,
-              41.7242
-            ]
-          },
-          "properties": {
-            "id": "sab-pek-001",
-            "name_en": "Soplis Nobati Pekini",
-            "name_ka": "სოფლის ნობათი პეკინზე",
-            "sub_district": "Pekini / Kostava",
-            "sub_district_en": "Pekini / Kostava",
-            "sub_district_ka": "პეკინი / კოსტავა",
-            "region": "Tbilisi",
-            "category": "farm_shop",
-            "cat_label_en": "Farm Shop",
-            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
-            "color": "#2d7a2d",
-            "emoji": "🏪",
-            "address_en": "14 Pekini Ave, Saburtalo, Tbilisi",
-            "address_ka": "პეკინის გამზ. 14, საბურთალო, თბილისი",
-            "phone": "+995 599 12 34 56",
-            "website": "https://facebook.com/soplisnobati.pekini",
-            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72420,44.77250",
-            "products_en": [
-              "სოფლის მაწონი",
-              "იმერული ყველი",
-              "კახური ზეთი",
-              "ალპური თაფლი",
-              "ახალი კვერცხი"
-            ],
-            "products_ka": [
-              "სოფლის მაწონი",
-              "იმერული ყველი",
-              "კახური ზეთი",
-              "ალპური თაფლი",
-              "ახალი კვერცხი"
-            ],
-            "desc_en": "Authentic neighborhood store stocking fresh village dairy, Kakhetian sunflower oil, mountain honey, and artisanal bread.",
-            "desc_ka": "უბნის მაღაზია პეკინზე: ნატურალური სოფლის რძის პროდუქტები, კახური ზეთი, მთის თაფლი და დედას პური.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
               44.7812,
               41.7188
             ]
           },
           "properties": {
-            "id": "sab-pek-002",
+            "id": "sab-dairy-001",
             "name_en": "Kakhuri Kveli & Dairy Kostava",
             "name_ka": "კახური ყველი და რძის პროდუქტები კოსტავაზე",
             "sub_district": "Pekini / Kostava",
             "sub_district_en": "Pekini / Kostava",
             "sub_district_ka": "პეკინი / კოსტავა",
             "region": "Tbilisi",
-            "category": "dairy_hub",
-            "cat_label_en": "Dairy Hub",
-            "cat_label_ka": "ყველი და რძის პროდუქტები",
-            "color": "#d4a017",
+            "category": "cheese_artisan",
+            "cat_label_en": "Artisanal Cheese",
+            "cat_label_ka": "ხელნაკეთი ყველი",
+            "color": "#d97706",
             "emoji": "🧀",
             "address_en": "Kostava St 68, Saburtalo, Tbilisi",
             "address_ka": "კოსტავას ქ. 68, საბურთალო, თბილისი",
@@ -973,22 +996,70 @@
             "website": "https://facebook.com/kakhuri.kveli.kostava",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71880,44.78120",
             "products_en": [
-              "თუშური გუდა",
-              "შებოლილი სულგუნი",
-              "ქოთნის მაწონი",
-              "ნადუღი",
-              "სოფლის კარაქი"
+              "Milk",
+              "Matsoni",
+              "Cottage Cheese",
+              "Sulguni",
+              "Guda Cheese",
+              "Butter"
             ],
             "products_ka": [
-              "თუშური გუდა",
-              "შებოლილი სულგუნი",
+              "ცოცხალი რძე",
               "ქოთნის მაწონი",
-              "ნადუღი",
+              "ხელნაკეთი ხაჭო",
+              "სულგუნი",
+              "თუშური გუდა",
               "სოფლის კარაქი"
             ],
-            "desc_en": "Artisanal dairy boutique offering fresh brine Sulguni, Guda cheese, artisanal Matsoni in clay pots, and fresh mountain butter.",
-            "desc_ka": "რძის პროდუქტების ბუტიკი კოსტავაზე: ახალი სულგუნი, თუშური გუდა, ქოთნის მაწონი და სოფლის ერბო.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Artisanal dairy boutique offering fresh brine Sulguni, aged Guda cheese, artisanal Matsoni in clay pots, and fresh mountain butter.",
+            "desc_ka": "რძის პროდუქტების ბუტიკი კოსტავაზე: ახალი სულგუნი, თუშური გუდა, ქოთნის მაწონი, სოფლის კარაქი და ერბო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.7725,
+              41.7242
+            ]
+          },
+          "properties": {
+            "id": "sab-dairy-002",
+            "name_en": "Pekini Village Dairy Corner",
+            "name_ka": "პეკინის სოფლის რძის კუთხე",
+            "sub_district": "Pekini / Kostava",
+            "sub_district_en": "Pekini / Kostava",
+            "sub_district_ka": "პეკინი / კოსტავა",
+            "region": "Tbilisi",
+            "category": "fresh_milk",
+            "cat_label_en": "Milk & Bio Milk",
+            "cat_label_ka": "ცოცხალი & ბიო რძე",
+            "color": "#0284c7",
+            "emoji": "🥛",
+            "address_en": "14 Pekini Ave, Saburtalo, Tbilisi",
+            "address_ka": "პეკინის გამზ. 14, საბურთალო, თბილისი",
+            "phone": "+995 599 12 34 56",
+            "website": "https://facebook.com/pekinidairy",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72420,44.77250",
+            "products_en": [
+              "Raw Milk",
+              "Bio Milk",
+              "Sour Cream",
+              "Matsoni",
+              "Cottage Cheese"
+            ],
+            "products_ka": [
+              "ნედლი რძე",
+              "ბიო რძე",
+              "სოფლის არაჟანი",
+              "ნატურალური მაწონი",
+              "ხაჭო"
+            ],
+            "desc_en": "Daily delivery of raw farm cow milk, unpasteurized bio milk, village sour cream, and fresh thick matsoni.",
+            "desc_ka": "ნედლი სოფლის რძე, ბიო რძე, სოფლის სქელი არაჟანი და ნატურალური მაწონი ყოველდღე.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1001,38 +1072,40 @@
             ]
           },
           "properties": {
-            "id": "sab-pek-003",
-            "name_en": "Saburtalo Village Meat & Poultry",
-            "name_ka": "საბურთალოს სოფლის ხორცი და ფრინველი",
+            "id": "sab-dairy-003",
+            "name_en": "Saburtalo Matsoni & Nadughi Workshop",
+            "name_ka": "საბურთალოს მაწვნისა და ნადუღის სახელოსნო",
             "sub_district": "Pekini / Kostava",
             "sub_district_en": "Pekini / Kostava",
             "sub_district_ka": "პეკინი / კოსტავა",
             "region": "Tbilisi",
-            "category": "meat_eggs",
-            "cat_label_en": "Meat & Eggs",
-            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
-            "color": "#c0392b",
-            "emoji": "🥩",
+            "category": "matsoni_cream",
+            "cat_label_en": "Matsoni, Cream & Curd",
+            "cat_label_ka": "მაწონი, არაჟანი & ხაჭო",
+            "color": "#059669",
+            "emoji": "🥣",
             "address_en": "Pekini Ave 27, Saburtalo, Tbilisi",
             "address_ka": "პეკინის გამზ. 27, საბურთალო, თბილისი",
             "phone": "+995 595 34 56 78",
-            "website": "https://instagram.com/saburtalo_village_meat",
+            "website": "https://instagram.com/saburtalo_matsoni",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72680,44.76480",
             "products_en": [
-              "სოფლის საქონლის ხორცი",
-              "სოფლის დედალი",
-              "თავისუფალი გამოზრდის კვერცხი",
-              "სოფლის ხბოს ხორცი"
+              "Matsoni",
+              "Sour Cream",
+              "Cottage Cheese",
+              "Nadughi",
+              "Milk"
             ],
             "products_ka": [
-              "სოფლის საქონლის ხორცი",
-              "სოფლის დედალი",
-              "თავისუფალი გამოზრდის კვერცხი",
-              "სოფლის ხბოს ხორცი"
+              "ქოთნის მაწონი",
+              "სოფლის არაჟანი",
+              "ხელნაკეთი ხაჭო",
+              "პიტნიანი ნადუღი",
+              "ცოცხალი რძე"
             ],
-            "desc_en": "Daily delivery of fresh Georgian mountain beef, village chicken, and free-range eggs directly from Shida Kartli farms.",
-            "desc_ka": "ყოველდღიური ახალი სოფლის საქონლის ხორცი, სოფლის დედალი და თავისუფალი გამოზრდის კვერცხი შიდა ქართლიდან.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Specialized dairy bar crafting pot-fermented matsoni, fresh mint nadughi, rich sour cream, and tender fresh cottage cheese.",
+            "desc_ka": "სპეციალიზებული რძის სახელოსნო: თიხის ქოთნის მაწონი, პიტნიანი ნადუღი, ნატურალური არაჟანი და ნაზი ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1045,17 +1118,17 @@
             ]
           },
           "properties": {
-            "id": "sab-vaz-001",
+            "id": "sab-dairy-004",
             "name_en": "Alvani Cheese House Vazha",
             "name_ka": "ალვნის ყველის სახლი ვაჟაზე",
             "sub_district": "Vazha-Pshavela",
             "sub_district_en": "Vazha-Pshavela",
             "sub_district_ka": "ვაჟა-ფშაველა",
             "region": "Tbilisi",
-            "category": "dairy_hub",
-            "cat_label_en": "Dairy Hub",
-            "cat_label_ka": "ყველი და რძის პროდუქტები",
-            "color": "#d4a017",
+            "category": "cheese_artisan",
+            "cat_label_en": "Artisanal Cheese",
+            "cat_label_ka": "ხელნაკეთი ყველი",
+            "color": "#d97706",
             "emoji": "🧀",
             "address_en": "Vazha-Pshavela Ave 25, Saburtalo, Tbilisi",
             "address_ka": "ვაჟა-ფშაველას გამზ. 25, საბურთალო, თბილისი",
@@ -1063,20 +1136,22 @@
             "website": "https://facebook.com/alvanicheesehouse",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72600,44.74700",
             "products_en": [
-              "თუშური ცხვრის ყველი",
-              "ჭყინტი იმერული ყველი",
-              "სოფლის არაჟანი",
-              "დავარგებული ყველი"
+              "Cottage Cheese",
+              "Sour Cream",
+              "Imeruli Cheese",
+              "Guda Cheese",
+              "Sulguni"
             ],
             "products_ka": [
-              "თუშური ცხვრის ყველი",
-              "ჭყინტი იმერული ყველი",
+              "ხელნაკეთი ხაჭო",
               "სოფლის არაჟანი",
-              "დავარგებული ყველი"
+              "იმერული ყველი",
+              "თუშური გუდა",
+              "სულგუნი"
             ],
-            "desc_en": "Direct point for Tushetian sheep cheese, Imeretian raw milk cheese, and village sour cream sourced from high Caucasus pastures.",
-            "desc_ka": "თუშური ცხვრის ყველის, იმერული ჭყინტი ყველისა და სოფლის არაჟნის პირდაპირი წერტილი ალვანიდან.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Direct farm shop for Tushetian sheep cheese, Imeretian raw milk cheese, fresh cottage cheese, and village sour cream.",
+            "desc_ka": "თუშური ცხვრის ყველის, იმერული ჭყინტი ყველის, ხაჭოსა და სოფლის არაჟნის პირდაპირი წერტილი ალვანიდან.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1089,40 +1164,40 @@
             ]
           },
           "properties": {
-            "id": "sab-vaz-002",
-            "name_en": "EkoFerma Vazha-Pshavela",
-            "name_ka": "ეკოფერმა ვაჟა-ფშაველაზე",
+            "id": "sab-dairy-005",
+            "name_en": "BioMilk Farm Point Vazha",
+            "name_ka": "ბიორძის ფერმერული წერტილი ვაჟაზე",
             "sub_district": "Vazha-Pshavela",
             "sub_district_en": "Vazha-Pshavela",
             "sub_district_ka": "ვაჟა-ფშაველა",
             "region": "Tbilisi",
-            "category": "farm_shop",
-            "cat_label_en": "Farm Shop",
-            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
-            "color": "#2d7a2d",
-            "emoji": "🏪",
+            "category": "fresh_milk",
+            "cat_label_en": "Milk & Bio Milk",
+            "cat_label_ka": "ცოცხალი & ბიო რძე",
+            "color": "#0284c7",
+            "emoji": "🥛",
             "address_en": "Vazha-Pshavela Ave 41, Saburtalo, Tbilisi",
             "address_ka": "ვაჟა-ფშაველას გამზ. 41, საბურთალო, თბილისი",
             "phone": "+995 599 56 78 90",
-            "website": "https://facebook.com/ekoferma.vazha",
+            "website": "https://facebook.com/biomilk.vazha",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72400,44.73900",
             "products_en": [
-              "ქართული პომიდორი",
-              "სოფლის მწვანილი",
-              "კახური ნიგოზი",
-              "სოფლის რძე",
-              "ქოთნის მაწონი"
+              "Bio Milk",
+              "Raw Milk",
+              "Sour Cream",
+              "Cottage Cheese",
+              "Matsoni"
             ],
             "products_ka": [
-              "ქართული პომიდორი",
-              "სოფლის მწვანილი",
-              "კახური ნიგოზი",
-              "სოფლის რძე",
-              "ქოთნის მაწონი"
+              "ბიო რძე",
+              "ნედლი რძე",
+              "სოფლის არაჟანი",
+              "ხელნაკეთი ხაჭო",
+              "მაწონი"
             ],
-            "desc_en": "Eco-friendly farm corner providing seasonal greens, greenhouse tomatoes, Kakhetian garlic, walnuts, and village dairy.",
-            "desc_ka": "ეკოლოგიურად სუფთა ფერმერული მაღაზია: სეზონური მწვანილი, ქართული პომიდორი, კახური ნიორი, ნიგოზი და რძის პროდუქტები.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Certified ecological raw cow milk, organic bio milk bottles, rustic sour cream, and homemade curd cottage cheese.",
+            "desc_ka": "ეკოლოგიურად სუფთა ნედლი რძე, ბიო რძე ბოთლებში, სოფლის ნაღები, არაჟანი და ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1135,84 +1210,40 @@
             ]
           },
           "properties": {
-            "id": "sab-vaz-003",
-            "name_en": "Kartli Fresh Meat Vazha",
-            "name_ka": "ქართლის ახალი ხორცი ვაჟა-ფშაველაზე",
+            "id": "sab-dairy-006",
+            "name_en": "Vazha 7th Block Dairy Cellar",
+            "name_ka": "ვაჟას მე-7 კვარტლის რძის მარანი",
             "sub_district": "Vazha-Pshavela",
             "sub_district_en": "Vazha-Pshavela",
             "sub_district_ka": "ვაჟა-ფშაველა",
             "region": "Tbilisi",
-            "category": "meat_eggs",
-            "cat_label_en": "Meat & Eggs",
-            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
-            "color": "#c0392b",
-            "emoji": "🥩",
+            "category": "matsoni_cream",
+            "cat_label_en": "Matsoni, Cream & Curd",
+            "cat_label_ka": "მაწონი, არაჟანი & ხაჭო",
+            "color": "#059669",
+            "emoji": "🥣",
             "address_en": "Vazha-Pshavela 7th Block, Saburtalo, Tbilisi",
             "address_ka": "ვაჟა-ფშაველას მე-7 კვარტალი, საბურთალო, თბილისი",
             "phone": "+995 577 67 89 01",
-            "website": "https://facebook.com/kartlifreshmeat",
+            "website": "https://facebook.com/vazhadairycellar",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72150,44.72600",
             "products_en": [
-              "ახალი საქონლის ხორცი",
-              "ღორის ხორცი",
-              "სოფლის ქათამი",
-              "დიეტური კვერცხი"
+              "Matsoni",
+              "Sour Cream",
+              "Milk",
+              "Cottage Cheese",
+              "Imeruli Cheese"
             ],
             "products_ka": [
-              "ახალი საქონლის ხორცი",
-              "ღორის ხორცი",
-              "სოფლის ქათამი",
-              "დიეტური კვერცხი"
+              "ქოთნის მაწონი",
+              "სოფლის არაჟანი",
+              "ცოცხალი რძე",
+              "დიეტური ხაჭო",
+              "იმერული ყველი"
             ],
-            "desc_en": "Neighborhood meat counter partnering with village butchers from Kaspi and Gori. Zero additives, strictly fresh daily cuts.",
-            "desc_ka": "უბნის ხორცის მაღაზია: ახალი ხორცი კასპისა და გორის სოფლებიდან ყოველდღიურად. დანამატების გარეშე.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-              44.744,
-              41.7205
-            ]
-          },
-          "properties": {
-            "id": "sab-nut-001",
-            "name_en": "Nutsubidze Village Bazaar Hub",
-            "name_ka": "ნუცუბიძის სოფლის ნობათის ჰაბი",
-            "sub_district": "Nutsubidze",
-            "sub_district_en": "Nutsubidze",
-            "sub_district_ka": "ნუცუბიძე",
-            "region": "Tbilisi",
-            "category": "farm_shop",
-            "cat_label_en": "Farm Shop",
-            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
-            "color": "#2d7a2d",
-            "emoji": "🏪",
-            "address_en": "Nutsubidze St 77, Saburtalo, Tbilisi",
-            "address_ka": "ნუცუბიძის ქ. 77, საბურთალო, თბილისი",
-            "phone": "+995 593 78 90 12",
-            "website": "https://facebook.com/nutsubidze.bazaar",
-            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72050,44.74400",
-            "products_en": [
-              "მთის კარტოფილი",
-              "ჭარხალი",
-              "სტაფილო",
-              "სოფლის ყველი",
-              "ველური თაფლი"
-            ],
-            "products_ka": [
-              "მთის კარტოფილი",
-              "ჭარხალი",
-              "სტაფილო",
-              "სოფლის ყველი",
-              "ველური თაფლი"
-            ],
-            "desc_en": "Cooperative neighborhood shop representing smallholder farmers from Kvemo Kartli and Samtskhe-Javakheti.",
-            "desc_ka": "კოოპერატიული მაღაზია: მცირე ფერმერების პროდუქცია ქვემო ქართლიდან და სამცხე-ჯავახეთის მთის კარტოფილი.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Neighborhood dairy depot stocking village churned sour cream, clay jar matsoni, fresh morning milk, and diet cottage cheese.",
+            "desc_ka": "უბნის რძის მარანი: სოფლის სქელი არაჟანი, ქოთნის მაწონი, დილის ცოცხალი რძე და დიეტური ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1225,38 +1256,86 @@
             ]
           },
           "properties": {
-            "id": "sab-nut-002",
+            "id": "sab-dairy-007",
             "name_en": "Nutsubidze Plateau Dairy Point",
             "name_ka": "ნუცუბიძის პლატოს რძის წერტილი",
             "sub_district": "Nutsubidze",
             "sub_district_en": "Nutsubidze",
             "sub_district_ka": "ნუცუბიძე",
             "region": "Tbilisi",
-            "category": "dairy_hub",
-            "cat_label_en": "Dairy Hub",
-            "cat_label_ka": "ყველი და რძის პროდუქტები",
-            "color": "#d4a017",
-            "emoji": "🧀",
+            "category": "matsoni_cream",
+            "cat_label_en": "Matsoni, Cream & Curd",
+            "cat_label_ka": "მაწონი, არაჟანი & ხაჭო",
+            "color": "#059669",
+            "emoji": "🥣",
             "address_en": "Nutsubidze 2nd Plateau, Bldg 3, Saburtalo, Tbilisi",
             "address_ka": "ნუცუბიძის II პლატო, კორპ. 3, საბურთალო, თბილისი",
             "phone": "+995 598 89 01 23",
             "website": "https://facebook.com/plateau.dairy",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71800,44.73200",
             "products_en": [
-              "კამეჩის მაწონი",
-              "ხელნაკეთი ხაჭო",
-              "პიტნიანი ნადუღი",
-              "იმერული ჭყინტი ყველი"
+              "Matsoni",
+              "Cottage Cheese",
+              "Sour Cream",
+              "Buffalo Matsoni",
+              "Nadughi"
             ],
             "products_ka": [
-              "კამეჩის მაწონი",
+              "ძროხის მაწონი",
               "ხელნაკეთი ხაჭო",
-              "პიტნიანი ნადუღი",
-              "იმერული ჭყინტი ყველი"
+              "სოფლის არაჟანი",
+              "კამეჩის მაწონი",
+              "ნადუღი"
             ],
-            "desc_en": "Artisanal dairy dispensary with village cow and buffalo matsoni, fresh cottage cheese, and mint nadughi.",
-            "desc_ka": "რძის პროდუქტების წერტილი: ძროხისა და კამეჩის მაწონი, ხელნაკეთი ხაჭო და ნადუღი პიტნით.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Artisanal dairy dispensary with village cow and buffalo matsoni, fresh cottage cheese, sour cream, and mint nadughi.",
+            "desc_ka": "რძის პროდუქტების წერტილი: ძროხისა და კამეჩის მაწონი, ხელნაკეთი ხაჭო, სოფლის არაჟანი და ნადუღი პიტნით.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.744,
+              41.7205
+            ]
+          },
+          "properties": {
+            "id": "sab-dairy-008",
+            "name_en": "Nutsubidze Pure Milk & Cheese Corner",
+            "name_ka": "ნუცუბიძის სუფთა რძისა და ყველის კუთხე",
+            "sub_district": "Nutsubidze",
+            "sub_district_en": "Nutsubidze",
+            "sub_district_ka": "ნუცუბიძე",
+            "region": "Tbilisi",
+            "category": "fresh_milk",
+            "cat_label_en": "Milk & Bio Milk",
+            "cat_label_ka": "ცოცხალი & ბიო რძე",
+            "color": "#0284c7",
+            "emoji": "🥛",
+            "address_en": "Nutsubidze St 77, Saburtalo, Tbilisi",
+            "address_ka": "ნუცუბიძის ქ. 77, საბურთალო, თბილისი",
+            "phone": "+995 593 78 90 12",
+            "website": "https://facebook.com/nutsubidzemilk",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72050,44.74400",
+            "products_en": [
+              "Milk",
+              "Bio Milk",
+              "Cottage Cheese",
+              "Sour Cream",
+              "Butter"
+            ],
+            "products_ka": [
+              "ცოცხალი რძე",
+              "ბიო რძე",
+              "ხელნაკეთი ხაჭო",
+              "სოფლის არაჟანი",
+              "კარაქი"
+            ],
+            "desc_en": "Fresh whole milk delivered daily from Dusheti pastures, alongside fresh bio milk, cottage cheese, and village butter.",
+            "desc_ka": "დუშეთის საძოვრების ახალი ნედლი რძე, ბიო რძე, ხელნაკეთი ხაჭო და სოფლის კარაქი ყოველდღიურად.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1269,38 +1348,40 @@
             ]
           },
           "properties": {
-            "id": "sab-nut-003",
-            "name_en": "Nutsubidze Farm Meat & Eggs Corner",
-            "name_ka": "ნუცუბიძის ფერმერული ხორცი და კვერცხი",
+            "id": "sab-dairy-009",
+            "name_en": "Nutsubidze 1st Plateau Artisanal Curd",
+            "name_ka": "ნუცუბიძის I პლატოს ხელნაკეთი ხაჭო და მაწონი",
             "sub_district": "Nutsubidze",
             "sub_district_en": "Nutsubidze",
             "sub_district_ka": "ნუცუბიძე",
             "region": "Tbilisi",
-            "category": "meat_eggs",
-            "cat_label_en": "Meat & Eggs",
-            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
-            "color": "#c0392b",
-            "emoji": "🥩",
+            "category": "matsoni_cream",
+            "cat_label_en": "Matsoni, Cream & Curd",
+            "cat_label_ka": "მაწონი, არაჟანი & ხაჭო",
+            "color": "#059669",
+            "emoji": "🥣",
             "address_en": "Nutsubidze 1st Plateau, Saburtalo, Tbilisi",
             "address_ka": "ნუცუბიძის I პლატო, საბურთალო, თბილისი",
             "phone": "+995 579 90 12 34",
-            "website": "https://facebook.com/nutsubidze.meat",
+            "website": "https://facebook.com/nutsubidze.curd",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.71950,44.73850",
             "products_en": [
-              "დუშეთის საქონლის ხორცი",
-              "სოფლის ინდაური",
-              "სოფლის კვერცხი",
-              "ახალი ხბოს ხორცი"
+              "Cottage Cheese",
+              "Sour Cream",
+              "Matsoni",
+              "Milk",
+              "Sulguni"
             ],
             "products_ka": [
-              "დუშეთის საქონლის ხორცი",
-              "სოფლის ინდაური",
-              "სოფლის კვერცხი",
-              "ახალი ხბოს ხორცი"
+              "სოფლის ხაჭო",
+              "ცხიმიანი არაჟანი",
+              "სქელი მაწონი",
+              "ცოცხალი რძე",
+              "სულგუნი"
             ],
-            "desc_en": "Family-run butchery sourcing directly from Dusheti pastures. Fresh beef, pork, turkey, and village poultry eggs.",
-            "desc_ka": "საოჯახო ხორცის მაღაზია: დუშეთის საძოვრების საქონლის ხორცი, ინდაური, სოფლის ქათამი და კვერცხი.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Handmade village cottage cheese (khacho), whole milk sour cream, natural matsoni, and fresh unpasteurized milk.",
+            "desc_ka": "ნატურალური სოფლის ხაჭო, ცხიმიანი არაჟანი, სქელი მაწონი და გაუპასტერიზებელი ცოცხალი რძე.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1313,17 +1394,17 @@
             ]
           },
           "properties": {
-            "id": "sab-kaz-001",
+            "id": "sab-dairy-010",
             "name_en": "Delisi Artisanal Cheese Workshop",
             "name_ka": "დელისის ყველის სახელოსნო",
             "sub_district": "Kazbegi / Delisi",
             "sub_district_en": "Kazbegi / Delisi",
             "sub_district_ka": "ყაზბეგი / დელისი",
             "region": "Tbilisi",
-            "category": "dairy_hub",
-            "cat_label_en": "Dairy Hub",
-            "cat_label_ka": "ყველი და რძის პროდუქტები",
-            "color": "#d4a017",
+            "category": "cheese_artisan",
+            "cat_label_en": "Artisanal Cheese",
+            "cat_label_ka": "ხელნაკეთი ყველი",
+            "color": "#d97706",
             "emoji": "🧀",
             "address_en": "Kazbegi Ave 34, Saburtalo, Tbilisi",
             "address_ka": "ყაზბეგის გამზ. 34, საბურთალო, თბილისი",
@@ -1331,22 +1412,22 @@
             "website": "https://instagram.com/delisi_cheese_workshop",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72500,44.75500",
             "products_en": [
-              "მეგრული სულგუნი",
-              "თენილი ყველი",
-              "შებოლილი ყველი",
-              "სოფლის ერბო",
-              "გებჟალია"
+              "Sulguni",
+              "Cottage Cheese",
+              "Tenili Cheese",
+              "Butter",
+              "Sour Cream"
             ],
             "products_ka": [
-              "მეგრული სულგუნი",
+              "სულგუნი",
+              "ხელნაკეთი ხაჭო",
               "თენილი ყველი",
-              "შებოლილი ყველი",
-              "სოფლის ერბო",
-              "გებჟალია"
+              "ნაღების კარაქი",
+              "სოფლის არაჟანი"
             ],
-            "desc_en": "Boutique cheese parlor showcasing aged Megrelian Sulguni, Tenili cheese from Samtskhe, and artisanal smoked cheeses.",
-            "desc_ka": "ყველის ბუტიკი: დავარგებული მეგრული სულგუნი, მესხური თენილი და შებოლილი ყველის ასორტიმენტი.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Boutique cheese parlor showcasing aged Megrelian Sulguni, Tenili cheese, fresh cottage cheese, and artisan cream butter.",
+            "desc_ka": "ყველის ბუტიკი: დავარგებული მეგრული სულგუნი, მესხური თენილი, ხელნაკეთი ხაჭო და ნაღების კარაქი.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1359,40 +1440,40 @@
             ]
           },
           "properties": {
-            "id": "sab-kaz-002",
-            "name_en": "Kazbegi Natural Products Mart",
-            "name_ka": "ყაზბეგის ნატურალური პროდუქტების მარტი",
+            "id": "sab-dairy-011",
+            "name_en": "Kazbegi BioMilk & Fresh Dairy Mart",
+            "name_ka": "ყაზბეგის ბიორძისა და რძის მარტი",
             "sub_district": "Kazbegi / Delisi",
             "sub_district_en": "Kazbegi / Delisi",
             "sub_district_ka": "ყაზბეგი / დელისი",
             "region": "Tbilisi",
-            "category": "farm_shop",
-            "cat_label_en": "Farm Shop",
-            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
-            "color": "#2d7a2d",
-            "emoji": "🏪",
+            "category": "fresh_milk",
+            "cat_label_en": "Milk & Bio Milk",
+            "cat_label_ka": "ცოცხალი & ბიო რძე",
+            "color": "#0284c7",
+            "emoji": "🥛",
             "address_en": "Kazbegi Ave 14b, Saburtalo, Tbilisi",
             "address_ka": "ყაზბეგის გამზ. 14ბ, საბურთალო, თბილისი",
             "phone": "+995 577 12 34 50",
-            "website": "https://facebook.com/kazbegi.natural",
+            "website": "https://facebook.com/kazbegi.biomilk",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72750,44.76100",
             "products_en": [
-              "მთის მწვანილი",
-              "ნატურალური ტყლაპი",
-              "ნამდვილი ჩურჩხელა",
-              "სოფლის თაფლი",
-              "კახური ზეთი"
+              "Bio Milk",
+              "Milk",
+              "Matsoni",
+              "Sour Cream",
+              "Cottage Cheese"
             ],
             "products_ka": [
-              "მთის მწვანილი",
-              "ნატურალური ტყლაპი",
-              "ნამდვილი ჩურჩხელა",
-              "სოფლის თაფლი",
-              "კახური ზეთი"
+              "ბიო რძე",
+              "ცოცხალი რძე",
+              "ქოთნის მაწონი",
+              "ნაღების არაჟანი",
+              "საბავშვო ხაჭო"
             ],
-            "desc_en": "Neighborhood produce shop stocking fresh mountain herbs, dried fruit rolls (Tklapi), churchkhela, and natural preserves.",
-            "desc_ka": "ნატურალური პროდუქტების მაღაზია: მთის მწვანილი, ნატურალური ტყლაპი, ჩურჩხელა და სოფლის მურაბები.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Fresh whole cow milk, raw bio milk, thick clay pot matsoni, fresh sour cream, and homemade curd for children and families.",
+            "desc_ka": "ცოცხალი ძროხის რძე, ნედლი ბიო რძე, თიხის ქოთნის მაწონი, ნაღების არაჟანი და საბავშვო ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1405,82 +1486,40 @@
             ]
           },
           "properties": {
-            "id": "sab-kaz-003",
-            "name_en": "Delisi Fresh Village Meat",
-            "name_ka": "დელისის სოფლის ახალი ხორცი",
+            "id": "sab-dairy-012",
+            "name_en": "Delisi Metro Dairy Hub",
+            "name_ka": "დელისის მეტროს რძის ჰაბი",
             "sub_district": "Kazbegi / Delisi",
             "sub_district_en": "Kazbegi / Delisi",
             "sub_district_ka": "ყაზბეგი / დელისი",
             "region": "Tbilisi",
-            "category": "meat_eggs",
-            "cat_label_en": "Meat & Eggs",
-            "cat_label_ka": "სოფლის ხორცი და კვერცხი",
-            "color": "#c0392b",
-            "emoji": "🥩",
+            "category": "matsoni_cream",
+            "cat_label_en": "Matsoni, Cream & Curd",
+            "cat_label_ka": "მაწონი, არაჟანი & ხაჭო",
+            "color": "#059669",
+            "emoji": "🥣",
             "address_en": "Tavadze St 3 (near Delisi Metro), Saburtalo, Tbilisi",
             "address_ka": "თავაძის ქ. 3 (მეტრო დელისთან), საბურთალო, თბილისი",
             "phone": "+995 595 23 45 61",
-            "website": "https://facebook.com/delisi.village.meat",
+            "website": "https://facebook.com/delisidairyhub",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72620,44.74950",
             "products_en": [
-              "საქონლის ხორცი",
-              "სოფლის ქათამი",
-              "დიეტური კვერცხი",
-              "ახალი ხბოს ხორცი"
+              "Cottage Cheese",
+              "Sour Cream",
+              "Matsoni",
+              "Milk",
+              "Nadughi"
             ],
             "products_ka": [
-              "საქონლის ხორცი",
-              "სოფლის ქათამი",
-              "დიეტური კვერცხი",
-              "ახალი ხბოს ხორცი"
+              "სოფლის ხაჭო",
+              "სოფლის არაჟანი",
+              "მაწონი",
+              "ცოცხალი რძე",
+              "ნადუღი"
             ],
-            "desc_en": "Direct farm butchery specializing in pasture-raised Georgian beef and fresh village chicken eggs delivered daily.",
-            "desc_ka": "პირდაპირი ხორცის მაღაზია: ბალახზე ნაზარდი ქართული საქონლის ხორცი და სოფლის ახალი კვერცხი ყოველდღიურად.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-              44.735,
-              41.745
-            ]
-          },
-          "properties": {
-            "id": "sab-lis-001",
-            "name_en": "Lisi Lake Organic Farm Hub",
-            "name_ka": "ლისის ტბის ორგანული ფერმის ჰაბი",
-            "sub_district": "Lisi",
-            "sub_district_en": "Lisi",
-            "sub_district_ka": "ლისი",
-            "region": "Tbilisi",
-            "category": "farm_shop",
-            "cat_label_en": "Farm Shop",
-            "cat_label_ka": "სოფლის პროდუქტების მაღაზია",
-            "color": "#2d7a2d",
-            "emoji": "🏪",
-            "address_en": "Lisi Lake Road 4, Saburtalo, Tbilisi",
-            "address_ka": "ლისის ტბის გზატკეცილი 4, საბურთალო, თბილისი",
-            "phone": "+995 591 34 56 72",
-            "website": "https://facebook.com/lisiorganichub",
-            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74500,44.73500",
-            "products_en": [
-              "ორგანული ბოსტნეული",
-              "მაყვლისა და ჟოლოს კენკრა",
-              "ველური თაფლი",
-              "დედას პური"
-            ],
-            "products_ka": [
-              "ორგანული ბოსტნეული",
-              "მაყვლისა და ჟოლოს კენკრა",
-              "ველური თაფლი",
-              "დედას პური"
-            ],
-            "desc_en": "Eco-pavilion at Lisi offering organic vegetables, artisan sourdough breads, berries, and raw honey straight from local gardens.",
-            "desc_ka": "ეკო-პავილიონი ლისის ტბის მიდამოებში: ორგანული ბოსტნეული, დედას პური, კენკრა და ნედლი თაფლი.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Daily supply of fresh cottage cheese, village sour cream, matsoni, fresh milk, and mint nadughi straight from Kartli farms.",
+            "desc_ka": "სოფლის ახალი ხაჭო, არაჟანი, მაწონი, ცოცხალი რძე და პიტნიანი ნადუღი ქართლის ფერმებიდან ყოველდღიურად.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1493,38 +1532,86 @@
             ]
           },
           "properties": {
-            "id": "sab-lis-002",
+            "id": "sab-dairy-013",
             "name_en": "Lisi View Goat & Sheep Dairy",
             "name_ka": "ლისი ვიუს თხისა და ცხვრის რძის მეურნეობა",
             "sub_district": "Lisi",
             "sub_district_en": "Lisi",
             "sub_district_ka": "ლისი",
             "region": "Tbilisi",
-            "category": "dairy_hub",
-            "cat_label_en": "Dairy Hub",
-            "cat_label_ka": "ყველი და რძის პროდუქტები",
-            "color": "#d4a017",
-            "emoji": "🧀",
+            "category": "fresh_milk",
+            "cat_label_en": "Milk & Bio Milk",
+            "cat_label_ka": "ცოცხალი & ბიო რძე",
+            "color": "#0284c7",
+            "emoji": "🥛",
             "address_en": "Tsodoreti Road, Lisi Area, Saburtalo, Tbilisi",
             "address_ka": "წოდორეთის გზატკეცილი, ლისის მიდამოები, საბურთალო, თბილისი",
             "phone": "+995 599 45 67 83",
             "website": "https://instagram.com/lisi_dairy_craft",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74850,44.71800",
             "products_en": [
-              "თხის მაწონი",
-              "თხის ყველი",
-              "თხის რძე",
-              "მწვანილოვანი ლაბნე"
+              "Bio Milk",
+              "Milk",
+              "Matsoni",
+              "Cottage Cheese",
+              "Goat Cheese"
             ],
             "products_ka": [
+              "თხის ბიო რძე",
+              "ცოცხალი რძე",
               "თხის მაწონი",
-              "თხის ყველი",
-              "თხის რძე",
-              "მწვანილოვანი ლაბნე"
+              "თხის ხაჭო",
+              "თხის ყველი"
             ],
-            "desc_en": "Small-batch goat milk dairy producing fresh goat matsoni, goat cheese, and herb-infused labneh above Saburtalo.",
-            "desc_ka": "მცირე თხის რძის საწარმო: თხის მაწონი, თხის ყველი და მწვანილოვანი ლაბნე საბურთალოს ზემოთ.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Small-batch goat milk dairy producing raw goat bio milk, goat matsoni, fresh goat cottage cheese, and herb-infused labneh.",
+            "desc_ka": "თხის რძის მეურნეობა ლისზე: ნედლი თხის ბიო რძე, თხის მაწონი, თხის ხაჭო და მწვანილოვანი ლაბნე.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              44.735,
+              41.745
+            ]
+          },
+          "properties": {
+            "id": "sab-dairy-014",
+            "name_en": "Lisi Lake Organic Dairy Pavilion",
+            "name_ka": "ლისის ტბის ორგანული რძის პავილიონი",
+            "sub_district": "Lisi",
+            "sub_district_en": "Lisi",
+            "sub_district_ka": "ლისი",
+            "region": "Tbilisi",
+            "category": "matsoni_cream",
+            "cat_label_en": "Matsoni, Cream & Curd",
+            "cat_label_ka": "მაწონი, არაჟანი & ხაჭო",
+            "color": "#059669",
+            "emoji": "🥣",
+            "address_en": "Lisi Lake Road 4, Saburtalo, Tbilisi",
+            "address_ka": "ლისის ტბის გზატკეცილი 4, საბურთალო, თბილისი",
+            "phone": "+995 591 34 56 72",
+            "website": "https://facebook.com/lisidairypavilion",
+            "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.74500,44.73500",
+            "products_en": [
+              "Matsoni",
+              "Sour Cream",
+              "Cottage Cheese",
+              "Bio Milk",
+              "Milk"
+            ],
+            "products_ka": [
+              "ორგანული მაწონი",
+              "მთის არაჟანი",
+              "სოფლის ხაჭო",
+              "ბიო რძე",
+              "ცოცხალი რძე"
+            ],
+            "desc_en": "Eco-pavilion offering organic cow matsoni, mountain sour cream, rustic cottage cheese, and organic milk.",
+            "desc_ka": "ორგანული რძის პავილიონი: ნატურალური მაწონი, მთის არაჟანი, სოფლის ხაჭო და ბიო რძე.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1537,38 +1624,40 @@
             ]
           },
           "properties": {
-            "id": "sab-del-001",
-            "name_en": "Saburtalo Agro Express Delivery Co-op",
-            "name_ka": "საბურთალოს აგრო ექსპრეს კოოპერატივი",
+            "id": "sab-dairy-015",
+            "name_en": "Saburtalo Dairy Express Doorstep Co-op",
+            "name_ka": "საბურთალოს რძის ექსპრეს მიტანის სერვისი",
             "sub_district": "Pekini / Kostava",
             "sub_district_en": "Pekini / Kostava",
             "sub_district_ka": "პეკინი / კოსტავა",
             "region": "Tbilisi",
             "category": "delivery_coop",
-            "cat_label_en": "Saburtalo Delivery",
-            "cat_label_ka": "ადგილზე მიტანა საბურთალოზე",
-            "color": "#2471a3",
+            "cat_label_en": "Dairy Delivery Co-op",
+            "cat_label_ka": "რძის პროდუქტების მიტანა",
+            "color": "#7c3aed",
             "emoji": "🚚",
             "address_en": "Bakhtrioni St 12, Saburtalo, Tbilisi",
             "address_ka": "ბახტრიონის ქ. 12, საბურთალო, თბილისი",
             "phone": "+995 577 56 78 94",
-            "website": "https://facebook.com/saburtalo.agroexpress",
+            "website": "https://facebook.com/saburtalo.dairyexpress",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72200,44.76800",
             "products_en": [
-              "ფერმერული ბოსტნეულის ყუთი",
-              "სოფლის რძის ნაკრები",
-              "სოფლის კვერცხი",
-              "სეზონური ხილი"
+              "Milk",
+              "Bio Milk",
+              "Matsoni",
+              "Sour Cream",
+              "Cottage Cheese"
             ],
             "products_ka": [
-              "ფერმერული ბოსტნეულის ყუთი",
-              "სოფლის რძის ნაკრები",
-              "სოფლის კვერცხი",
-              "სეზონური ხილი"
+              "ნედლი რძე",
+              "ბიო რძე",
+              "ქოთნის მაწონი",
+              "სოფლის არაჟანი",
+              "დილის ხაჭო"
             ],
-            "desc_en": "Same-day doorstep delivery cooperative for Saburtalo residents: seasonal farm boxes of vegetables, fruit, cheese, and eggs.",
-            "desc_ka": "იმავე დღეს მიტანის ფერმერული სერვისი საბურთალოელებისთვის: სეზონური ბოსტნეულის, ყველის, კვერცხისა და ხილის ყუთები.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Same-day doorstep delivery across Saburtalo: chilled raw milk, bio milk bottles, fresh matsoni jars, sour cream, and morning cottage cheese.",
+            "desc_ka": "იმავე დღეს სახლში მიტანის სერვისი საბურთალოზე: გაციებული ნედლი რძე, ბიო რძე, ქოთნის მაწონი, არაჟანი და დილის ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1581,38 +1670,40 @@
             ]
           },
           "properties": {
-            "id": "sab-del-002",
-            "name_en": "Vazha & Nutsubidze Farm Box Delivery",
-            "name_ka": "ვაჟასა და ნუცუბიძის ფერმერული კალათა",
+            "id": "sab-dairy-016",
+            "name_en": "Vazha & Nutsubidze Daily Dairy Delivery",
+            "name_ka": "ვაჟასა და ნუცუბიძის რძის პროდუქტების მიტანა",
             "sub_district": "Vazha-Pshavela",
             "sub_district_en": "Vazha-Pshavela",
             "sub_district_ka": "ვაჟა-ფშაველა",
             "region": "Tbilisi",
             "category": "delivery_coop",
-            "cat_label_en": "Saburtalo Delivery",
-            "cat_label_ka": "ადგილზე მიტანა საბურთალოზე",
-            "color": "#2471a3",
+            "cat_label_en": "Dairy Delivery Co-op",
+            "cat_label_ka": "რძის პროდუქტების მიტანა",
+            "color": "#7c3aed",
             "emoji": "🚚",
             "address_en": "Kavtaradze St 18, Saburtalo, Tbilisi",
             "address_ka": "ქავთარაძის ქ. 18, საბურთალო, თბილისი",
             "phone": "+995 593 67 89 05",
-            "website": "https://facebook.com/vazha.nutsubidze.farmbox",
+            "website": "https://facebook.com/vazha.dairy.delivery",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72250,44.73600",
             "products_en": [
-              "კახური მწვანილის ნაკრები",
-              "სოფლის მაწონი",
-              "სოფლის კვერცხი",
-              "სოფლის კარაქი"
+              "Bio Milk",
+              "Milk",
+              "Matsoni",
+              "Sour Cream",
+              "Cottage Cheese"
             ],
             "products_ka": [
-              "კახური მწვანილის ნაკრები",
-              "სოფლის მაწონი",
-              "სოფლის კვერცხი",
-              "სოფლის კარაქი"
+              "ბიო რძე",
+              "ცოცხალი რძე",
+              "მაწონი",
+              "ნაღების არაჟანი",
+              "ხაჭო"
             ],
-            "desc_en": "Local neighborhood distribution hub delivering fresh Kakhetian greens, organic dairy, and eggs across Saburtalo daily.",
-            "desc_ka": "საბურთალოს ლოკალური სადისტრიბუციო ჰაბი: კახური მწვანილი, ნატურალური რძის ნაწარმი და სოფლის კვერცხი სახლში მიტანით.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Local neighborhood dairy dispatch delivering glass-bottled bio milk, farm matsoni, fresh sour cream, and cottage cheese.",
+            "desc_ka": "საბურთალოს ლოკალური რძის მიტანა: მინის ბოთლების ბიო რძე, ფერმერული მაწონი, ნაღების არაჟანი და ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         },
         {
@@ -1625,64 +1716,67 @@
             ]
           },
           "properties": {
-            "id": "sab-del-003",
-            "name_en": "Lisi & Kazbegi Organic Delivery Hub",
-            "name_ka": "ლისისა და ყაზბეგის ორგანული მიტანის ჰაბი",
+            "id": "sab-dairy-017",
+            "name_en": "Kazbegi & Delisi Eco Dairy Courier",
+            "name_ka": "ყაზბეგისა და დელისის ეკო რძის კურიერი",
             "sub_district": "Kazbegi / Delisi",
             "sub_district_en": "Kazbegi / Delisi",
             "sub_district_ka": "ყაზბეგი / დელისი",
             "region": "Tbilisi",
             "category": "delivery_coop",
-            "cat_label_en": "Saburtalo Delivery",
-            "cat_label_ka": "ადგილზე მიტანა საბურთალოზე",
-            "color": "#2471a3",
+            "cat_label_en": "Dairy Delivery Co-op",
+            "cat_label_ka": "რძის პროდუქტების მიტანა",
+            "color": "#7c3aed",
             "emoji": "🚚",
             "address_en": "Asatiani St 10 (Medical University Area), Saburtalo, Tbilisi",
             "address_ka": "ასათიანის ქ. 10 (სამედიცინოსთან), საბურთალო, თბილისი",
             "phone": "+995 598 78 90 16",
-            "website": "https://facebook.com/lisi.kazbegi.organic",
+            "website": "https://facebook.com/delisi.ecodairy",
             "google_maps_url": "https://www.google.com/maps/search/?api=1&query=41.72700,44.75300",
             "products_en": [
-              "ხელნაკეთი ყველი",
-              "მთის თაფლი",
-              "სოფლის კვერცხი",
-              "ქოთნის მაწონი"
+              "Bio Milk",
+              "Matsoni",
+              "Cottage Cheese",
+              "Sour Cream",
+              "Sulguni"
             ],
             "products_ka": [
-              "ხელნაკეთი ყველი",
-              "მთის თაფლი",
-              "სოფლის კვერცხი",
-              "ქოთნის მაწონი"
+              "ბიო რძე",
+              "მაწონი",
+              "ნაზი ხაჭო",
+              "არაჟანი",
+              "სულგუნი"
             ],
-            "desc_en": "Bicycle and electric scooter co-op courier delivering fresh artisan cheeses, mountain honey, and pasture eggs in 45 minutes.",
-            "desc_ka": "სწრაფი ეკო-კურიერული სერვისი საბურთალოზე: ხელნაკეთი ყველი, მთის თაფლი და სოფლის კვერცხი 45 წუთში.",
-            "notes": "Verified authentic neighborhood artisanal farm shop / producer in Saburtalo."
+            "desc_en": "Fast 45-minute bicycle and scooter delivery of artisanal cheeses, fresh buffalo and cow matsoni, bio milk, and sweet curd.",
+            "desc_ka": "სწრაფი ეკო-კურიერული რძის სერვისი: ხელნაკეთი ყველი, კამეჩისა და ძროხის მაწონი, ბიო რძე და ნაზი ხაჭო.",
+            "notes": "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
           }
         }
       ]
     };
     const SUB_DISTRICT_NAMES = { "Pekini / Kostava": { "en": "Pekini / Kostava", "ka": "პეკინი / კოსტავა" }, "Vazha-Pshavela": { "en": "Vazha-Pshavela", "ka": "ვაჟა-ფშაველა" }, "Nutsubidze": { "en": "Nutsubidze", "ka": "ნუცუბიძე" }, "Kazbegi / Delisi": { "en": "Kazbegi / Delisi", "ka": "ყაზბეგი / დელისი" }, "Lisi": { "en": "Lisi", "ka": "ლისი" } };
-    const CATEGORY_STYLES = { "farm_shop": { "color": "#2d7a2d", "emoji": "🏪", "label_en": "Farm Shop", "label_ka": "სოფლის პროდუქტების მაღაზია" }, "dairy_hub": { "color": "#d4a017", "emoji": "🧀", "label_en": "Dairy Hub", "label_ka": "ყველი და რძის პროდუქტები" }, "meat_eggs": { "color": "#c0392b", "emoji": "🥩", "label_en": "Meat & Eggs", "label_ka": "სოფლის ხორცი და კვერცხი" }, "delivery_coop": { "color": "#2471a3", "emoji": "🚚", "label_en": "Saburtalo Delivery", "label_ka": "ადგილზე მიტანა საბურთალოზე" } };
+    const CATEGORY_STYLES = { "fresh_milk": { "color": "#0284c7", "emoji": "🥛", "label_en": "Milk & Bio Milk", "label_ka": "ცოცხალი & ბიო რძე" }, "matsoni_cream": { "color": "#059669", "emoji": "🥣", "label_en": "Matsoni, Cream & Curd", "label_ka": "მაწონი, არაჟანი & ხაჭო" }, "cheese_artisan": { "color": "#d97706", "emoji": "🧀", "label_en": "Artisanal Cheese", "label_ka": "ხელნაკეთი ყველი" }, "delivery_coop": { "color": "#7c3aed", "emoji": "🚚", "label_en": "Dairy Delivery Co-op", "label_ka": "რძის პროდუქტების მიტანა" } };
+    const DAIRY_QUICK_FILTERS = [{ "id": "all", "label_en": "All Dairy", "label_ka": "ყველა რძის ნაწარმი", "icon": "🥛" }, { "id": "milk", "label_en": "Milk / Bio Milk", "label_ka": "ცოცხალი & ბიო რძე", "icon": "🥛", "terms": ["milk", "რძე", "bio milk", "ბიო რძე"] }, { "id": "cottage_cheese", "label_en": "Cottage Cheese", "label_ka": "ხაჭო", "icon": "🥣", "terms": ["cottage cheese", "ხაჭო", "curd"] }, { "id": "matsoni", "label_en": "Matsoni", "label_ka": "მაწონი", "icon": "🏺", "terms": ["matsoni", "მაწონი", "buffalo matsoni"] }, { "id": "sour_cream", "label_en": "Sour Cream", "label_ka": "არაჟანი", "icon": "🍶", "terms": ["sour cream", "არაჟანი", "cream"] }, { "id": "cheese", "label_en": "Cheese / Sulguni", "label_ka": "ყველი / სულგუნი", "icon": "🧀", "terms": ["cheese", "ყველი", "sulguni", "სულგუნი", "guda", "გუდა", "tenili", "თენილი"] }];
 
     const I18N = {
       en: {
-        title: "🇬🇪 Saburtalo Fresh Farm Directory",
-        title_sub: "| Local Food & Dairy Map",
-        subtitle: "Hyper-Local PoC • Saburtalo District, Tbilisi • 100% Genuine Artisanal Village Shops",
-        shops: "Shops",
+        title: "🥛 Saburtalo Fresh Dairy Directory",
+        title_sub: "| Milk, Matsoni, Cottage Cheese & Sour Cream",
+        subtitle: "High-Quality Dairy • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream",
+        hubs: "Dairy Hubs",
         subdistricts: "Zones",
         categories: "Categories",
-        search_placeholder: "Search shops, dairy, meat, village products…",
+        search_placeholder: "Search milk, cottage cheese, matsoni, sour cream, bio milk…",
         all_subdistricts: "All Saburtalo",
         all_cats: "🗺 All",
-        farm_shop: "🏪 Farm Shop",
-        dairy_hub: "🧀 Dairy Hub",
-        meat_eggs: "🥩 Meat & Eggs",
-        delivery_coop: "🚚 Saburtalo Delivery",
-        no_results: "No verified producers match your search criteria.",
+        fresh_milk: "🥛 Milk & Bio Milk",
+        matsoni_cream: "🥣 Matsoni & Cream",
+        cheese_artisan: "🧀 Artisanal Cheese",
+        delivery_coop: "🚚 Dairy Delivery",
+        no_results: "No verified dairy producers match your search criteria.",
         call: "Call / WhatsApp",
         website: "Website / Page",
-        verified_badge: "Verified Local Producer",
+        verified_badge: "Verified Dairy Provider",
         gmaps_btn: "📍 View on Google Maps",
         google_roadmap: "Google Roadmap",
         google_satellite: "Google Satellite",
@@ -1695,35 +1789,35 @@
         radius_5: "5 km",
         radius_10: "10 km",
         radius_all: "All Saburtalo",
-        showing_within_radius: "Showing shops within {radius} km of your location",
-        fallback_closest: "No shops within {radius} km — showing {count} closest locations",
-        showing_all_sorted: "Showing all shops sorted by distance from your location",
+        showing_within_radius: "Showing dairy points within {radius} km of your location",
+        fallback_closest: "No dairy points within {radius} km — showing {count} closest locations",
+        showing_all_sorted: "Showing all dairy points sorted by distance from your location",
         reset_all: "Reset / Show All",
         your_location: "📍 Your Current Location",
         gps_loc: "Current GPS Location",
-        modal_title: "🇬🇪 Saburtalo Farm Directory PoC",
-        modal_desc: "Discover authentic artisanal cheese shops, fresh village meat/eggs, organic farm stores, and cooperative delivery hubs strictly within Saburtalo district, Tbilisi.",
-        modal_btn: "Explore Saburtalo",
+        modal_title: "🥛 Saburtalo Dairy Directory",
+        modal_desc: "Find where to buy premium fresh dairy in Saburtalo: raw milk, bio milk, artisan cottage cheese, clay-pot matsoni, sour cream, and local doorstep delivery!",
+        modal_btn: "Explore Dairy",
         geo_fallback_msg: "Geolocation unavailable. Using Pekini/Kostava center as demo."
       },
       ka: {
-        title: "🇬🇪 საბურთალოს სოფლის პროდუქტების რუკა",
-        title_sub: "| ნატურალური მეურნეობები",
-        subtitle: "ჰიპერ-ლოკალური PoC • საბურთალოს რაიონი, თბილისი • 100% ავთენტური სოფლის მაღაზიები",
-        shops: "მაღაზია",
+        title: "🥛 საბურთალოს ნატურალური რძის ნაწარმი",
+        title_sub: "| ცოცხალი რძე, ხაჭო, მაწონი, არაჟანი & ყველი",
+        subtitle: "უმაღლესი ხარისხის რძის ნაწარმი • საბურთალოს რაიონი • ცოცხალი რძე, ბიო რძე, ხაჭო, მაწონი, არაჟანი",
+        hubs: "რძის წერტილი",
         subdistricts: "უბანი",
         categories: "კატეგორია",
-        search_placeholder: "მოძებნეთ მაღაზიები, ყველი, ხორცი, სოფლის პროდუქტები...",
+        search_placeholder: "მოძებნეთ რძე, ხაჭო, მაწონი, არაჟანი, ბიო რძე, ყველი...",
         all_subdistricts: "მთელი საბურთალო",
         all_cats: "🗺 ყველა",
-        farm_shop: "🏪 სოფლის მაღაზია",
-        dairy_hub: "🧀 ყველი და რძის ნაწარმი",
-        meat_eggs: "🥩 სოფლის ხორცი და კვერცხი",
-        delivery_coop: "🚚 მიტანა საბურთალოზე",
-        no_results: "მითითებული ფილტრებით ობიექტი ვერ მოიძებნა.",
+        fresh_milk: "🥛 ცოცხალი & ბიო რძე",
+        matsoni_cream: "🥣 მაწონი, არაჟანი & ხაჭო",
+        cheese_artisan: "🧀 ხელნაკეთი ყველი",
+        delivery_coop: "🚚 რძის მიტანა",
+        no_results: "მითითებული ფილტრებით რძის ობიექტი ვერ მოიძებნა.",
         call: "დარეკვა / WhatsApp",
         website: "ვებ-გვერდი / ბმული",
-        verified_badge: "შემოწმებული ობიექტი",
+        verified_badge: "შემოწმებული რძის ობიექტი",
         gmaps_btn: "📍 ნახე Google Maps-ზე",
         google_roadmap: "Google რუკა",
         google_satellite: "Google თანამგზავრი",
@@ -1736,14 +1830,14 @@
         radius_5: "5 კმ",
         radius_10: "10 კმ",
         radius_all: "მთელი საბურთალო",
-        showing_within_radius: "ნაჩვენებია ლოკაციები თქვენგან {radius} კმ-ის რადიუსში",
+        showing_within_radius: "ნაჩვენებია რძის ობიექტები თქვენგან {radius} კმ-ის რადიუსში",
         fallback_closest: "{radius} კმ-ში ობიექტი ვერ მოიძებნა — ნაჩვენებია {count} უახლოესი",
         showing_all_sorted: "ნაჩვენებია ყველა ობიექტი თქვენი მდებარეობიდან მანძილის მიხედვით",
         reset_all: "ყველას ჩვენება",
         your_location: "📍 თქვენი მდებარეობა",
         gps_loc: "მიმდინარე GPS ლოკაცია",
-        modal_title: "საბურთალოს სოფლის პროდუქტების რუკა",
-        modal_desc: "აღმოაჩინეთ ავთენტური სოფლის პროდუქტების მაღაზიები, ხელნაკეთი ყველის წერტილები, სოფლის ხორცისა და კვერცხის ობიექტები და ფერმერული მიტანის სერვისები საბურთალოზე!",
+        modal_title: "საბურთალოს ნატურალური რძის ნაწარმი",
+        modal_desc: "იპოვეთ სად შეიძინოთ უმაღლესი ხარისხის რძის ნაწარმი საბურთალოზე: ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი, ხელნაკეთი ყველი და ადგილზე მიტანის სერვისები!",
         modal_btn: "გასაგებია",
         geo_fallback_msg: "გეოლოკაცია მიუწვდომელია. დემო მდებარეობად არჩეულია პეკინის ცენტრი."
       }
@@ -1755,6 +1849,7 @@
     let activeRadiusKm = 5;
     let userMarker = null;
     let userRadiusCircle = null;
+    let activeDairyPill = 'all';
 
     function getDistanceKm(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -1768,7 +1863,7 @@
     }
 
     function calculateTravelTimes(distKm) {
-      const driveMinutes = Math.max(1, Math.round((distKm / 35) * 60)); // 35km/h city speed
+      const driveMinutes = Math.max(1, Math.round((distKm / 35) * 60));
       const walkMinutes = Math.max(1, Math.round((distKm / 4.5) * 60));
       return { driveMinutes, walkMinutes };
     }
@@ -1790,7 +1885,6 @@
       return `https://wa.me/${digits}`;
     }
 
-    // Initialize Map directly centered on Saburtalo [41.7255, 44.7485], zoom 14
     const map = L.map('map', {
       center: [41.7255, 44.7485],
       zoom: 14,
@@ -1830,9 +1924,9 @@
         html: `<div style="
       background:${color};width:34px;height:34px;border-radius:50% 50% 50% 0;
       transform:rotate(-45deg);border:3px solid white;
-      box-shadow:0 3px 8px rgba(0,0,0,0.4);
+      box-shadow:0 3px 8px rgba(0,0,0,0.35);
       display:flex;align-items:center;justify-content:center;">
-      <span style="transform:rotate(45deg);font-size:14px">${emoji}</span>
+      <span style="transform:rotate(45deg);font-size:15px">${emoji}</span>
     </div>`,
         iconSize: [34, 34], iconAnchor: [17, 34], popupAnchor: [0, -36]
       });
@@ -1866,7 +1960,7 @@
       if (radius === 'all') return;
       userRadiusCircle = L.circle([lat, lon], {
         radius: Number(radius) * 1000,
-        color: '#1a73e8',
+        color: '#0284c7',
         weight: 2,
         opacity: 0.75,
         fillColor: '#38bdf8',
@@ -1883,7 +1977,7 @@
       const subName = isKa ? p.sub_district_ka : p.sub_district_en;
       const addr = isKa ? p.address_ka : p.address_en;
       const desc = isKa ? p.desc_ka : p.desc_en;
-      const prods = (p.products_ka || []).slice(0, 5).map(t => `<span class="tag">${t}</span>`).join('');
+      const prods = (isKa ? p.products_ka : p.products_en || []).map(t => `<span class="tag tag-highlight">${t}</span>`).join('');
 
       let phoneHtml = '';
       if (p.phone) {
@@ -1969,7 +2063,7 @@
         const catLabel = isKa ? p.cat_label_ka : p.cat_label_en;
         const subName = isKa ? p.sub_district_ka : p.sub_district_en;
         const addr = isKa ? p.address_ka : p.address_en;
-        const tags = (p.products_ka || []).slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('');
+        const tags = (isKa ? p.products_ka : p.products_en || []).map(t => `<span class="tag tag-highlight">${t}</span>`).join('');
 
         let distCardHtml = '';
         if (userCoords) {
@@ -2102,7 +2196,7 @@
         btn.classList.remove('locating');
         console.warn('Geolocation fallback to Saburtalo center:', err);
         alert(I18N[currentLang].geo_fallback_msg);
-        onLocationFound(41.7242, 44.7725); // Pekini Ave
+        onLocationFound(41.7242, 44.7725);
       }
 
       if ('geolocation' in navigator) {
@@ -2147,6 +2241,14 @@
     let activeSubDistrict = '';
     let searchText = '';
 
+    function matchDairyPill(p, pillKey) {
+      if (pillKey === 'all') return true;
+      const filterDef = DAIRY_QUICK_FILTERS.find(f => f.id === pillKey);
+      if (!filterDef || !filterDef.terms) return true;
+      const targetStr = ((p.products_en || []).concat(p.products_ka || []).concat([p.desc_en, p.desc_ka, p.name_en, p.name_ka])).join(' ').toLowerCase();
+      return filterDef.terms.some(term => targetStr.includes(term.toLowerCase()));
+    }
+
     function applyFilters() {
       const q = searchText.toLowerCase().trim();
       let candidateFeatures = GEOJSON.features.slice();
@@ -2182,6 +2284,8 @@
         const p = f.properties;
         const matchCat = activeCat === 'all' || p.category === activeCat;
         const matchSub = !activeSubDistrict || p.sub_district === activeSubDistrict;
+        const matchPill = matchDairyPill(p, activeDairyPill);
+
         const prodsAll = (p.products_en || []).concat(p.products_ka || []).join(' ').toLowerCase();
         const matchSearch = !q ||
           p.name_en.toLowerCase().includes(q) ||
@@ -2190,9 +2294,11 @@
           p.sub_district_ka.toLowerCase().includes(q) ||
           p.address_en.toLowerCase().includes(q) ||
           p.address_ka.toLowerCase().includes(q) ||
+          p.desc_en.toLowerCase().includes(q) ||
+          p.desc_ka.toLowerCase().includes(q) ||
           prodsAll.includes(q);
 
-        return matchCat && matchSub && matchSearch;
+        return matchCat && matchSub && matchPill && matchSearch;
       });
 
       buildSidebar(filtered, currentLang);
@@ -2226,17 +2332,27 @@
 
       document.getElementById('header-title').innerHTML = `${I18N[lang].title} <span>${I18N[lang].title_sub}</span>`;
       document.getElementById('header-sub').textContent = I18N[lang].subtitle;
-      document.getElementById('stat-lbl-farms').textContent = I18N[lang].shops;
+      document.getElementById('stat-lbl-farms').textContent = I18N[lang].hubs;
       document.getElementById('stat-lbl-subdistricts').textContent = I18N[lang].subdistricts;
       document.getElementById('stat-lbl-categories').textContent = I18N[lang].categories;
 
       document.getElementById('search').placeholder = I18N[lang].search_placeholder;
       document.getElementById('no-results').textContent = I18N[lang].no_results;
 
+      // Update Dairy Quick Pills
+      document.querySelectorAll('.dairy-pill').forEach(btn => {
+        const prodKey = btn.dataset.prod;
+        const filterDef = DAIRY_QUICK_FILTERS.find(f => f.id === prodKey);
+        if (filterDef) {
+          const textSpan = btn.querySelector('.pill-text');
+          if (textSpan) textSpan.textContent = isKa ? filterDef.label_ka : filterDef.label_en;
+        }
+      });
+
       document.getElementById('cat-btn-all').textContent = I18N[lang].all_cats;
-      document.getElementById('cat-btn-farm_shop').textContent = I18N[lang].farm_shop;
-      document.getElementById('cat-btn-dairy_hub').textContent = I18N[lang].dairy_hub;
-      document.getElementById('cat-btn-meat_eggs').textContent = I18N[lang].meat_eggs;
+      document.getElementById('cat-btn-fresh_milk').textContent = I18N[lang].fresh_milk;
+      document.getElementById('cat-btn-matsoni_cream').textContent = I18N[lang].matsoni_cream;
+      document.getElementById('cat-btn-cheese_artisan').textContent = I18N[lang].cheese_artisan;
       document.getElementById('cat-btn-delivery_coop').textContent = I18N[lang].delivery_coop;
 
       const nearMeLbl = document.getElementById('near-me-label');
@@ -2269,11 +2385,22 @@
       updateMobileToggleBtn();
     }
 
+    // Category Button Clicks
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeCat = btn.dataset.cat;
+        applyFilters();
+      });
+    });
+
+    // Dairy Quick Pill Clicks
+    document.querySelectorAll('.dairy-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.dairy-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeDairyPill = btn.dataset.prod;
         applyFilters();
       });
     });

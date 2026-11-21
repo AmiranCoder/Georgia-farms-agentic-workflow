@@ -180,3 +180,22 @@ Contains geocoded `lat` / `lon` conforming to `41.0 <= lat <= 43.5` and `40.0 <=
 ### 4.3 Reflection Rejection Criteria
 Reject any entity matching commercial chains:
 - Carrefour, Agrohub, Goodwill, Nikora, Spar, Fresco, Magniti, 2 Nabiji, Smart.
+
+
+---
+
+## 5. Saburtalo District Pure Dairy Specialization (PoC Phase 2)
+
+### 5.1 Focus & Products
+Specialized exclusively in high-quality artisanal and farm-fresh dairy products:
+- **Milk & Bio Milk (ნედლი და ბიო რძე)**: Fresh morning unpasteurized milk, glass-bottle organic bio milk, raw goat/sheep milk.
+- **Cottage Cheese / Curd (ხელნაკეთი ხაჭო)**: Fresh rustic cow cottage cheese, diet curd, baby curd.
+- **Matsoni & Buffalo Matsoni (მაწონი & კამეჩის მაწონი)**: Pot-fermented thick village matsoni.
+- **Sour Cream (ნაღების სოფლის არაჟანი)**: Churned high-fat natural sour cream without thickeners.
+- **Artisanal Cheese (ხელნაკეთი ყველი)**: Fresh and aged Sulguni, Tushuri Guda, Tenili, mint Nadughi.
+
+### 5.2 Dairy Categories
+1. `fresh_milk` (ცოცხალი & ბიო რძე) — `#0284c7` 🥛
+2. `matsoni_cream` (მაწონი, არაჟანი & ხაჭო) — `#059669` 🥣
+3. `cheese_artisan` (ხელნაკეთი ყველი) — `#d97706` 🧀
+4. `delivery_coop` (რძის პროდუქტების მიტანა) — `#7c3aed` 🚚
