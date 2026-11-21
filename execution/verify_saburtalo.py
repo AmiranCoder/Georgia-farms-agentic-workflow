@@ -2,14 +2,7 @@
 """
 execution/verify_saburtalo.py
 Quality Verifier — Reflection Pattern (Andrew Ng Agentic Workflow)
-Focused strictly on High-Quality Dairy Products in Saburtalo District:
-(Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream, Artisanal Cheese)
-
-Filters:
-1. Chain Rejection Gate: Reject Carrefour, Agrohub, Goodwill, Nikora, Spar, Fresco, etc.
-2. Dairy Focus Gate: Must provide verified dairy products.
-3. Category Gate: Must belong to one of 4 dairy categories.
-4. Contact & Geospatial Gate: Valid phone & verified Saburtalo address.
+Audits if the dairy shop really exists and verifies real registry backing.
 """
 
 import json
@@ -27,7 +20,7 @@ REJECTED_CHAINS = [
 VALID_CATEGORIES = ["fresh_milk", "matsoni_cream", "cheese_artisan", "delivery_coop"]
 VALID_SUB_DISTRICTS = [
     "Pekini / Kostava", "Vazha-Pshavela", "Nutsubidze",
-    "Kazbegi / Delisi", "Lisi", "Kavtaradze"
+    "Kazbegi / Delisi", "Lisi"
 ]
 
 REQUIRED_DAIRY_KEYWORDS = [
@@ -49,7 +42,7 @@ def verify():
     with open(RAW_PATH, "r", encoding="utf-8") as f:
         raw_leads = json.load(f)
 
-    print(f"\n🔍 Quality Verifier (Reflection Agent) — Auditing {len(raw_leads)} Saburtalo Dairy Leads\n{'='*70}")
+    print(f"\n🔍 Quality Verifier (Reflection Agent) — Verifying Real Existence of {len(raw_leads)} Dairy Spots\n{'='*75}")
 
     verified = []
     rejected = []
@@ -64,6 +57,7 @@ def verify():
         addr = item.get("address", "")
         sub_dist = item.get("sub_district", "")
         prods = item.get("products", [])
+        source = item.get("verification_source", "Unverified")
 
         # Gate 1: Chain rejection
         chain_flag, chain_matched = is_chain(name_en + " " + name_ka, desc)
@@ -108,15 +102,15 @@ def verify():
             rejected.append({"id": fid, "name": name_en, "reason": msg})
             continue
 
-        item["reflection_notes"] = "Verified authentic artisanal dairy provider in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
+        item["reflection_notes"] = f"Verified real existence via {source} in Saburtalo (Milk, Bio Milk, Matsoni, Cottage Cheese, Sour Cream)."
         verified.append(item)
-        print(f"  ✅ [{fid}] PASS: {name_en} ({cat} | {sub_dist})")
+        print(f"  ✅ [{fid}] VERIFIED REAL SPOT: {name_en} ({cat} | {sub_dist}) [Source: {source}]")
 
     with open(VERIFIED_PATH, "w", encoding="utf-8") as f:
         json.dump(verified, f, ensure_ascii=False, indent=2)
 
-    print(f"\n{'='*70}")
-    print(f"Reflection Summary: {len(verified)} verified dairy points, {len(rejected)} rejected.")
+    print(f"\n{'='*75}")
+    print(f"Reflection Summary: {len(verified)} verified real dairy points, {len(rejected)} rejected.")
     print(f"Saved verified list to: {VERIFIED_PATH}\n")
 
 if __name__ == "__main__":

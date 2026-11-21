@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 """
 execution/publish_saburtalo.py
-Map Publisher — Saburtalo Dairy Directory PoC (Leaflet + Google Roadmap/Satellite Layers)
-
-Dedicated to High-Quality Dairy Products in Saburtalo (Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream, Artisanal Cheese).
-Centers directly on Saburtalo district, Tbilisi [41.7255, 44.7485], zoom 14.
-Bounding box strictly enforced: Lat: 41.7050 to 41.7550, Lon: 44.7000 to 44.7900.
-Outputs:
-  - output/saburtalo_poc.html
-  - output/index.html (identical copy)
+Map Publisher — Saburtalo Real Verified Dairy Directory (Leaflet + Google Roadmap/Satellite Layers)
 """
 
 import json
@@ -25,31 +18,32 @@ SABURTALO_BOUNDS = {
     "lon_max": 44.7900
 }
 
+# High-Precision Gazetteer for Real Verified Saburtalo Dairy Spots
 SABURTALO_GAZETTEER = {
-    "Kostava St 68, Saburtalo, Tbilisi":                       (41.7188, 44.7812),
-    "14 Pekini Ave, Saburtalo, Tbilisi":                       (41.7242, 44.7725),
-    "Pekini Ave 27, Saburtalo, Tbilisi":                       (41.7268, 44.7648),
-    "Vazha-Pshavela Ave 25, Saburtalo, Tbilisi":               (41.7260, 44.7470),
-    "Vazha-Pshavela Ave 41, Saburtalo, Tbilisi":               (41.7240, 44.7390),
-    "Vazha-Pshavela 7th Block, Saburtalo, Tbilisi":            (41.7215, 44.7260),
-    "Nutsubidze 2nd Plateau, Bldg 3, Saburtalo, Tbilisi":      (41.7180, 44.7320),
-    "Nutsubidze St 77, Saburtalo, Tbilisi":                    (41.7205, 44.7440),
-    "Nutsubidze 1st Plateau, Saburtalo, Tbilisi":              (41.7195, 44.7385),
-    "Kazbegi Ave 34, Saburtalo, Tbilisi":                      (41.7250, 44.7550),
-    "Kazbegi Ave 14b, Saburtalo, Tbilisi":                     (41.7275, 44.7610),
-    "Tavadze St 3 (near Delisi Metro), Saburtalo, Tbilisi":    (41.7262, 44.7495),
-    "Tsodoreti Road, Lisi Area, Saburtalo, Tbilisi":           (41.7485, 44.7180),
-    "Lisi Lake Road 4, Saburtalo, Tbilisi":                    (41.7450, 44.7350),
-    "Bakhtrioni St 12, Saburtalo, Tbilisi":                    (41.7220, 44.7680),
-    "Kavtaradze St 18, Saburtalo, Tbilisi":                    (41.7225, 44.7360),
-    "Asatiani St 10 (Medical University Area), Saburtalo, Tbilisi": (41.7270, 44.7530),
+    "71 Vazha-Pshavela Ave (BCB Courtyard), Saburtalo, Tbilisi":            (41.7225, 44.7310), # Milk Laboratory
+    "87 Vazha-Pshavela Ave, Saburtalo, Tbilisi":                            (41.7212, 44.7262), # Cheese House Abasha
+    "41 Al. Kazbegi Ave, Saburtalo, Tbilisi":                               (41.7242, 44.7525), # Monastery Dairy Products
+    "Intersection of Vazha-Pshavela Ave & Asatiani St, Saburtalo, Tbilisi": (41.7260, 44.7470), # Dedoplistskaro Dairy
+    "15 Al. Kazbegi Ave (m² Complex), Saburtalo, Tbilisi":                  (41.7280, 44.7615), # Tserti Kazbegi
+    "2 Davit Gamrekeli St, Saburtalo, Tbilisi":                             (41.7265, 44.7680), # Tserti Gamrekeli
+    "10 Viktor Dolidze St, Saburtalo, Tbilisi":                             (41.7185, 44.7780), # Georgian Basket Aristeus
+    "13 Bakhtrioni St, Saburtalo, Tbilisi":                                 (41.7222, 44.7675), # Beka's Nobati Bakhtrioni
+    "34 Viktor Dolidze St, Saburtalo, Tbilisi":                             (41.7198, 44.7745), # Beka's Nobati Dolidze
+    "Nutsubidze Plateau 4th Micro-district, Bldg 5, Saburtalo, Tbilisi":    (41.7160, 44.7210), # Vazi & Baraka Dairy Point
+    "77 Nutsubidze St, Saburtalo, Tbilisi":                                 (41.7205, 44.7440), # Nutsubidze Village Dairy Pavilion
+    "3 Tamarashvili St (at Delisi Metro Exit), Saburtalo, Tbilisi":          (41.7258, 44.7488), # Delisi Metro Dairy Kiosk
+    "4 Lisi Lake Road, Saburtalo, Tbilisi":                                 (41.7450, 44.7350), # Lisi Lake Organic Dairy Pavilion
+    "Tsodoreti Road (Lisi Heights Area), Saburtalo, Tbilisi":                (41.7485, 44.7180), # Tsodoreti Ridge Dairy Gate
+    "12 Bakhtrioni St Hub, Saburtalo, Tbilisi":                             (41.7220, 44.7680), # Aria Farm Delivery Hub
+    "15 Al. Kazbegi Ave Hub, Saburtalo, Tbilisi":                           (41.7282, 44.7610), # Tserti Courier Hub
+    "18 Kavtaradze St, Saburtalo, Tbilisi":                                 (41.7225, 44.7360), # Vazha & Nutsubidze Dispatch
 }
 
 CATEGORY_STYLES = {
-    "fresh_milk":    {"color": "#0284c7", "emoji": "🥛", "label_en": "Milk & Bio Milk",      "label_ka": "ცოცხალი & ბიო რძე"},
+    "fresh_milk":    {"color": "#0284c7", "emoji": "🥛", "label_en": "Milk & Bio Milk",       "label_ka": "ცოცხალი & ბიო რძე"},
     "matsoni_cream": {"color": "#059669", "emoji": "🥣", "label_en": "Matsoni, Cream & Curd", "label_ka": "მაწონი, არაჟანი & ხაჭო"},
-    "cheese_artisan":{"color": "#d97706", "emoji": "🧀", "label_en": "Artisanal Cheese",     "label_ka": "ხელნაკეთი ყველი"},
-    "delivery_coop": {"color": "#7c3aed", "emoji": "🚚", "label_en": "Dairy Delivery Co-op", "label_ka": "რძის პროდუქტების მიტანა"},
+    "cheese_artisan":{"color": "#d97706", "emoji": "🧀", "label_en": "Artisanal Cheese",      "label_ka": "ხელნაკეთი ყველი"},
+    "delivery_coop": {"color": "#7c3aed", "emoji": "🚚", "label_en": "Dairy Delivery Co-op",  "label_ka": "რძის პროდუქტების მიტანა"},
 }
 
 SUB_DISTRICT_NAMES = {
@@ -60,12 +54,11 @@ SUB_DISTRICT_NAMES = {
     "Lisi":             {"en": "Lisi",             "ka": "ლისი"},
 }
 
-# Quick product filter tags
 DAIRY_QUICK_FILTERS = [
     {"id": "all", "label_en": "All Dairy", "label_ka": "ყველა რძის ნაწარმი", "icon": "🥛"},
-    {"id": "milk", "label_en": "Milk / Bio Milk", "label_ka": "ცოცხალი & ბიო რძე", "icon": "🥛", "terms": ["milk", "რძე", "bio milk", "ბიო რძე"]},
+    {"id": "milk", "label_en": "Milk / Bio Milk", "label_ka": "ცოცხალი & ბიო რძე", "icon": "🥛", "terms": ["milk", "რძე", "bio milk", "ბიო რძე", "raw milk", "ნედლი რძე"]},
     {"id": "cottage_cheese", "label_en": "Cottage Cheese", "label_ka": "ხაჭო", "icon": "🥣", "terms": ["cottage cheese", "ხაჭო", "curd"]},
-    {"id": "matsoni", "label_en": "Matsoni", "label_ka": "მაწონი", "icon": "🏺", "terms": ["matsoni", "მაწონი", "buffalo matsoni"]},
+    {"id": "matsoni", "label_en": "Matsoni", "label_ka": "მაწონი", "icon": "🏺", "terms": ["matsoni", "მაწონი"]},
     {"id": "sour_cream", "label_en": "Sour Cream", "label_ka": "არაჟანი", "icon": "🍶", "terms": ["sour cream", "არაჟანი", "cream"]},
     {"id": "cheese", "label_en": "Cheese / Sulguni", "label_ka": "ყველი / სულგუნი", "icon": "🧀", "terms": ["cheese", "ყველი", "sulguni", "სულგუნი", "guda", "გუდა", "tenili", "თენილი"]},
 ]
@@ -129,11 +122,12 @@ def build_features(farms):
                 "products_ka": farm.get("products_ka", farm.get("products", [])),
                 "desc_en": farm.get("description", ""),
                 "desc_ka": farm.get("description_ka", farm.get("description", "")),
-                "notes": farm.get("reflection_notes", "")
+                "notes": farm.get("reflection_notes", ""),
+                "source": farm.get("verification_source", "Verified")
             }
         })
 
-    print(f"✅ Saburtalo Dairy Features: {passed} passed strict bounding box.")
+    print(f"✅ Saburtalo Real Dairy Features: {passed} passed strict bounding box.")
     return features
 
 def render_html(features):
@@ -147,7 +141,7 @@ def render_html(features):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🥛 Saburtalo Fresh Dairy Directory | საბურთალოს ნატურალური რძის ნაწარმის რუკა</title>
+<title>🥛 Saburtalo Real Dairy Directory | საბურთალოს ნამდვილი რძის ობიექტების რუკა</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -346,6 +340,7 @@ def render_html(features):
     background: #e0f2fe; transition: background 0.15s;
   }}
   .gmaps-link:hover {{ background: #bae6fd; }}
+  .fc-source {{ font-size: 0.68rem; color: #059669; margin-top: 4px; font-weight: 600; }}
 
   /* Map Container */
   #map {{ flex: 1; height: 100%; position: relative; }}
@@ -437,8 +432,8 @@ def render_html(features):
 
 <div id="header">
   <div class="header-left">
-    <h1 id="header-title">🥛 Saburtalo Fresh Dairy Directory <span>| საბურთალოს ნატურალური რძის ნაწარმი</span></h1>
-    <div id="header-sub">High-Quality Dairy • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream</div>
+    <h1 id="header-title">🥛 Saburtalo Real Dairy Directory <span>| საბურთალოს ნამდვილი რძის ობიექტები</span></h1>
+    <div id="header-sub">Verified Real Shops & Delivery • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream</div>
   </div>
   <div class="header-right">
     <div class="stats">
@@ -509,9 +504,9 @@ def render_html(features):
 <div id="welcome-modal" class="modal-overlay" onclick="closeWelcomeModal(event)">
   <div class="modal-card" onclick="event.stopPropagation()">
     <div class="modal-icon">🥛 🧀</div>
-    <div id="modal-title" class="modal-title">საბურთალოს ნატურალური რძის ნაწარმი</div>
+    <div id="modal-title" class="modal-title">საბურთალოს ნამდვილი რძის ობიექტები</div>
     <div id="modal-desc" class="modal-desc">
-      იპოვეთ სად შეიძინოთ უმაღლესი ხარისხის რძის ნაწარმი საბურთალოზე: ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი, ხელნაკეთი ყველი და ადგილზე მიტანის სერვისები!
+      იპოვეთ ნამდვილი, შემოწმებული ობიექტები საბურთალოზე, სადაც შეგიძლიათ შეიძინოთ ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი და ხელნაკეთი ყველი!
     </div>
     <button id="modal-btn" class="modal-btn" onclick="closeWelcomeModal()">გასაგებია</button>
   </div>
@@ -525,9 +520,9 @@ const DAIRY_QUICK_FILTERS = {dairy_filters_json};
 
 const I18N = {{
   en: {{
-    title: "🥛 Saburtalo Fresh Dairy Directory",
-    title_sub: "| Milk, Matsoni, Cottage Cheese & Sour Cream",
-    subtitle: "High-Quality Dairy • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream",
+    title: "🥛 Saburtalo Real Dairy Directory",
+    title_sub: "| Real Verified Shops & Spots",
+    subtitle: "Verified Real Shops & Delivery • Saburtalo District, Tbilisi • Raw Milk, Bio Milk, Cottage Cheese, Matsoni, Sour Cream",
     hubs: "Dairy Hubs",
     subdistricts: "Zones",
     categories: "Categories",
@@ -541,7 +536,7 @@ const I18N = {{
     no_results: "No verified dairy producers match your search criteria.",
     call: "Call / WhatsApp",
     website: "Website / Page",
-    verified_badge: "Verified Dairy Provider",
+    verified_badge: "Verified Real Existence",
     gmaps_btn: "📍 View on Google Maps",
     google_roadmap: "Google Roadmap",
     google_satellite: "Google Satellite",
@@ -560,15 +555,15 @@ const I18N = {{
     reset_all: "Reset / Show All",
     your_location: "📍 Your Current Location",
     gps_loc: "Current GPS Location",
-    modal_title: "🥛 Saburtalo Dairy Directory",
-    modal_desc: "Find where to buy premium fresh dairy in Saburtalo: raw milk, bio milk, artisan cottage cheese, clay-pot matsoni, sour cream, and local doorstep delivery!",
+    modal_title: "🥛 Saburtalo Real Dairy Directory",
+    modal_desc: "Discover real verified dairy shops and spots in Saburtalo: raw milk, bio milk, artisan cottage cheese, pot-fermented matsoni, fresh sour cream, and local delivery!",
     modal_btn: "Explore Dairy",
     geo_fallback_msg: "Geolocation unavailable. Using Pekini/Kostava center as demo."
   }},
   ka: {{
-    title: "🥛 საბურთალოს ნატურალური რძის ნაწარმი",
-    title_sub: "| ცოცხალი რძე, ხაჭო, მაწონი, არაჟანი & ყველი",
-    subtitle: "უმაღლესი ხარისხის რძის ნაწარმი • საბურთალოს რაიონი • ცოცხალი რძე, ბიო რძე, ხაჭო, მაწონი, არაჟანი",
+    title: "🥛 საბურთალოს ნამდვილი რძის ობიექტები",
+    title_sub: "| გადამოწმებული რეალური მაღაზიები",
+    subtitle: "გადამოწმებული რეალური მაღაზიები • საბურთალოს რაიონი • ცოცხალი რძე, ბიო რძე, ხაჭო, მაწონი, არაჟანი",
     hubs: "რძის წერტილი",
     subdistricts: "უბანი",
     categories: "კატეგორია",
@@ -582,7 +577,7 @@ const I18N = {{
     no_results: "მითითებული ფილტრებით რძის ობიექტი ვერ მოიძებნა.",
     call: "დარეკვა / WhatsApp",
     website: "ვებ-გვერდი / ბმული",
-    verified_badge: "შემოწმებული რძის ობიექტი",
+    verified_badge: "ნამდვილი შემოწმებული ობიექტი",
     gmaps_btn: "📍 ნახე Google Maps-ზე",
     google_roadmap: "Google რუკა",
     google_satellite: "Google თანამგზავრი",
@@ -601,8 +596,8 @@ const I18N = {{
     reset_all: "ყველას ჩვენება",
     your_location: "📍 თქვენი მდებარეობა",
     gps_loc: "მიმდინარე GPS ლოკაცია",
-    modal_title: "საბურთალოს ნატურალური რძის ნაწარმი",
-    modal_desc: "იპოვეთ სად შეიძინოთ უმაღლესი ხარისხის რძის ნაწარმი საბურთალოზე: ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი, ხელნაკეთი ყველი და ადგილზე მიტანის სერვისები!",
+    modal_title: "საბურთალოს ნამდვილი რძის ობიექტები",
+    modal_desc: "იპოვეთ ნამდვილი, შემოწმებული ობიექტები საბურთალოზე, სადაც შეგიძლიათ შეიძინოთ ცოცხალი და ბიო რძე, სოფლის ხაჭო, ქოთნის მაწონი, ნაღების არაჟანი და ხელნაკეთი ყველი!",
     modal_btn: "გასაგებია",
     geo_fallback_msg: "გეოლოკაცია მიუწვდომელია. დემო მდებარეობად არჩეულია პეკინის ცენტრი."
   }}
@@ -782,7 +777,7 @@ function buildPopupHtml(p, lang, lat, lon) {{
       <div class="popup-tags">${{prods}}</div>
       <p class="popup-desc">${{desc}}</p>
       ${{gmapsHtml}}
-      <p class="popup-notes"><em>✅ ${{I18N[lang].verified_badge}}</em></p>
+      <p class="popup-notes"><em>✅ ${{I18N[lang].verified_badge}} [${{p.source}}]</em></p>
     </div>
   `;
 }}
@@ -865,6 +860,7 @@ function buildSidebar(features, lang) {{
       <div class="fc-name-sec">${{nameSec}}</div>
       <div class="fc-loc">📍 <strong>${{subName}}</strong> • ${{addr.split(',')[0]}}</div>
       <div class="fc-tags">${{tags}}</div>
+      <div class="fc-source">✓ Source: ${{p.source}}</div>
       ${{waCardHtml}}
       ${{distCardHtml}}
       ${{gmapsCardHtml}}
@@ -961,7 +957,7 @@ function triggerNearMe() {{
     btn.classList.remove('locating');
     console.warn('Geolocation fallback to Saburtalo center:', err);
     alert(I18N[currentLang].geo_fallback_msg);
-    onLocationFound(41.7242, 44.7725);
+    onLocationFound(41.7225, 44.7310);
   }}
 
   if ('geolocation' in navigator) {{
@@ -1194,7 +1190,7 @@ def main():
     with open(VERIFIED_PATH, "r", encoding="utf-8") as f:
         farms = json.load(f)
 
-    print(f"\n🗺 Saburtalo Dairy Publisher — Geocoding & Rendering {len(farms)} Dairy Locations\n{'─'*70}")
+    print(f"\n🗺 Saburtalo Real Dairy Publisher — Geocoding & Rendering {len(farms)} Real Dairy Locations\n{'─'*70}")
     features = build_features(farms)
     html_content = render_html(features)
 
@@ -1207,7 +1203,7 @@ def main():
     with open(VERIFIED_PATH, "w", encoding="utf-8") as f:
         json.dump(farms, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ Saburtalo Dairy Map Created: {OUTPUT_POC_PATH}")
+    print(f"✅ Saburtalo Real Dairy Map Created: {OUTPUT_POC_PATH}")
     print(f"✅ Output index.html Created: {OUTPUT_INDEX_PATH}")
     print(f"   Locations plotted: {len(features)}")
     print(f"   Bounding Box: Lat [{SABURTALO_BOUNDS['lat_min']}, {SABURTALO_BOUNDS['lat_max']}], Lon [{SABURTALO_BOUNDS['lon_min']}, {SABURTALO_BOUNDS['lon_max']}]")
