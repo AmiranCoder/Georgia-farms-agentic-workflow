@@ -246,18 +246,18 @@ def render_html(features):
   }}
   .cat-btn.active {{ background: #0f172a; color: white !important; border-color: #0f172a !important; }}
 
-  /* Near Me Button */
+  /* Near Me Button in Sidebar Controls */
   .near-me-btn {{
-    position: absolute; bottom: 28px; right: 20px; z-index: 1000;
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    background: #ffffff; color: #0284c7; border: 2px solid #0284c7; border-radius: 28px;
-    padding: 10px 18px; font-size: 0.88rem; font-weight: 700; cursor: pointer; white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.2); transition: all 0.2s ease;
+    width: 100%; margin-bottom: 9px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    background: #ffffff; color: #0284c7; border: 1.5px solid #0284c7; border-radius: 8px;
+    padding: 8px 14px; font-size: 0.85rem; font-weight: 700; cursor: pointer; white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(2,132,199,0.12); transition: all 0.2s ease;
   }}
-  .near-me-btn:hover {{ background: #f0f9ff; border-color: #0369a1; transform: translateY(-1.5px); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }}
+  .near-me-btn:hover {{ background: #f0f9ff; border-color: #0369a1; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(2,132,199,0.2); }}
   .near-me-btn.active {{
     background: #0284c7; color: white; border-color: #0369a1;
-    box-shadow: 0 4px 14px rgba(2,132,199,0.45);
+    box-shadow: 0 2px 6px rgba(2,132,199,0.35);
   }}
   .near-me-btn.locating {{ opacity: 0.85; cursor: wait; background: #fef3c7; color: #92400e; border-color: #fde68a; }}
 
@@ -453,6 +453,9 @@ def render_html(features):
     <div id="controls">
       <input id="search" type="text" placeholder="Search milk, cottage cheese, matsoni, sour cream, bio milk…"/>
       <select id="subdistrict-select"></select>
+      <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find dairy near my location">
+        <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
+      </button>
 
       <!-- Quick Dairy Product Pills Bar -->
       <div class="dairy-pill-bar" id="dairy-pill-bar">
@@ -491,9 +494,6 @@ def render_html(features):
     <div id="no-results">No verified dairy producers match your search criteria.</div>
   </div>
   <div id="map">
-    <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find dairy near my location">
-      <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
-    </button>
   </div>
 </div>
 

@@ -413,17 +413,18 @@ def render_html(features):
     width: 100%; padding: 8px 12px; border: 1.5px solid #d0d7de; border-radius: 8px;
     font-size: 0.85rem; margin-bottom: 9px; outline: none; background: white; font-weight: 500;
   }}
+  /* Near Me Button in Sidebar Controls */
   .near-me-btn {{
-    position: absolute; bottom: 28px; right: 20px; z-index: 1000;
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    background: #ffffff; color: #1a73e8; border: 2px solid #1a73e8; border-radius: 28px;
-    padding: 10px 18px; font-size: 0.88rem; font-weight: 700; cursor: pointer; white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.22); transition: all 0.2s ease;
+    width: 100%; margin-bottom: 9px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    background: #ffffff; color: #1a73e8; border: 1.5px solid #1a73e8; border-radius: 8px;
+    padding: 8px 14px; font-size: 0.85rem; font-weight: 700; cursor: pointer; white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(26,115,232,0.12); transition: all 0.2s ease;
   }}
-  .near-me-btn:hover {{ background: #eff6ff; border-color: #1557b0; transform: translateY(-1.5px); box-shadow: 0 6px 18px rgba(0,0,0,0.28); }}
+  .near-me-btn:hover {{ background: #eff6ff; border-color: #1557b0; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(26,115,232,0.2); }}
   .near-me-btn.active {{
     background: #1a73e8; color: white; border-color: #1557b0;
-    box-shadow: 0 4px 14px rgba(26,115,232,0.45);
+    box-shadow: 0 2px 6px rgba(26,115,232,0.35);
   }}
   .near-me-btn.locating {{ opacity: 0.85; cursor: wait; background: #fef3c7; color: #92400e; border-color: #fde68a; }}
 
@@ -854,6 +855,9 @@ def render_html(features):
     <div id="controls">
       <input id="search" type="text" placeholder="Search farms, products (e.g. Tenili, matsoni, tea)…"/>
       <select id="region-select"></select>
+      <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find farms near my location">
+        <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
+      </button>
       <div class="cat-filters">
         <button id="cat-btn-all" class="cat-btn active" data-cat="all" style="border-color:#37474f;color:#37474f">🗺 All</button>
         <button id="cat-btn-farm_shop" class="cat-btn" data-cat="farm_shop" style="border-color:#2d7a2d;color:#2d7a2d">🏪 Farm Shop</button>
@@ -882,9 +886,6 @@ def render_html(features):
   </div>
   <div id="map">
     <div id="route-info-pill" class="route-info-pill" style="display: none;"></div>
-    <button id="near-me-btn" class="near-me-btn" onclick="triggerNearMe()" title="Find farms near my location">
-      <span id="near-me-icon">📍</span> <span id="near-me-label">ჩემთან ახლოს</span>
-    </button>
   </div>
 </div>
 
