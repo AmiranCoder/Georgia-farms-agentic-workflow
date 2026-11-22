@@ -346,7 +346,7 @@ def render_html(features):
   #map {{ flex: 1; height: 100%; position: relative; }}
 
   /* Popups */
-  .popup-card {{ padding: 2px; max-width: 290px; }}
+  .popup-card {{ padding: 4px; max-width: 290px; }}
   .popup-cat {{ display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; color: white; margin-bottom: 6px; }}
   .popup-card h3 {{ font-size: 1.02rem; font-weight: 700; margin-bottom: 2px; color: #0f172a; }}
   .popup-sec {{ font-size: 0.8rem; color: #64748b; margin-bottom: 6px; }}
@@ -359,12 +359,16 @@ def render_html(features):
   .popup-notes {{ font-size: 0.72rem; color: #0369a1; margin-top: 4px; }}
   .popup-gmaps {{ margin-top: 8px; }}
   .gmaps-btn {{
-    display: inline-block; width: 100%; text-align: center;
-    background: #0284c7; color: white; padding: 7px 12px;
-    border-radius: 8px; font-size: 0.82rem; font-weight: 700; text-decoration: none;
-    box-shadow: 0 2px 6px rgba(2,132,199,0.3); transition: background 0.15s;
+    display: inline-flex; align-items: center; justify-content: center; width: 100%; text-align: center;
+    background: #0f172a; color: #ffffff !important; padding: 8px 12px;
+    border-radius: 8px; font-size: 0.84rem; font-weight: 700; text-decoration: none;
+    box-shadow: 0 2px 6px rgba(15,23,42,0.3); transition: all 0.15s ease;
+    border: 1px solid #1e293b; letter-spacing: 0.2px;
   }}
-  .gmaps-btn:hover {{ background: #0369a1; }}
+  .gmaps-btn:hover {{
+    background: #1e293b; color: #38bdf8 !important;
+    box-shadow: 0 4px 10px rgba(15,23,42,0.4);
+  }}
 
   /* Welcome Modal */
   .modal-overlay {{
@@ -424,6 +428,66 @@ def render_html(features):
       border: 2px solid white; border-radius: 30px;
       padding: 10px 22px; font-size: 0.92rem; font-weight: 700;
       box-shadow: 0 4px 14px rgba(0,0,0,0.38); cursor: pointer;
+    }}
+
+    /* Compact Leaflet Popups on Mobile */
+    .leaflet-popup-content-wrapper {{
+      padding: 4px;
+      border-radius: 12px;
+    }}
+    .leaflet-popup-content {{
+      margin: 10px 12px;
+      max-width: 250px !important;
+      min-width: 210px !important;
+      line-height: 1.35;
+    }}
+    .popup-card {{
+      max-width: 245px;
+      padding: 0;
+    }}
+    .popup-card h3 {{
+      font-size: 0.94rem;
+      margin-bottom: 2px;
+    }}
+    .popup-sec {{
+      font-size: 0.74rem;
+      margin-bottom: 4px;
+    }}
+    .popup-addr {{
+      font-size: 0.75rem;
+      margin-bottom: 4px;
+    }}
+    .popup-phone {{
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }}
+    .popup-tags {{
+      gap: 3px;
+      margin: 4px 0;
+    }}
+    .tag {{
+      font-size: 0.68rem;
+      padding: 2px 6px;
+    }}
+    .popup-desc {{
+      font-size: 0.72rem;
+      line-height: 1.35;
+      margin: 4px 0;
+      max-height: 60px;
+      overflow-y: auto;
+    }}
+    .popup-distance-bar {{
+      margin: 4px 0;
+      gap: 4px;
+    }}
+    .dist-badge {{
+      font-size: 0.68rem;
+      padding: 2px 5px;
+    }}
+    .gmaps-btn {{
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      min-height: 36px;
     }}
   }}
 </style>
@@ -708,7 +772,7 @@ function createUserMarker(lat, lon, addressText) {{
       <div id="user-popup-address" class="user-popup-address">${{addrLabel}}</div>
     </div>
   `;
-  marker.bindPopup(popupHtml, {{ maxWidth: 280 }});
+  marker.bindPopup(popupHtml, {{ maxWidth: getPopupMaxWidth() }});
   return marker;
 }}
 
@@ -782,12 +846,13 @@ function buildPopupHtml(p, lang, lat, lon) {{
   `;
 }}
 
+const getPopupMaxWidth = () => (window.innerWidth <= 768 ? 260 : 300);
 let markers = [];
 GEOJSON.features.forEach(f => {{
   const p = f.properties;
   const [lon, lat] = f.geometry.coordinates;
   const marker = L.marker([lat, lon], {{ icon: makeIcon(p.color, p.emoji) }})
-    .bindPopup(buildPopupHtml(p, currentLang, lat, lon), {{ maxWidth: 300 }});
+    .bindPopup(buildPopupHtml(p, currentLang, lat, lon), {{ maxWidth: getPopupMaxWidth() }});
   marker.featureProps = p;
   marker.coords = [lat, lon];
   marker.addTo(map);
@@ -797,7 +862,7 @@ GEOJSON.features.forEach(f => {{
 function updateAllMarkersPopups() {{
   markers.forEach(m => {{
     const wasOpen = m.isPopupOpen();
-    m.bindPopup(buildPopupHtml(m.featureProps, currentLang, m.coords[0], m.coords[1]), {{ maxWidth: 300 }});
+    m.bindPopup(buildPopupHtml(m.featureProps, currentLang, m.coords[0], m.coords[1]), {{ maxWidth: getPopupMaxWidth() }});
     if (wasOpen) m.openPopup();
   }});
 }}
