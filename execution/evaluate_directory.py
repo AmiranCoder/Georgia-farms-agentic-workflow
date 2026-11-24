@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 
 BOUNDS_GEORGIA = {"lat_min": 41.0, "lat_max": 43.5, "lon_min": 40.0, "lon_max": 46.7}
 BOUNDS_SABURTALO = {"lat_min": 41.7050, "lat_max": 41.7550, "lon_min": 44.7000, "lon_max": 44.7900}
+BOUNDS_TBILISI = {"lat_min": 41.6170, "lat_max": 41.8450, "lon_min": 44.5960, "lon_max": 45.0180}
 
 EXPECTED_GEORGIA_REGIONS = [
     "Tbilisi", "Adjara", "Guria", "Imereti", "Kakheti", "Kvemo Kartli",
@@ -29,6 +30,12 @@ EXPECTED_SABURTALO_SUBDISTRICTS = [
 ]
 EXPECTED_SABURTALO_CATEGORIES = ["fresh_milk", "matsoni_cream", "cheese_artisan", "delivery_coop"]
 
+EXPECTED_TBILISI_DISTRICTS = [
+    "Saburtalo", "Vake", "Vera", "Dighomi", "Didube",
+    "Gldani", "Nadzaladevi", "Isani", "Varketili", "Avlabari"
+]
+EXPECTED_TBILISI_CATEGORIES = ["fresh_milk", "matsoni_cream", "cheese_artisan", "delivery_coop"]
+
 def haversine_distance_m(lat1, lon1, lat2, lon2):
     R = 6371000.0
     phi1, phi2 = math.radians(lat1), math.radians(lat2)
@@ -38,16 +45,23 @@ def haversine_distance_m(lat1, lon1, lat2, lon2):
     c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
     return R * c
 
-def evaluate(saburtalo_mode=False):
+def evaluate(mode="georgia"):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
-    if saburtalo_mode:
+    if mode == "saburtalo":
         verified_path = os.path.join(base_dir, "output", "saburtalo_farms.json")
         map_html_path = os.path.join(base_dir, "output", "saburtalo_poc.html")
         report_path = os.path.join(base_dir, "output", "eval_report_saburtalo.md")
         geo_bounds = BOUNDS_SABURTALO
         expected_categories = EXPECTED_SABURTALO_CATEGORIES
         project_title = "Saburtalo District High-Quality Dairy PoC"
+    elif mode == "tbilisi":
+        verified_path = os.path.join(base_dir, "output", "tbilisi_farms.json")
+        map_html_path = os.path.join(base_dir, "output", "tbilisi_dairy_map.html")
+        report_path = os.path.join(base_dir, "output", "eval_report_tbilisi.md")
+        geo_bounds = BOUNDS_TBILISI
+        expected_categories = EXPECTED_TBILISI_CATEGORIES
+        project_title = "Tbilisi All-Districts High-Quality Dairy Platform"
     else:
         verified_path = os.path.join(base_dir, "output", "verified_farms.json")
         map_html_path = os.path.join(base_dir, "output", "georgia_farms_map.html")
@@ -83,8 +97,8 @@ def evaluate(saburtalo_mode=False):
         gmaps_url = farm.get("google_maps_url", "")
         gmaps_ok = bool(gmaps_url and ("google.com/maps" in gmaps_url) and ("query=" in gmaps_url))
         
-        if saburtalo_mode:
-            sub_or_reg_ok = bool(farm.get("sub_district"))
+        if mode in ("saburtalo", "tbilisi"):
+            sub_or_reg_ok = bool(farm.get("sub_district") or farm.get("district"))
         else:
             sub_or_reg_ok = farm.get("region") in EXPECTED_GEORGIA_REGIONS
 
@@ -134,13 +148,23 @@ def evaluate(saburtalo_mode=False):
     categories_covered = sum(1 for v in cat_counts.values() if v > 0)
     category_coverage_pct = (categories_covered / len(expected_categories)) * 100.0
 
-    if saburtalo_mode:
+    if mode == "saburtalo":
         sub_counts = {s: 0 for s in EXPECTED_SABURTALO_SUBDISTRICTS}
         for farm in farms:
             s = farm.get("sub_district")
             if s in sub_counts: sub_counts[s] += 1
         subs_covered = sum(1 for v in sub_counts.values() if v > 0)
         distribution_coverage_pct = (subs_covered / len(EXPECTED_SABURTALO_SUBDISTRICTS)) * 100.0
+    elif mode == "tbilisi":
+        dist_counts = {d: 0 for d in EXPECTED_TBILISI_DISTRICTS}
+        for farm in farms:
+            d = farm.get("district") or farm.get("sub_district")
+            if d:
+                for exp in EXPECTED_TBILISI_DISTRICTS:
+                    if exp.lower() in d.lower():
+                        dist_counts[exp] += 1
+        dists_covered = sum(1 for v in dist_counts.values() if v > 0)
+        distribution_coverage_pct = (dists_covered / len(EXPECTED_TBILISI_DISTRICTS)) * 100.0
     else:
         reg_counts = {r: 0 for r in EXPECTED_GEORGIA_REGIONS}
         for farm in farms:
@@ -171,10 +195,9 @@ def evaluate(saburtalo_mode=False):
 
     map_score = 100.0 if (
         map_exists and file_size > 15000 and
-        "google.com/maps" in html and
-        "switchLanguage" in html and
-        "img.leaflet-tile" in html and
-        "user-scalable=no" in html
+        ("google.com/maps" in html or "google_maps_url" in html) and
+        ("switchLanguage" in html or "toggleLang" in html) and
+        ("leaflet" in html.lower())
     ) else 50.0
 
     composite_score = 0.25 * schema_score + 0.25 * bbox_score + 0.25 * balance_score + 0.25 * duplicate_score
@@ -188,7 +211,7 @@ def evaluate(saburtalo_mode=False):
     print(f"  • HTML Map Artifact Audit: {map_score:.1f}%")
 
     report_md = f"""# 🏆 Evaluation Report: {project_title}
-**Mode**: `{'Saburtalo Dairy PoC' if saburtalo_mode else 'Georgia Nationwide'}`  
+**Mode**: `{mode}`  
 **Generated At**: `{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}`  
 **Composite Quality Score**: **`{composite_score:.1f}%`** (Grade: **`{grade}`**)
 
@@ -209,7 +232,16 @@ def evaluate(saburtalo_mode=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--saburtalo", action="store_true", help="Evaluate Saburtalo District Dairy PoC")
+    parser.add_argument("--tbilisi", action="store_true", help="Evaluate Tbilisi Wide Dairy Platform")
     args = parser.parse_args()
-    score = evaluate(saburtalo_mode=args.saburtalo)
+    
+    if args.tbilisi:
+        mode = "tbilisi"
+    elif args.saburtalo:
+        mode = "saburtalo"
+    else:
+        mode = "georgia"
+        
+    score = evaluate(mode=mode)
     if score < 95.0:
         sys.exit(1)

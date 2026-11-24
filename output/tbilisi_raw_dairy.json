@@ -1,0 +1,716 @@
+[
+  {
+    "id": "tbi-vake-001",
+    "name_en": "Cheese Corner Vake (ყველის კუთხე)",
+    "name_ka": "ყველის კუთხე ვაკე",
+    "category": "cheese_artisan",
+    "district": "Vake",
+    "address": "22 I. Abashidze St, Vake, Tbilisi",
+    "address_ka": "ირაკლი აბაშიძის ქ. 22, ვაკე, თბილისი",
+    "lat": 41.7088,
+    "lon": 44.7675,
+    "phone": "+995 599 33 44 21",
+    "website_or_social": "https://yell.ge/company.php?lan=geo&id=118940",
+    "description": "Artisanal Georgian cheese cellar and boutique dairy store. Authentic Tushetian Guda, aged Dambalkhacho, Megrelian Sulguni, mountain butter, and farm cottage cheese.",
+    "description_ka": "ხელნაკეთი ყველისა და რძის ბუტიკი აბაშიძეზე: თუშური გუდა, დამბალხაჭო, მეგრული სულგუნი, სოფლის კარაქი, მაწონი და ნადუღი.",
+    "products": [
+      "Artisan Cheese",
+      "Guda",
+      "Dambalkhacho",
+      "Sulguni",
+      "Cottage Cheese",
+      "Butter"
+    ],
+    "products_ka": [
+      "ხელნაკეთი ყველი",
+      "თუშური გუდა",
+      "დამბალხაჭო",
+      "სულგუნი",
+      "ხაჭო",
+      "კარაქი"
+    ],
+    "verification_source": "Yell.ge, Local Vake Directory"
+  },
+  {
+    "id": "tbi-vake-002",
+    "name_en": "Kvareli Baga & Dairy Boutique Vake (ყვარლის ბაგა)",
+    "name_ka": "ყვარლის ბაგა ვაკე",
+    "category": "fresh_milk",
+    "district": "Vake",
+    "address": "49 I. Chavchavadze Ave, Vake, Tbilisi",
+    "address_ka": "ილია ჭავჭავაძის გამზ. 49, ვაკე, თბილისი",
+    "lat": 41.7115,
+    "lon": 44.755,
+    "phone": "+995 577 22 88 11",
+    "website_or_social": "https://kvarelibaga.ge",
+    "description": "Direct farm shop of Kvareli Baga industrial-farm estate. Daily fresh unpasteurized/pasteurized pure cow milk, fresh matsoni, sour cream, and cottage cheese.",
+    "description_ka": "ყვარლის ბაგას ფერმის ოფიციალური საფირმო მაღაზია: ყოველდღიური ცოცხალი რძე, ქოთნის მაწონი, სოფლის ნატურალური არაჟანი და ხაჭო.",
+    "products": [
+      "Raw Milk",
+      "Fresh Milk",
+      "Matsoni",
+      "Sour Cream",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "ნატურალური რძე",
+      "მაწონი",
+      "არაჟანი",
+      "ხაჭო"
+    ],
+    "verification_source": "Kvareli Baga Registry, Wolt"
+  },
+  {
+    "id": "tbi-vake-003",
+    "name_en": "Tsivis Kveli (ცივის ყველი)",
+    "name_ka": "ცივის ყველი ვაკე",
+    "category": "cheese_artisan",
+    "district": "Vake",
+    "address": "12 Paliashvili St, Vake, Tbilisi",
+    "address_ka": "ზაქარია ფალიაშვილის ქ. 12, ვაკე, თბილისი",
+    "lat": 41.7099,
+    "lon": 44.7715,
+    "phone": "+995 599 15 22 40",
+    "website_or_social": "https://yell.ge/company.php?lan=geo&id=132104",
+    "description": "Direct manufacturer store of Tsivis Kveli cheese factory. Wide variety of natural Sulguni, smoked cheeses, Kakhetian Gouda, fresh village cream, and cottage cheese.",
+    "description_ka": "საწარმოს საფირმო მაღაზია ფალიაშვილზე: ტრადიციული სულგუნი, შებოლილი ყველი, გუდა, ნაღები, ახალი ხაჭო და მაწონი.",
+    "products": [
+      "Sulguni",
+      "Guda Cheese",
+      "Smoked Cheese",
+      "Cottage Cheese",
+      "Cream"
+    ],
+    "products_ka": [
+      "სულგუნი",
+      "გუდა",
+      "შებოლილი ყველი",
+      "ახალი ხაჭო",
+      "ნაღები"
+    ],
+    "verification_source": "Yell.ge, BIA.ge"
+  },
+  {
+    "id": "tbi-vera-001",
+    "name_en": "Monastery Yard Vera (სამონასტრო ეზო ვერა)",
+    "name_ka": "სამონასტრო ეზო ვერა",
+    "category": "matsoni_cream",
+    "district": "Vera",
+    "address": "18 Barnov St, Vera, Tbilisi",
+    "address_ka": "ვასილ ბარნოვის ქ. 18, ვერა, თბილისი",
+    "lat": 41.7022,
+    "lon": 44.783,
+    "phone": "+995 595 11 20 30",
+    "website_or_social": "https://2gis.ge/tbilisi/firm/70000001083421111",
+    "description": "Traditional store selling natural monastery produce: authentic pot matsoni, mountain cow milk, full-fat rustic cottage cheese, rich sour cream, and monastery butter.",
+    "description_ka": "სამონასტრო ნატურალური პროდუქციის მაღაზია ბარნოვზე: ქოთნის მაწონი, ცოცხალი რძე, სოფლის ხაჭო, არაჟანი, სამონასტრო ყველი და ერბო.",
+    "products": [
+      "Matsoni",
+      "Cottage Cheese",
+      "Sour Cream",
+      "Milk",
+      "Monastery Butter"
+    ],
+    "products_ka": [
+      "ქოთნის მაწონი",
+      "სოფლის ხაჭო",
+      "არაჟანი",
+      "ცოცხალი რძე",
+      "ერბო"
+    ],
+    "verification_source": "2GIS, Local Vera Community"
+  },
+  {
+    "id": "tbi-vera-002",
+    "name_en": "Sioni Monastery Farm Stand (სიონის ეზო)",
+    "name_ka": "სიონის მონასტრის რძის დახლი",
+    "category": "fresh_milk",
+    "district": "Mtatsminda",
+    "address": "10 Rustaveli Ave (Courtyard), Mtatsminda, Tbilisi",
+    "address_ka": "შოთა რუსთაველის გამზ. 10 (ეზოში), მთაწმინდა, თბილისი",
+    "lat": 41.6965,
+    "lon": 44.799,
+    "phone": "+995 599 18 27 36",
+    "website_or_social": "https://yell.ge",
+    "description": "Authentic direct outlet for monastery dairy farm: fresh morning milk, rich sour cream, curd cottage cheese, artisanal Tenili, and rustic monastery cheeses.",
+    "description_ka": "სამონასტრო მეურნეობის ოფიციალური სარეალიზაციო წერტილი: დილის ცოცხალი რძე, სოფლის არაჟანი, ხაჭო, თენილი და ტრადიციული ყველი.",
+    "products": [
+      "Milk",
+      "Sour Cream",
+      "Cottage Cheese",
+      "Tenili Cheese",
+      "Matsoni"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "სოფლის არაჟანი",
+      "ხაჭო",
+      "თენილი",
+      "მაწონი"
+    ],
+    "verification_source": "Yell.ge, Patriarchate Farm Registry"
+  },
+  {
+    "id": "tbi-dighomi-001",
+    "name_en": "Eko-Food Didi Dighomi (ეკო-ფუდი დიდი დიღომი)",
+    "name_ka": "ეკო-ფუდი დიდი დიღომი",
+    "category": "fresh_milk",
+    "district": "Dighomi",
+    "address": "14 Mirian Mepe St, Didi Dighomi, Tbilisi",
+    "address_ka": "მირიან მეფის ქ. 14, დიდი დიღომი, თბილისი",
+    "lat": 41.785,
+    "lon": 44.756,
+    "phone": "+995 598 40 55 60",
+    "website_or_social": "https://2gis.ge/tbilisi/firm/70000001083421222",
+    "description": "Specialized eco dairy shop in Didi Dighomi. Daily fresh raw milk sourced from local farms in Shida Kartli, pot matsoni, rustic cottage cheese, and fresh Imeretian cheese.",
+    "description_ka": "სპეციალიზებული რძის მაღაზია დიდ დიღომში: ყოველდღიური ცოცხალი რძე ქართლის ფერმებიდან, ქოთნის მაწონი, ნატურალური ხაჭო და იმერული ყველი.",
+    "products": [
+      "Raw Milk",
+      "Matsoni",
+      "Cottage Cheese",
+      "Imeruli Cheese",
+      "Sour Cream"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "ქოთნის მაწონი",
+      "ნატურალური ხაჭო",
+      "იმერული ყველი",
+      "არაჟანი"
+    ],
+    "verification_source": "2GIS Tbilisi, Local Business Registry"
+  },
+  {
+    "id": "tbi-dighomi-002",
+    "name_en": "Cheese Master Dighomi Massive (ყველის ოსტატი)",
+    "name_ka": "ყველის ოსტატი დიღმის მასივი",
+    "category": "cheese_artisan",
+    "district": "Dighomi",
+    "address": "Block 2, Dighomi Massive (near Mayakovsky park), Tbilisi",
+    "address_ka": "დიღმის მასივი, II კვარტალი (მაიაკოვსკის პარკთან), თბილისი",
+    "lat": 41.761,
+    "lon": 44.7745,
+    "phone": "+995 577 44 11 90",
+    "website_or_social": "https://yell.ge/company.php?lan=geo&id=129881",
+    "description": "Local artisanal dairy and cheese shop. Traditional Megrelian Sulguni, smoked cheese wheels, village matsoni, rich cottage cheese, and freshly churned butter.",
+    "description_ka": "საფირმო ყველისა და რძის მაღაზია: მეგრული სულგუნი, შებოლილი ყველი, სოფლის მაწონი, ცხიმიანი ხაჭო და ახალი კარაქი.",
+    "products": [
+      "Sulguni",
+      "Smoked Cheese",
+      "Matsoni",
+      "Cottage Cheese",
+      "Butter"
+    ],
+    "products_ka": [
+      "სულგუნი",
+      "შებოლილი ყველი",
+      "მაწონი",
+      "ხაჭო",
+      "კარაქი"
+    ],
+    "verification_source": "Yell.ge, Local Directory"
+  },
+  {
+    "id": "tbi-didube-001",
+    "name_en": "Dezerter Farmers Dairy Pavillion (დეზერტირების რძის პავილიონი)",
+    "name_ka": "დეზერტირების ცენტრალური რძის პავილიონი",
+    "category": "cheese_artisan",
+    "district": "Didube",
+    "address": "5 Tsereteli Ave / Abastumani St, Didube, Tbilisi",
+    "address_ka": "აკაკი წერეთლის გამზ. 5 / აბასთუმნის ქ., დიდუბე, თბილისი",
+    "lat": 41.722,
+    "lon": 44.7925,
+    "phone": "+995 599 77 66 55",
+    "website_or_social": "https://yell.ge",
+    "description": "Historic Tbilisi central direct farmers dairy row. Over 40 verified smallholder cheese makers selling fresh Imeruli, Megrelian Sulguni, Tushuri Guda, fresh cottage cheese, and rustic matsoni.",
+    "description_ka": "დეზერტირების ბაზრის ცენტრალური რძის რიგი: პირდაპირ ფერმერებისგან მიღებული ჭყინტი იმერული, სულგუნი, გუდა, სოფლის ხაჭო, არაჟანი და ნადუღი.",
+    "products": [
+      "Imeruli Cheese",
+      "Sulguni",
+      "Guda",
+      "Cottage Cheese",
+      "Matsoni",
+      "Nadughi"
+    ],
+    "products_ka": [
+      "იმერული ყველი",
+      "სულგუნი",
+      "გუდა",
+      "ხაჭო",
+      "მაწონი",
+      "ნადუღი"
+    ],
+    "verification_source": "Tbilisi Farmers Market Registry, Local Inspection"
+  },
+  {
+    "id": "tbi-didube-002",
+    "name_en": "Tsereteli Village Dairy Hub (სოფლის ნობათი წერეთელზე)",
+    "name_ka": "სოფლის ნობათი წერეთელზე",
+    "category": "matsoni_cream",
+    "district": "Didube",
+    "address": "67 Akaki Tsereteli Ave, Didube, Tbilisi",
+    "address_ka": "აკაკი წერეთლის გამზ. 67, დიდუბე, თბილისი",
+    "lat": 41.734,
+    "lon": 44.782,
+    "phone": "+995 593 12 34 56",
+    "website_or_social": "https://2gis.ge/tbilisi",
+    "description": "Specialized neighborhood village dairy store. Fresh daily cow milk from Kartli, jar matsoni, pure country sour cream, and homemade curd cheese.",
+    "description_ka": "სოფლის რძის პროდუქტების მაღაზია წერეთელზე: ახალი რძე ქართლიდან, ქოთნის მაწონი, სოფლის ნატურალური არაჟანი და ხაჭო.",
+    "products": [
+      "Fresh Milk",
+      "Matsoni",
+      "Sour Cream",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "მაწონი",
+      "არაჟანი",
+      "ხაჭო"
+    ],
+    "verification_source": "2GIS Tbilisi"
+  },
+  {
+    "id": "tbi-chugureti-001",
+    "name_en": "Marjanishvili Natural Dairy (ნატურალური რძე მარჯანიშვილზე)",
+    "name_ka": "ნატურალური რძე მარჯანიშვილზე",
+    "category": "fresh_milk",
+    "district": "Chugureti",
+    "address": "33 Kote Marjanishvili St, Chugureti, Tbilisi",
+    "address_ka": "კოტე მარჯანიშვილის ქ. 33, ჩუღურეთი, თბილისი",
+    "lat": 41.7105,
+    "lon": 44.7995,
+    "phone": "+995 599 88 44 12",
+    "website_or_social": "https://yell.ge",
+    "description": "Artisan dairy point on Marjanishvili: daily morning raw milk, artisanal Sulguni, jar matsoni, country butter, and fresh cottage cheese.",
+    "description_ka": "რძის პროდუქტების ობიექტი მარჯანიშვილზე: დილის ცოცხალი რძე, სულგუნი, ქოთნის მაწონი, სოფლის კარაქი და ახალი ხაჭო.",
+    "products": [
+      "Raw Milk",
+      "Sulguni",
+      "Matsoni",
+      "Butter",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "სულგუნი",
+      "მაწონი",
+      "კარაქი",
+      "ხაჭო"
+    ],
+    "verification_source": "Yell.ge Registry"
+  },
+  {
+    "id": "tbi-gldani-001",
+    "name_en": "Gldani Central Dairy Row (გლდანის ბაზრის რძის რიგი)",
+    "name_ka": "გლდანის ბაზრის რძის პავილიონი",
+    "category": "cheese_artisan",
+    "district": "Gldani",
+    "address": "Near Gldani Metro, Khizanishvili St, Gldani, Tbilisi",
+    "address_ka": "ხიზანიშვილის ქ. (გლდანის მეტროსთან, ბაზარი), გლდანი, თბილისი",
+    "lat": 41.794,
+    "lon": 44.819,
+    "phone": "+995 599 65 43 21",
+    "website_or_social": "https://yell.ge",
+    "description": "Extensive traditional dairy pavilion with direct regional farmers from Tianeti and Kakheti. Natural Sulguni, Tushuri Guda, unpasteurized milk, fresh cottage cheese, and matsoni.",
+    "description_ka": "გლდანის ცენტრალური რძის პავილიონი: თიანეთისა და კახეთის ფერმერების ნატურალური სულგუნი, გუდა, ცოცხალი რძე, ხაჭო და მაწონი.",
+    "products": [
+      "Sulguni",
+      "Guda",
+      "Raw Milk",
+      "Cottage Cheese",
+      "Matsoni",
+      "Sour Cream"
+    ],
+    "products_ka": [
+      "სულგუნი",
+      "გუდა",
+      "ცოცხალი რძე",
+      "ხაჭო",
+      "მაწონი",
+      "არაჟანი"
+    ],
+    "verification_source": "Yell.ge, Gldani Local Market Inspection"
+  },
+  {
+    "id": "tbi-gldani-002",
+    "name_en": "Tianeti Natural Dairy Gldani (თიანეთის რძის ნობათი)",
+    "name_ka": "თიანეთის რძის ნობათი გლდანი",
+    "category": "fresh_milk",
+    "district": "Gldani",
+    "address": "Gldani Micro-district 1, Building 4, Tbilisi",
+    "address_ka": "გლდანის I მ/რ, კორპუსი 4, გლდანი, თბილისი",
+    "lat": 41.7905,
+    "lon": 44.825,
+    "phone": "+995 595 44 33 22",
+    "website_or_social": "https://2gis.ge/tbilisi",
+    "description": "Direct alpine dairy store from Tianeti mountain farms: raw cow and goat milk, traditional pot matsoni, mountain curd cottage cheese, and alpine butter.",
+    "description_ka": "თიანეთის მთის ფერმების საფირმო მაღაზია: ცოცხალი რძე, თხის რძე, ქოთნის მაწონი, სოფლის ხაჭო და მთის კარაქი.",
+    "products": [
+      "Raw Milk",
+      "Goat Milk",
+      "Matsoni",
+      "Cottage Cheese",
+      "Butter"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "თხის რძე",
+      "მაწონი",
+      "ხაჭო",
+      "კარაქი"
+    ],
+    "verification_source": "2GIS Tbilisi"
+  },
+  {
+    "id": "tbi-mukhiani-001",
+    "name_en": "Mukhiani Farm Dairy Point (მუხიანის ფერმერული რძე)",
+    "name_ka": "მუხიანის ფერმერული რძის სახლი",
+    "category": "matsoni_cream",
+    "district": "Gldani",
+    "address": "Aleko Gobronidze St 18, Mukhiani, Tbilisi",
+    "address_ka": "ალეკო გობრონიძის ქ. 18, მუხიანი, თბილისი",
+    "lat": 41.7975,
+    "lon": 44.832,
+    "phone": "+995 577 12 34 89",
+    "website_or_social": "https://yell.ge",
+    "description": "Neighborhood farm shop in Mukhiani offering fresh dairy delivery and retail sales: pure cow milk, rich matsoni, country sour cream, and homemade cottage cheese.",
+    "description_ka": "მუხიანის ფერმერული მაღაზია: ყოველდღიური ცოცხალი რძე, ცხიმიანი მაწონი, სოფლის არაჟანი და ხელნაკეთი ხაჭო.",
+    "products": [
+      "Milk",
+      "Matsoni",
+      "Sour Cream",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "მაწონი",
+      "არაჟანი",
+      "ხაჭო"
+    ],
+    "verification_source": "Yell.ge, Local Community"
+  },
+  {
+    "id": "tbi-nadzaladevi-001",
+    "name_en": "Nadzaladevi Village Products (ნაძალადევის სოფლის რძე)",
+    "name_ka": "ნაძალადევის სოფლის რძის მაღაზია",
+    "category": "fresh_milk",
+    "district": "Nadzaladevi",
+    "address": "45 Tsotne Dadiani St, Nadzaladevi, Tbilisi",
+    "address_ka": "ცოტნე დადიანის ქ. 45, ნაძალადევი, თბილისი",
+    "lat": 41.7335,
+    "lon": 44.8075,
+    "phone": "+995 599 31 42 53",
+    "website_or_social": "https://2gis.ge/tbilisi",
+    "description": "Authentic neighborhood dairy shop: morning fresh milk from Kartli, whole milk matsoni, rural sour cream, and freshly made cottage cheese.",
+    "description_ka": "უბნის რძის მაღაზია დადიანზე: დილის ცოცხალი რძე, ქოთნის მაწონი, ნაღების არაჟანი და სოფლის ხაჭო.",
+    "products": [
+      "Milk",
+      "Matsoni",
+      "Sour Cream",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "მაწონი",
+      "არაჟანი",
+      "ხაჭო"
+    ],
+    "verification_source": "2GIS Tbilisi"
+  },
+  {
+    "id": "tbi-sanzona-001",
+    "name_en": "Sanzona Artisan Cheese & Creamery (სანზონის ყველის კერა)",
+    "name_ka": "სანზონის ყველის კერა",
+    "category": "cheese_artisan",
+    "district": "Nadzaladevi",
+    "address": "Near Ghrmaghele Metro, Guramishvili Ave, Sanzona, Tbilisi",
+    "address_ka": "დავით გურამიშვილის გამზ. (ღრმაღელის მეტროსთან), სანზონა, თბილისი",
+    "lat": 41.764,
+    "lon": 44.802,
+    "phone": "+995 591 22 33 44",
+    "website_or_social": "https://yell.ge",
+    "description": "Local artisanal dairy and cheese point: fresh Sulguni, Georgian Gouda, curd cottage cheese, sour cream, and farm butter.",
+    "description_ka": "სანზონის ყველის მაღაზია: ახალი სულგუნი, გუდა, სოფლის ხაჭო, არაჟანი და კარაქი.",
+    "products": [
+      "Sulguni",
+      "Guda",
+      "Cottage Cheese",
+      "Sour Cream",
+      "Butter"
+    ],
+    "products_ka": [
+      "სულგუნი",
+      "გუდა",
+      "ხაჭო",
+      "არაჟანი",
+      "კარაქი"
+    ],
+    "verification_source": "Yell.ge"
+  },
+  {
+    "id": "tbi-isani-001",
+    "name_en": "Navtlughi Farmers Central Dairy Row (ნავთლუღის რძის ბაზარი)",
+    "name_ka": "ნავთლუღის ცენტრალური რძის პავილიონი",
+    "category": "cheese_artisan",
+    "district": "Isani",
+    "address": "Near Samgori Metro, Mevele St, Isani-Samgori, Tbilisi",
+    "address_ka": "მეველის ქ. (ნავთლუღის ბაზარი, სამგორის მეტრო), ისანი-სამგორი, თბილისი",
+    "lat": 41.689,
+    "lon": 44.855,
+    "phone": "+995 599 81 72 63",
+    "website_or_social": "https://yell.ge",
+    "description": "Major eastern Tbilisi agricultural terminal with direct dairy farmers from Kakheti and Kvemo Kartli. Raw milk, traditional pot matsoni, Megrelian & Kakhetian Sulguni, Tushuri Guda, and fresh village butter.",
+    "description_ka": "ნავთლუღის აგრარული ბაზრის რძის პავილიონი: კახეთისა და ქვემო ქართლის ფერმერების ცოცხალი რძე, ქოთნის მაწონი, სულგუნი, თუშური გუდა და ახალი კარაქი.",
+    "products": [
+      "Raw Milk",
+      "Sulguni",
+      "Tushuri Guda",
+      "Matsoni",
+      "Cottage Cheese",
+      "Butter"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "სულგუნი",
+      "თუშური გუდა",
+      "მაწონი",
+      "ხაჭო",
+      "კარაქი"
+    ],
+    "verification_source": "Yell.ge, Navtlughi Market Directorate"
+  },
+  {
+    "id": "tbi-isani-002",
+    "name_en": "Isani Village Dairy Store (ისნის სოფლის რძის სახლი)",
+    "name_ka": "ისნის სოფლის რძის სახლი",
+    "category": "matsoni_cream",
+    "district": "Isani",
+    "address": "Atskuri St 14, Isani, Tbilisi",
+    "address_ka": "აწყურის ქ. 14, ისანი, თბილისი",
+    "lat": 41.692,
+    "lon": 44.839,
+    "phone": "+995 593 90 80 70",
+    "website_or_social": "https://2gis.ge/tbilisi",
+    "description": "Specialized neighborhood dairy point in Isani: daily raw and bio milk, jar matsoni, pure country sour cream, and freshly made cottage cheese.",
+    "description_ka": "სპეციალიზებული რძის მაღაზია აწყურზე: ყოველდღიური ცოცხალი რძე, ქოთნის მაწონი, სოფლის არაჟანი და ახალი ხაჭო.",
+    "products": [
+      "Milk",
+      "Matsoni",
+      "Sour Cream",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "მაწონი",
+      "არაჟანი",
+      "ხაჭო"
+    ],
+    "verification_source": "2GIS Tbilisi"
+  },
+  {
+    "id": "tbi-varketili-001",
+    "name_en": "Varketili Farmers Dairy Hub (ვარკეთილის ფერმერული რძის რიგი)",
+    "name_ka": "ვარკეთილის ფერმერული რძის პავილიონი",
+    "category": "cheese_artisan",
+    "district": "Varketili",
+    "address": "Near Varketili Metro, Javakheti St, Varketili, Tbilisi",
+    "address_ka": "ჯავახეთის ქ. (ვარკეთილის მეტროსთან, ბაზრობა), ვარკეთილი, თბილისი",
+    "lat": 41.703,
+    "lon": 44.877,
+    "phone": "+995 598 22 55 88",
+    "website_or_social": "https://yell.ge",
+    "description": "Popular residential dairy marketplace in Varketili. Daily fresh cow milk, Imeretian & Sulguni cheeses from regional cooperatives, pot matsoni, and rustic cottage cheese.",
+    "description_ka": "ვარკეთილის რძის პავილიონი: ყოველდღიური ცოცხალი რძე, იმერული და სულგუნი რეგიონული კოოპერატივებიდან, ქოთნის მაწონი და სოფლის ხაჭო.",
+    "products": [
+      "Fresh Milk",
+      "Sulguni",
+      "Imeruli Cheese",
+      "Matsoni",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "სულგუნი",
+      "იმერული ყველი",
+      "მაწონი",
+      "ხაჭო"
+    ],
+    "verification_source": "Yell.ge, Local Varketili Inspection"
+  },
+  {
+    "id": "tbi-varketili-002",
+    "name_en": "Kakheti Dairy House Varketili (კახური რძის სახლი)",
+    "name_ka": "კახური რძის სახლი ვარკეთილი",
+    "category": "fresh_milk",
+    "district": "Varketili",
+    "address": "Varketili 3, Micro-district 2, Tbilisi",
+    "address_ka": "ვარკეთილი 3, II მ/რ, ვარკეთილი, თბილისი",
+    "lat": 41.71,
+    "lon": 44.886,
+    "phone": "+995 599 44 88 12",
+    "website_or_social": "https://2gis.ge/tbilisi",
+    "description": "Authentic direct outlet for Kakhetian pasture farms: whole raw cow milk, pot matsoni, thick country sour cream, and homemade curd cheese.",
+    "description_ka": "კახეთის ფერმერული მეურნეობის მაღაზია: ცოცხალი რძე, ქოთნის მაწონი, ცხიმიანი სოფლის არაჟანი და ხელნაკეთი ხაჭო.",
+    "products": [
+      "Raw Milk",
+      "Matsoni",
+      "Sour Cream",
+      "Cottage Cheese"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "მაწონი",
+      "არაჟანი",
+      "ხაჭო"
+    ],
+    "verification_source": "2GIS Tbilisi"
+  },
+  {
+    "id": "tbi-vazisubani-001",
+    "name_en": "Vazisubani Eco Milk Stand (ვაზისუბნის ეკო რძე)",
+    "name_ka": "ვაზისუბნის ეკო რძის მაღაზია",
+    "category": "matsoni_cream",
+    "district": "Varketili",
+    "address": "Vazisubani Settlement, Kvlividze St, Tbilisi",
+    "address_ka": "ვაზისუბნის დასახლება, კვლივიძის ქ., თბილისი",
+    "lat": 41.7055,
+    "lon": 44.852,
+    "phone": "+995 597 11 33 55",
+    "website_or_social": "https://yell.ge",
+    "description": "Neighborhood dairy store in Vazisubani: daily farm milk, rustic cottage cheese, jar matsoni, and fresh sour cream.",
+    "description_ka": "უბნის რძის მაღაზია ვაზისუბანში: ცოცხალი რძე, სოფლის ხაჭო, მაწონი და არაჟანი.",
+    "products": [
+      "Milk",
+      "Cottage Cheese",
+      "Matsoni",
+      "Sour Cream"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "ხაჭო",
+      "მაწონი",
+      "არაჟანი"
+    ],
+    "verification_source": "Yell.ge"
+  },
+  {
+    "id": "tbi-avlabari-001",
+    "name_en": "Avlabari Traditional Dairy Stand (ავლაბრის რძის კუთხე)",
+    "name_ka": "ავლაბრის ტრადიციული რძის კუთხე",
+    "category": "cheese_artisan",
+    "district": "Avlabari",
+    "address": "Armazi St / Ketevan Tsamebuli Ave, Avlabari, Tbilisi",
+    "address_ka": "არმაზის ქ. / ქეთევან დედოფლის გამზ., ავლაბარი, თბილისი",
+    "lat": 41.6925,
+    "lon": 44.815,
+    "phone": "+995 599 70 80 90",
+    "website_or_social": "https://yell.ge",
+    "description": "Traditional Avlabari dairy point offering fresh Sulguni from Samegrelo, Imeruli cheese, rustic cottage cheese, and village matsoni.",
+    "description_ka": "ავლაბრის რძის კუთხე: მეგრული სულგუნი, იმერული ყველი, სოფლის ხაჭო და მაწონი.",
+    "products": [
+      "Sulguni",
+      "Imeruli Cheese",
+      "Cottage Cheese",
+      "Matsoni"
+    ],
+    "products_ka": [
+      "სულგუნი",
+      "იმერული ყველი",
+      "ხაჭო",
+      "მაწონი"
+    ],
+    "verification_source": "Yell.ge"
+  },
+  {
+    "id": "tbi-ortachala-001",
+    "name_en": "Ortachala Dairy & Farm Depot (ორთაჭალის ფერმერული რძე)",
+    "name_ka": "ორთაჭალის ფერმერული რძის დეპო",
+    "category": "fresh_milk",
+    "district": "Ortachala",
+    "address": "Gorgasali St 38, Ortachala, Tbilisi",
+    "address_ka": "ვახტანგ გორგასლის ქ. 38, ორთაჭალა, თბილისი",
+    "lat": 41.678,
+    "lon": 44.829,
+    "phone": "+995 595 12 34 56",
+    "website_or_social": "https://2gis.ge/tbilisi",
+    "description": "Direct farm shop in Ortachala receiving fresh daily milk from Kvemo Kartli pastures: pure raw cow milk, pot matsoni, rustic cottage cheese, and farm butter.",
+    "description_ka": "ფერმერული რძის მაღაზია გორგასალზე: ცოცხალი რძე ქვემო ქართლიდან, ქოთნის მაწონი, ხაჭო და სოფლის კარაქი.",
+    "products": [
+      "Raw Milk",
+      "Matsoni",
+      "Cottage Cheese",
+      "Butter"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "მაწონი",
+      "ხაჭო",
+      "კარაქი"
+    ],
+    "verification_source": "2GIS Tbilisi"
+  },
+  {
+    "id": "tbi-deliv-001",
+    "name_en": "Saguleti Farm Direct Delivery (საგულეთი ფერმა)",
+    "name_ka": "საგულეთი — ფერმერული რძის მიტანა",
+    "category": "delivery_coop",
+    "district": "All Tbilisi",
+    "address": "Citywide Delivery across all Tbilisi Districts",
+    "address_ka": "მიტანის სერვისი თბილისის ყველა უბანში",
+    "lat": 41.7151,
+    "lon": 44.7871,
+    "phone": "+995 599 50 11 22",
+    "website_or_social": "https://saguleti.ge",
+    "description": "Direct delivery service of natural dairy products across all Tbilisi neighborhoods: natural bio milk, artisanal Sulguni, cottage cheese, pot matsoni, and fresh sour cream.",
+    "description_ka": "სოფლის ნატურალური პროდუქტების მიტანის სერვისი თბილისის ნებისმიერ უბანში: ბიო რძე, სულგუნი, ხაჭო, ქოთნის მაწონი და არაჟანი.",
+    "products": [
+      "Bio Milk",
+      "Milk",
+      "Sulguni",
+      "Cottage Cheese",
+      "Matsoni",
+      "Sour Cream"
+    ],
+    "products_ka": [
+      "ბიო რძე",
+      "ცოცხალი რძე",
+      "სულგუნი",
+      "ხაჭო",
+      "მაწონი",
+      "არაჟანი"
+    ],
+    "verification_source": "Saguleti.ge, BIA.ge"
+  },
+  {
+    "id": "tbi-deliv-002",
+    "name_en": "eBazaar.ge — Farmers Dairy Delivery (ებბაზარი)",
+    "name_ka": "ებბაზარი — ფერმერული რძის მიტანა",
+    "category": "delivery_coop",
+    "district": "All Tbilisi",
+    "address": "Tbilisi-wide Direct Doorstep Delivery",
+    "address_ka": "ადგილზე მიტანა მთელ თბილისში",
+    "lat": 41.7225,
+    "lon": 44.7712,
+    "phone": "+995 591 10 20 30",
+    "website_or_social": "https://ebazaar.ge",
+    "description": "Direct agricultural marketplace connecting independent dairy farmers directly with Tbilisi households: unpasteurized cow milk, raw goat milk, Tushetian Guda, and fresh curd cheese.",
+    "description_ka": "ფერმერული კოოპერატივის ონლაინ პლატფორმა და მიტანა: ნედლი ძროხისა და თხის რძე, თუშური გუდა, ნადუღი და სოფლის ხაჭო.",
+    "products": [
+      "Raw Milk",
+      "Goat Milk",
+      "Guda",
+      "Cottage Cheese",
+      "Sour Cream"
+    ],
+    "products_ka": [
+      "ცოცხალი რძე",
+      "თხის რძე",
+      "გუდა",
+      "ხაჭო",
+      "არაჟანი"
+    ],
+    "verification_source": "eBazaar.ge Platform, Enterprise Georgia"
+  }
+]
